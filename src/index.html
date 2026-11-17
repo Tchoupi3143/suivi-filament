@@ -1,0 +1,417 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later — Suivi Filament -->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suivi Filament</title>
+<style>
+:root {
+  --bg: #f5f5f7; --carte: #ffffff; --texte: #1d1d1f; --doux: #6e6e73; --trait: #e3e3e8;
+  --accent: #0a84ff; --accent-texte: #ffffff; --ok: #1f9d55; --alerte: #d97706; --danger: #dc2626;
+  --piste: #ececf0; --ombre: 0 1px 2px rgba(0,0,0,.05), 0 4px 16px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161618; --carte: #222225; --texte: #f2f2f4; --doux: #a1a1a8; --trait: #34343a;
+    --accent: #3b9bff; --ok: #34c472; --alerte: #f5a524; --danger: #f05252; --piste: #303036;
+    --ombre: 0 1px 2px rgba(0,0,0,.3);
+  }
+  .pastille, .pastille::after { box-shadow: inset 0 0 0 1px rgba(255,255,255,.25) !important; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--texte);
+  font: 14px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; }
+main { max-width: 1080px; margin: 0 auto; padding: 28px 20px 60px; }
+header { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; flex-wrap: wrap; }
+header h1 { font-size: 24px; margin: 0; letter-spacing: -.01em; flex: 1; }
+h2 { font-size: 16px; margin: 32px 0 12px; }
+button, .bouton { font: inherit; border: 1px solid var(--trait); background: var(--carte); color: var(--texte);
+  padding: 7px 13px; border-radius: 8px; cursor: pointer; }
+button:hover { border-color: var(--doux); }
+button.principal { background: var(--accent); border-color: var(--accent); color: var(--accent-texte); font-weight: 600; }
+button.lien { border: none; background: none; color: var(--accent); padding: 4px 6px; }
+button.danger { color: var(--danger); }
+button:disabled { opacity: .5; cursor: default; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.stat { background: var(--carte); border-radius: 12px; padding: 14px 16px; box-shadow: var(--ombre); }
+.stat b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.stat span { color: var(--doux); font-size: 12px; }
+.bandeau { margin-top: 16px; border-radius: 12px; padding: 12px 16px; display: flex; gap: 12px; align-items: center;
+  flex-wrap: wrap; background: var(--carte); box-shadow: var(--ombre); border-left: 4px solid var(--ok); }
+.bandeau.attention { border-left-color: var(--alerte); }
+.bandeau p { margin: 0; flex: 1; min-width: 240px; }
+.grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.bobine { background: var(--carte); border-radius: 14px; padding: 16px; box-shadow: var(--ombre);
+  display: flex; flex-direction: column; gap: 10px; }
+.bobine.vide { outline: 2px solid var(--alerte); outline-offset: -2px; }
+.tete { display: flex; gap: 12px; align-items: center; }
+.pastille { width: 38px; height: 38px; border-radius: 50%; flex: none; position: relative;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
+.pastille::after { content: ""; position: absolute; inset: 13px; border-radius: 50%; background: var(--carte);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
+.tete .nom { font-weight: 600; font-size: 15px; line-height: 1.25; }
+.tete .sous { color: var(--doux); font-size: 12px; }
+.badge { margin-left: auto; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 99px;
+  background: var(--piste); color: var(--doux); white-space: nowrap; }
+.badge.actif { background: var(--accent); color: var(--accent-texte); }
+.jauge { height: 8px; border-radius: 99px; background: var(--piste); overflow: hidden; }
+.jauge i { display: block; height: 100%; border-radius: 99px; background: var(--ok); }
+.jauge i.bas { background: var(--alerte); }
+.jauge i.critique { background: var(--danger); }
+.chiffres { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
+.chiffres b { font-size: 18px; }
+.chiffres span { color: var(--doux); }
+.actions { display: flex; gap: 2px; flex-wrap: wrap; margin: 0 -6px -4px; }
+.vide-etat { background: var(--carte); border-radius: 14px; padding: 36px; text-align: center; color: var(--doux);
+  box-shadow: var(--ombre); }
+table { width: 100%; border-collapse: collapse; background: var(--carte); border-radius: 12px; overflow: hidden;
+  box-shadow: var(--ombre); }
+th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--trait); vertical-align: top; }
+th { font-size: 12px; color: var(--doux); font-weight: 500; }
+td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+.defile { overflow-x: auto; border-radius: 12px; }
+.defile table { min-width: 560px; }
+.histo-tete { display: flex; align-items: baseline; gap: 12px; }
+.histo-tete h2 { flex: 1; }
+dialog { border: none; border-radius: 14px; padding: 0; width: min(440px, calc(100vw - 32px));
+  background: var(--carte); color: var(--texte); box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+dialog::backdrop { background: rgba(0,0,0,.35); }
+dialog form { padding: 20px; display: grid; gap: 12px; }
+dialog h3 { margin: 0 0 4px; font-size: 17px; }
+label { display: grid; gap: 4px; font-size: 12px; color: var(--doux); }
+input, select { font: inherit; color: var(--texte); background: var(--bg); border: 1px solid var(--trait);
+  border-radius: 8px; padding: 8px 10px; width: 100%; }
+input[type=color] { padding: 2px; height: 38px; }
+.ligne { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pied { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; }
+.aide { font-size: 12px; color: var(--doux); margin: 0; }
+.onglets { display: flex; gap: 3px; padding: 3px; border-radius: 9px; background: var(--piste); margin-bottom: 12px; }
+.onglets button { flex: 1; border: none; background: none; padding: 6px 8px; border-radius: 7px; color: var(--doux); }
+.onglets button.actif { background: var(--carte); color: var(--texte); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.zone-cat { display: grid; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--trait); }
+.resume { display: flex; gap: 12px; align-items: center; background: var(--bg); border-radius: 10px; padding: 10px 12px; min-height: 52px; }
+.resume .pastille { width: 30px; height: 30px; }
+.resume .pastille::after { inset: 10px; }
+.resume b { display: block; }
+.resume small { color: var(--doux); }
+.resume .eco { color: var(--ok); }
+#toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); opacity: 0;
+  background: var(--texte); color: var(--bg); padding: 10px 16px; border-radius: 10px; transition: .25s;
+  max-width: calc(100vw - 32px); pointer-events: none; }
+#toast.visible { opacity: 1; transform: translateX(-50%); }
+#toast.erreur { background: var(--danger); color: #fff; }
+.pied-page { margin-top: 36px; color: var(--doux); font-size: 12px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.pied-page span { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+#ferme { display: none; text-align: center; padding: 80px 20px; color: var(--doux); }
+</style>
+</head>
+<body>
+<main id="app">
+  <header>
+    <h1>Suivi Filament</h1>
+    <button class="principal" onclick="ouvrirAjout()">＋ Ajouter une bobine</button>
+  </header>
+
+  <section class="stats" id="stats"></section>
+  <div id="slicer"></div>
+
+  <h2>Bobines</h2>
+  <div id="bobines"></div>
+
+  <div class="histo-tete">
+    <h2>Historique des impressions</h2>
+    <button class="lien" id="annuler" onclick="annulerDerniere()">Annuler la dernière</button>
+  </div>
+  <div id="historique"></div>
+
+  <div class="pied-page">
+    <span id="fichier"></span>
+    <label style="display:flex;align-items:center;gap:8px;color:inherit">Alerte sous
+      <input id="seuil" type="number" min="0" step="10" style="width:80px" onchange="changerSeuil(this.value)"> g</label>
+    <button onclick="quitter()">Quitter</button>
+  </div>
+</main>
+<div id="ferme"><h2>Suivi Filament est fermé.</h2><p>Tu peux fermer cet onglet. Le suivi continue dans ElegooSlicer.</p></div>
+
+<dialog id="dlgBobine"><form method="dialog" onsubmit="return enregistrerBobine(event)">
+  <h3 id="dlgTitre">Nouvelle bobine</h3>
+  <div id="blocCatalogue">
+    <div class="onglets" role="tablist">
+      <button type="button" id="ongletCat" class="actif" onclick="choisirOnglet('cat')">Catalogue Elegoo</button>
+      <button type="button" id="ongletLibre" onclick="choisirOnglet('libre')">Autre marque</button>
+    </div>
+    <div id="zoneCat" class="zone-cat">
+      <label>Gamme<select id="catGamme" onchange="majCouleurs()"></select></label>
+      <div class="ligne">
+        <label>Couleur<select id="catCouleur" onchange="majFormats()"></select></label>
+        <label>Format acheté<select id="catFormat" onchange="appliquerCatalogue()"></select></label>
+      </div>
+      <div id="catResume" class="resume"></div>
+      <p class="aide"><span id="catInfo"></span> · <button type="button" class="lien" style="padding:0" onclick="actualiserCatalogue(this)">Actualiser les prix</button></p>
+    </div>
+  </div>
+  <label>Nom<input name="nom" required placeholder="PLA Noir Elegoo"></label>
+  <div class="ligne">
+    <label>Matière<select name="matiere">
+      <option>PLA</option><option>PLA+</option><option>PLA Silk</option><option>PLA-CF</option><option>PETG</option>
+      <option>PETG-CF</option><option>ABS</option><option>ASA</option><option>TPU</option><option>PA</option><option>Autre</option>
+    </select></label>
+    <label>Couleur<input name="couleur" type="color" value="#222222"></label>
+  </div>
+  <div class="ligne">
+    <label>Poids net neuf (g)<input name="poids" type="number" min="0" step="1" value="1000"></label>
+    <label>Reste actuel (g)<input name="reste" type="number" step="0.1" placeholder="= poids net"></label>
+  </div>
+  <div class="ligne">
+    <label>Bobine vide / tare (g)<input name="tare" type="number" min="0" step="1" placeholder="ex. 180"></label>
+    <label>Prix au kg (€)<input name="prix" type="number" min="0" step="0.01" placeholder="ex. 20"></label>
+  </div>
+  <label id="champEmp">Emplacement dans le slicer<select name="emplacement">
+    <option value="">Pas chargée</option><option value="1">Filament 1</option><option value="2">Filament 2</option>
+    <option value="3">Filament 3</option><option value="4">Filament 4</option></select></label>
+  <div class="pied"><button type="button" onclick="this.closest('dialog').close()">Annuler</button>
+    <button class="principal">Enregistrer</button></div>
+</form></dialog>
+
+<dialog id="dlgPeser"><form method="dialog" onsubmit="return peser(event)">
+  <h3>Peser la bobine</h3>
+  <p class="aide">Pose la bobine (avec son filament) sur une balance. Le reste est recalculé : pesée − tare.</p>
+  <div class="ligne">
+    <label>Pesée totale (g)<input name="brut" type="number" step="0.1" required></label>
+    <label>Bobine vide / tare (g)<input name="tare" type="number" step="0.1" required></label>
+  </div>
+  <div class="pied"><button type="button" onclick="this.closest('dialog').close()">Annuler</button>
+    <button class="principal">Recalculer</button></div>
+</form></dialog>
+
+<div id="toast"></div>
+
+<script>
+const JETON = "@JETON@";
+let E = null, enEdition = null, aPeser = null;
+
+async function api(chemin, corps) {
+  const r = await fetch(chemin, {
+    method: corps === undefined ? "GET" : "POST",
+    headers: {"X-Jeton": JETON, "Content-Type": "application/json"},
+    body: corps === undefined ? undefined : JSON.stringify(corps)
+  });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.erreur || "Erreur");
+  return d;
+}
+function toast(msg, erreur) {
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.className = "visible" + (erreur ? " erreur" : "");
+  clearTimeout(toast.t); toast.t = setTimeout(() => t.className = "", erreur ? 5000 : 2500);
+}
+async function agir(chemin, corps, msg) {
+  try { E = await api(chemin, corps); afficher(); if (msg) toast(msg); return true; }
+  catch (e) { toast(e.message, true); return false; }
+}
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const g = (v, d = 0) => (v ?? 0).toLocaleString("fr-FR", {maximumFractionDigits: d, minimumFractionDigits: d});
+const couleur = c => /^#[0-9a-f]{3,8}$/i.test(c || "") ? c : "#888888";
+
+function afficher() {
+  const s = E.stats;
+  document.getElementById("stats").innerHTML = [
+    [g(s.stock_g / 1000, 2) + " kg", "en stock"],
+    [g(s.mois_g) + " g", "consommés ce mois-ci"],
+    [g(s.total_g) + " g", `sur ${s.impressions} impression${s.impressions > 1 ? "s" : ""}`],
+    [g(s.cout, 2) + " €", "de filament utilisé"],
+  ].map(([b, t]) => `<div class="stat"><b>${b}</b><span>${t}</span></div>`).join("");
+
+  const sl = E.slicer, nbOk = sl.profils.filter(p => p.configure).length;
+  let html, attention = true;
+  if (!sl.installe) html = `<p>ElegooSlicer n'a pas été trouvé sur ce Mac.</p>`;
+  else if (!sl.profils.length) html = `<p><b>Aucun profil de traitement personnel.</b> Dans ElegooSlicer, onglet Process, clique sur l'icône disquette pour enregistrer ton profil, puis reviens ici.</p>`;
+  else if (nbOk === sl.profils.length) { attention = false;
+    html = `<p><b>ElegooSlicer est relié.</b> Chaque G-code exporté ou envoyé est comptabilisé (${sl.profils.map(p => esc(p.nom)).join(", ")}).</p>`; }
+  else html = `<p><b>${sl.profils.length - nbOk} profil(s) ElegooSlicer pas encore relié(s)</b> : ${sl.profils.filter(p => !p.configure).map(p => esc(p.nom)).join(", ")}.
+     ${sl.ouvert ? "Quitte ElegooSlicer (⌘Q) puis clique sur Relier." : ""}</p>
+     <button class="principal" onclick="relier()" ${sl.ouvert ? "disabled" : ""}>Relier ElegooSlicer</button>`;
+  const b = document.getElementById("slicer");
+  b.className = "bandeau" + (attention ? " attention" : ""); b.innerHTML = html;
+
+  const actifs = {}; for (const [emp, id] of Object.entries(E.actives)) actifs[id] = emp;
+  const bob = [...E.bobines].sort((a, c) => (actifs[c.id] ? 1 : 0) - (actifs[a.id] ? 1 : 0) || a.id - c.id);
+  document.getElementById("bobines").innerHTML = bob.length ? `<div class="grille">${bob.map(x => {
+    const pct = x.poids_net_g ? Math.max(0, Math.min(100, 100 * x.reste_g / x.poids_net_g)) : 0;
+    const bas = x.reste_g < E.seuil, critique = x.reste_g < E.seuil / 2;
+    const val = x.prix_kg ? ` · ${g(Math.max(0, x.reste_g) / 1000 * x.prix_kg, 2)} €` : "";
+    return `<div class="bobine ${bas ? "vide" : ""}">
+      <div class="tete"><div class="pastille" style="background:${couleur(x.couleur)}"></div>
+        <div><div class="nom">${esc(x.nom)}</div><div class="sous">${esc(x.matiere)} · #${x.id}${val}</div></div>
+        <span class="badge ${actifs[x.id] ? "actif" : ""}">${actifs[x.id] ? "Filament " + actifs[x.id] : "Rangée"}</span></div>
+      <div class="jauge"><i class="${critique ? "critique" : bas ? "bas" : ""}" style="width:${pct}%"></i></div>
+      <div class="chiffres"><b>${g(x.reste_g)} g</b><span>${g(pct)} % de ${g(x.poids_net_g)} g</span></div>
+      <div class="actions">
+        <select onchange="activer(${x.id}, this.value)" style="width:auto;padding:4px 8px;font-size:13px">
+          <option value="">Rangée</option>${[1,2,3,4].map(n => `<option value="${n}" ${actifs[x.id] == n ? "selected" : ""}>Filament ${n}</option>`).join("")}
+        </select>
+        <button class="lien" onclick="ouvrirPeser(${x.id})">Peser</button>
+        <button class="lien" onclick="ouvrirEdition(${x.id})">Modifier</button>
+        <button class="lien danger" onclick="supprimer(${x.id})">Supprimer</button>
+      </div></div>`; }).join("")}</div>`
+    : `<div class="vide-etat"><p>Aucune bobine pour l'instant.</p><button class="principal" onclick="ouvrirAjout()">Ajouter ta première bobine</button></div>`;
+
+  document.getElementById("historique").innerHTML = E.historique.length ? `<div class="defile"><table>
+    <tr><th>Date</th><th>Impression</th><th>Bobines</th><th class="n">Filament</th></tr>
+    ${E.historique.map(h => `<tr><td class="n" style="text-align:left">${esc(h.date)}</td><td>${esc(h.tache)}</td>
+      <td>${h.deductions.map(x => `${esc(x.nom)} <span style="color:var(--doux)">(${g(x.g, 1)} g)</span>`).join("<br>") || '<span style="color:var(--doux)">non attribué</span>'}</td>
+      <td class="n">${g(h.total_g, 1)} g</td></tr>`).join("")}</table></div>`
+    : `<div class="vide-etat">Les impressions apparaîtront ici dès ton prochain export depuis ElegooSlicer.</div>`;
+  document.getElementById("annuler").style.display = E.historique.length ? "" : "none";
+  document.getElementById("fichier").textContent = "Données : " + E.fichier;
+  const se = document.getElementById("seuil"); if (document.activeElement !== se) se.value = E.seuil;
+}
+
+function remplir(f, x) { for (const [k, v] of Object.entries(x)) if (f.elements[k]) f.elements[k].value = v ?? ""; }
+// ---------------------------------------------------------------- catalogue Elegoo
+let CAT = null, refCat = null, onglet = "cat";
+const formBobine = () => document.querySelector("#dlgBobine form");
+const euros = v => g(v, 2) + " €";
+const gammeSel = () => CAT.gammes.find(x => x.id === document.getElementById("catGamme").value);
+const couleurSel = () => gammeSel()?.couleurs[+document.getElementById("catCouleur").value];
+const formatSel = () => couleurSel()?.formats[+document.getElementById("catFormat").value];
+
+function choisirMatiere(f, m) {
+  if (![...f.elements.matiere.options].some(o => o.value === m)) f.elements.matiere.add(new Option(m), 0);
+  f.elements.matiere.value = m;
+}
+function choisirOnglet(o) {
+  onglet = o;
+  document.getElementById("ongletCat").classList.toggle("actif", o === "cat");
+  document.getElementById("ongletLibre").classList.toggle("actif", o === "libre");
+  document.getElementById("zoneCat").style.display = o === "cat" ? "" : "none";
+  if (o === "cat") appliquerCatalogue();
+  else { refCat = null; const f = formBobine(); f.reset(); f.elements.emplacement.value = [1,2,3,4].find(n => !E.actives[n]) || ""; f.elements.nom.focus(); }
+}
+function remplirGammes(choix) {
+  const s = document.getElementById("catGamme"), groupes = {};
+  for (const x of CAT.gammes) (groupes[x.matiere] = groupes[x.matiere] || []).push(x);
+  s.innerHTML = Object.entries(groupes).map(([m, l]) =>
+    `<optgroup label="${esc(m)}">${l.map(x => `<option value="${esc(x.id)}">${esc(x.nom)}</option>`).join("")}</optgroup>`).join("");
+  s.value = CAT.gammes.some(x => x.id === choix) ? choix : (CAT.gammes.find(x => x.id === "pla-rfid") || CAT.gammes[0]).id;
+  document.getElementById("catInfo").textContent = CAT.maj
+    ? `Prix boutique Elegoo Europe du ${new Date(CAT.maj + "T12:00").toLocaleDateString("fr-FR")}` : "Catalogue indisponible";
+}
+function majCouleurs(choix) {
+  const s = document.getElementById("catCouleur"), x = gammeSel();
+  s.innerHTML = x.couleurs.map((c, i) => `<option value="${i}">${esc(c.nom)}${c.dispo ? "" : " (rupture)"}</option>`).join("");
+  let i = x.couleurs.findIndex(c => c.nom === choix);
+  if (i < 0) i = x.couleurs.findIndex(c => c.dispo && /black$/i.test(c.nom));
+  s.value = i >= 0 ? i : 0;
+  majFormats();
+}
+function majFormats(choix) {
+  const s = document.getElementById("catFormat"), c = couleurSel();
+  s.innerHTML = c.formats.map((f, i) => `<option value="${i}">${esc(f.libelle)} · ${g(f.prix_kg, 2)} €/kg</option>`).join("");
+  const i = c.formats.findIndex(f => f.libelle === choix); s.value = i >= 0 ? i : 0;
+  appliquerCatalogue();
+}
+function appliquerCatalogue() {
+  if (!CAT || !CAT.gammes.length || onglet !== "cat") return;
+  const x = gammeSel(), c = couleurSel(), fo = formatSel(), f = formBobine();
+  // évite « PLA Matte Matte White » : on retire le mot déjà présent dans la gamme
+  const dernier = x.nom.split(" ").pop().toLowerCase(), mots = c.nom.split(" ");
+  const nomCouleur = mots.length > 1 && mots[0].toLowerCase() === dernier ? mots.slice(1).join(" ") : c.nom;
+  f.elements.nom.value = `Elegoo ${x.nom} ${nomCouleur}`;
+  choisirMatiere(f, x.matiere);
+  f.elements.couleur.value = c.hex;
+  f.elements.poids.value = Math.round(fo.bobine_kg * 1000);
+  f.elements.prix.value = fo.prix_kg.toFixed(2);
+  refCat = {gamme: x.nom, couleur: c.nom, format: fo.libelle, url: x.url, maj: CAT.maj};
+  const meilleur = c.formats.reduce((a, b) => b.prix_kg < a.prix_kg ? b : a);
+  const prixTxt = fo.kg === 1 ? `${euros(fo.prix)} la bobine` : `${euros(fo.prix)} les ${fo.kg.toLocaleString("fr-FR")} kg`;
+  const eco = meilleur !== fo && meilleur.prix_kg < fo.prix_kg - 0.005
+    ? `<br><small class="eco">En ${esc(meilleur.libelle.toLowerCase())} : ${g(meilleur.prix_kg, 2)} €/kg</small>` : "";
+  document.getElementById("catResume").innerHTML =
+    `<div class="pastille" style="background:${couleur(c.hex)}"></div>
+     <div><b>${g(fo.prix_kg, 2)} €/kg</b><small>${prixTxt}${fo.dispo ? "" : " · en rupture"}</small>${eco}</div>`;
+}
+async function preparerCatalogue() {
+  try { if (!CAT) CAT = await api("/api/catalogue"); } catch (e) { CAT = {gammes: []}; }
+  const ok = CAT.gammes.length > 0;
+  document.getElementById("blocCatalogue").style.display = ok ? "" : "none";
+  if (!ok) { onglet = "libre"; return; }
+  const precedent = (() => { try { return JSON.parse(localStorage.getItem("dernierChoixCatalogue")); } catch (e) { return null; } })();
+  remplirGammes(precedent?.gamme); majCouleurs(precedent?.couleur);
+}
+async function actualiserCatalogue(btn) {
+  btn.disabled = true; btn.textContent = "Mise à jour…";
+  const avant = {gamme: gammeSel()?.id, couleur: couleurSel()?.nom, format: formatSel()?.libelle};
+  try {
+    CAT = await api("/api/catalogue/actualiser", {});
+    remplirGammes(avant.gamme); majCouleurs(avant.couleur); majFormats(avant.format);
+    toast("Prix mis à jour depuis la boutique Elegoo");
+  } catch (e) { toast(e.message, true); }
+  btn.disabled = false; btn.textContent = "Actualiser les prix";
+}
+
+async function ouvrirAjout() {
+  enEdition = null; const d = document.getElementById("dlgBobine"), f = d.querySelector("form");
+  f.reset(); document.getElementById("dlgTitre").textContent = "Nouvelle bobine";
+  document.getElementById("champEmp").style.display = "";
+  const libre = [1,2,3,4].find(n => !E.actives[n]); f.elements.emplacement.value = libre || "";
+  onglet = "cat"; await preparerCatalogue(); if (onglet === "cat") choisirOnglet("cat");
+  f.elements.emplacement.value = libre || "";
+  d.showModal();
+}
+function ouvrirEdition(id) {
+  const x = E.bobines.find(b => b.id === id); enEdition = id; refCat = null;
+  const d = document.getElementById("dlgBobine"), f = d.querySelector("form"); f.reset();
+  document.getElementById("dlgTitre").textContent = "Modifier la bobine";
+  document.getElementById("blocCatalogue").style.display = "none";
+  document.getElementById("champEmp").style.display = "none";
+  remplir(f, {nom: x.nom, matiere: x.matiere, couleur: couleur(x.couleur), poids: x.poids_net_g,
+              reste: x.reste_g, tare: x.tare_g, prix: x.prix_kg});
+  if (![...f.elements.matiere.options].some(o => o.value === x.matiere)) f.elements.matiere.add(new Option(x.matiere), 0), f.elements.matiere.value = x.matiere;
+  d.showModal();
+}
+async function enregistrerBobine(ev) {
+  ev.preventDefault(); const f = ev.target, v = Object.fromEntries(new FormData(f));
+  if (!enEdition && refCat && onglet === "cat") {
+    v.catalogue = refCat;
+    try { localStorage.setItem("dernierChoixCatalogue", JSON.stringify({gamme: gammeSel().id, couleur: refCat.couleur})); } catch (e) {}
+  }
+  const ok = enEdition ? await agir(`/api/bobines/${enEdition}/modifier`, v, "Bobine modifiée")
+                       : await agir("/api/bobines", v, "Bobine ajoutée");
+  if (ok) f.closest("dialog").close(); return false;
+}
+function ouvrirPeser(id) {
+  aPeser = id; const x = E.bobines.find(b => b.id === id), d = document.getElementById("dlgPeser");
+  const f = d.querySelector("form"); f.reset(); f.elements.tare.value = x.tare_g ?? ""; d.showModal();
+}
+async function peser(ev) {
+  ev.preventDefault(); const f = ev.target;
+  if (await agir(`/api/bobines/${aPeser}/peser`, Object.fromEntries(new FormData(f)), "Reste recalculé")) f.closest("dialog").close();
+  return false;
+}
+const activer = (id, emp) => agir(`/api/bobines/${id}/activer`, {emplacement: emp}, emp ? `Chargée en filament ${emp}` : "Bobine rangée");
+function supprimer(id) {
+  const x = E.bobines.find(b => b.id === id);
+  if (confirm(`Supprimer « ${x.nom} » ? L'historique est conservé.`)) agir(`/api/bobines/${id}/supprimer`, {}, "Bobine supprimée");
+}
+function annulerDerniere() {
+  const h = E.historique[0];
+  if (confirm(`Annuler « ${h.tache} » (${g(h.total_g, 1)} g) ? Le filament sera rendu aux bobines.`)) agir("/api/annuler", {}, "Impression annulée");
+}
+const changerSeuil = v => agir("/api/seuil", {grammes: v}, "Seuil d'alerte : " + v + " g");
+const relier = () => agir("/api/slicer/configurer", {}, "ElegooSlicer est relié");
+async function quitter() {
+  await api("/api/quitter", {}).catch(() => {});
+  document.getElementById("app").style.display = "none"; document.getElementById("ferme").style.display = "block";
+}
+
+async function rafraichir() { try { E = await api("/api/etat"); afficher(); } catch (e) {} }
+rafraichir();
+setInterval(() => { if (!document.querySelector("dialog[open]")) rafraichir(); else api("/api/signe", {}).catch(() => {}); }, 5000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) rafraichir(); });
+addEventListener("pagehide", () => navigator.sendBeacon("/api/au-revoir?t=" + JETON));
+</script>
+</body>
+</html>

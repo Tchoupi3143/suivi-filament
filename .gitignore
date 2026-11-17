@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+dist/
+.DS_Store
+bobines.json
+catalogue_elegoo.json
+.jeton
+app.log
+*.bak-suivi

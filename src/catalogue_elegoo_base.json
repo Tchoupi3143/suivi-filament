@@ -1,0 +1,8744 @@
+{
+ "source": "https://eu.elegoo.com",
+ "devise": "EUR",
+ "maj": "2026-11-16",
+ "gammes": [
+  {
+   "id": "pla",
+   "nom": "PLA",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/pla-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 37.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 12.66,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Copper Filled",
+     "hex": "#b87333",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 81.65,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.33,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Beige",
+     "hex": "#e2d3b5",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Brown",
+     "hex": "#6d4c41",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Dark Blue",
+     "hex": "#1a3a8f",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Grey",
+     "hex": "#8e8e93",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Neon Green",
+     "hex": "#39d353",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Orange",
+     "hex": "#f57c00",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Pink",
+     "hex": "#f06292",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Purple",
+     "hex": "#7b1fa2",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Sea Green",
+     "hex": "#2e8b57",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Sky Blue",
+     "hex": "#64b5f6",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Space Grey",
+     "hex": "#4a4a4f",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Translucent",
+     "hex": "#dfe8ee",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 37.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 12.66,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Wood Color",
+     "hex": "#a1764a",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Yellow",
+     "hex": "#fbc02d",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-rfid",
+   "nom": "PLA (RFID)",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/pla-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Beige",
+     "hex": "#e2d3b5",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Brown",
+     "hex": "#6d4c41",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Dark Blue",
+     "hex": "#1a3a8f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Neon Green",
+     "hex": "#39d353",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Orange",
+     "hex": "#f57c00",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Pink",
+     "hex": "#f06292",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Purple",
+     "hex": "#7b1fa2",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Sea Green",
+     "hex": "#2e8b57",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Sky Blue",
+     "hex": "#64b5f6",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Space Grey",
+     "hex": "#4a4a4f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Translucent",
+     "hex": "#dfe8ee",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Wood Color",
+     "hex": "#a1764a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Yellow",
+     "hex": "#fbc02d",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 55.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.2,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-rfid-emoji-brand-edition",
+   "nom": "PLA (RFID) emoji® Brand Edition",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/pla-rfid-emoji-edition",
+   "couleurs": [
+    {
+     "nom": "Beige",
+     "hex": "#e2d3b5",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Dark Blue",
+     "hex": "#1a3a8f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Neon Green",
+     "hex": "#39d353",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Orange",
+     "hex": "#f57c00",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Purple",
+     "hex": "#7b1fa2",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Space Grey",
+     "hex": "#4a4a4f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Translucent",
+     "hex": "#dfe8ee",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Wood Color",
+     "hex": "#a1764a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Brown",
+     "hex": "#6d4c41",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Pink",
+     "hex": "#f06292",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Sea Green",
+     "hex": "#2e8b57",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Sky Blue",
+     "hex": "#64b5f6",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Yellow",
+     "hex": "#fbc02d",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-basic",
+   "nom": "PLA Basic",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/pla-basic-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Apple Green",
+     "hex": "#8bc34a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Beige",
+     "hex": "#e2d3b5",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Cobalt Blue",
+     "hex": "#1f4fbf",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Cyan",
+     "hex": "#00bcd4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Hot Pink",
+     "hex": "#ff2d95",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Misty Blue",
+     "hex": "#8fa9c7",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Orange",
+     "hex": "#f57c00",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Pink",
+     "hex": "#f06292",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Purple",
+     "hex": "#7b1fa2",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Sunflower Yellow",
+     "hex": "#ffc107",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Turquoise Green",
+     "hex": "#1fb5a8",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Yellow",
+     "hex": "#fbc02d",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Cocoa Brown",
+     "hex": "#5d3a2a",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Green",
+     "hex": "#2e7d32",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Translucent",
+     "hex": "#dfe8ee",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.49,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-basic-refill",
+   "nom": "PLA Basic Refill",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/pla-basic-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Apple Green",
+     "hex": "#8bc34a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Beige",
+     "hex": "#e2d3b5",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Cobalt Blue",
+     "hex": "#1f4fbf",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Cocoa Brown",
+     "hex": "#5d3a2a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Cyan",
+     "hex": "#00bcd4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Green",
+     "hex": "#2e7d32",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Hot Pink",
+     "hex": "#ff2d95",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Misty Blue",
+     "hex": "#8fa9c7",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Orange",
+     "hex": "#f57c00",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Pink",
+     "hex": "#f06292",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Purple",
+     "hex": "#7b1fa2",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Sunflower Yellow",
+     "hex": "#ffc107",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Translucent",
+     "hex": "#dfe8ee",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Turquoise Green",
+     "hex": "#1fb5a8",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Yellow",
+     "hex": "#fbc02d",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.49,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.49,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 96.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 9.7,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-cmyk",
+   "nom": "PLA CMYK",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/pla-cmyk",
+   "couleurs": [
+    {
+     "nom": "Rilievo Cyan",
+     "hex": "#00a3e0",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 15.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Rilievo Magenta",
+     "hex": "#d6007e",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 15.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Rilievo White",
+     "hex": "#f7f7f7",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 15.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Rilievo Yellow",
+     "hex": "#ffe100",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 15.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-galaxy",
+   "nom": "PLA Galaxy",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/galaxy-pla-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Galaxy Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Galaxy Peacock Blue",
+     "hex": "#126e82",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Galaxy Purple",
+     "hex": "#7b1fa2",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-glow",
+   "nom": "PLA Glow",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/pla-glow",
+   "couleurs": [
+    {
+     "nom": "Glow Green",
+     "hex": "#2e7d32",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 19.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 19.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 149.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Glow Blue",
+     "hex": "#1e63c9",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 19.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 19.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 149.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Glow Orange",
+     "hex": "#f57c00",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 19.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 19.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 149.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Glow Pink",
+     "hex": "#f06292",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 19.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 19.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 149.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Glow Yellow",
+     "hex": "#fbc02d",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 19.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 19.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 149.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.0,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-marble",
+   "nom": "PLA Marble",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/pla-marble",
+   "couleurs": [
+    {
+     "nom": "Marble",
+     "hex": "#d9d9d4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Marble Brick Red",
+     "hex": "#a45a4a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Marble Cement Grey",
+     "hex": "#9e9e9a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-matte",
+   "nom": "PLA Matte",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/pla-matte-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Beige",
+     "hex": "#e2d3b5",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Earth Brown",
+     "hex": "#6b4f3a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Ice Blue",
+     "hex": "#b3e5fc",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Lavender Purple",
+     "hex": "#b39ddb",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Matte Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Matte White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Mint Green",
+     "hex": "#8fe3c0",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Navy Blue",
+     "hex": "#1b2a5b",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Ruby Red",
+     "hex": "#9b111e",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Sakura Pink",
+     "hex": "#f8bbd0",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Slate Grey",
+     "hex": "#5b6770",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Sunshine Yellow",
+     "hex": "#ffd54f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Teal Green",
+     "hex": "#00897b",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Orange",
+     "hex": "#f57c00",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-metallic",
+   "nom": "PLA Metallic",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/pla-metal-filament-1-75-mm-colored-1-kg",
+   "couleurs": [
+    {
+     "nom": "Metal Blue",
+     "hex": "#1e63c9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Metal Gold",
+     "hex": "#c9a227",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Metal Bronze",
+     "hex": "#8c6239",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Metal Green",
+     "hex": "#2e7d32",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-plus",
+   "nom": "PLA Plus",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/elegoo-pla-plus-3d-printer-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Beige",
+     "hex": "#e2d3b5",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 38.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Brown",
+     "hex": "#6d4c41",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Dark Blue",
+     "hex": "#1a3a8f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Neon Green",
+     "hex": "#39d353",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Orange",
+     "hex": "#f57c00",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Pink",
+     "hex": "#f06292",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Purple",
+     "hex": "#7b1fa2",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Sea Green",
+     "hex": "#2e8b57",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Sky Blue",
+     "hex": "#64b5f6",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Space Grey",
+     "hex": "#4a4a4f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Translucent",
+     "hex": "#dfe8ee",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 38.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 13.0,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Wood Color",
+     "hex": "#a1764a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Yellow",
+     "hex": "#fbc02d",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 59.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-pro",
+   "nom": "PLA Pro",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/pla-pro-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Blue",
+     "hex": "#1e63c9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Light Blue",
+     "hex": "#90caf9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Yellow",
+     "hex": "#fbc02d",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Beige",
+     "hex": "#e2d3b5",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Burgundy Red",
+     "hex": "#7b1e2b",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Green",
+     "hex": "#2e7d32",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Hot Pink",
+     "hex": "#ff2d95",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Neon Green",
+     "hex": "#39d353",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Purple",
+     "hex": "#7b1fa2",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Silver",
+     "hex": "#c0c0c0",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "True Red",
+     "hex": "#d01c1f",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-silk",
+   "nom": "PLA Silk",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/elegoo-silk-pla-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Silk Black Purple",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Silk Black Red",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Silk Blue Green Orange",
+     "hex": "#f57c00",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Silk Blue Magenta",
+     "hex": "#1e63c9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Silk Blue Purple",
+     "hex": "#1e63c9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Silk Copper",
+     "hex": "#b87333",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Silk Coral Pink",
+     "hex": "#ff7f6e",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Silk Gold",
+     "hex": "#c9a227",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Silk Green Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Silk Holly Green",
+     "hex": "#2f6b3a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Silk Mint Green",
+     "hex": "#8fe3c0",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Silk Peach Pink",
+     "hex": "#ffb08a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Silk Silver Grey",
+     "hex": "#c0c0c0",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Silk White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Silk Black Green",
+     "hex": "#1d1d1f",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Silk Blue Green",
+     "hex": "#2e7d32",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Silk Blue Purple Black",
+     "hex": "#1d1d1f",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Silk Bluish Purple",
+     "hex": "#7b1fa2",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Silk Red",
+     "hex": "#d32f2f",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Silk Sky Blue",
+     "hex": "#64b5f6",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Silk True Red",
+     "hex": "#d01c1f",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Silk Yellow Purple",
+     "hex": "#fbc02d",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-sparkle",
+   "nom": "PLA Sparkle",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/pla-sparkle-filament-1-75mm-colored-1-kg",
+   "couleurs": [
+    {
+     "nom": "Sparkle Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 157.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.8,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Sparkle Dark Grey",
+     "hex": "#4a4a4f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 157.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.8,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Sparkle Gold",
+     "hex": "#c9a227",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 157.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.8,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Sparkle Green",
+     "hex": "#2e7d32",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 157.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.8,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Sparkle Purplish Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 157.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.8,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Sparkle Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 157.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.8,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Sparkle Turquoise",
+     "hex": "#1fb5a8",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 157.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.8,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-translucent",
+   "nom": "PLA Translucent",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/pla-translucent",
+   "couleurs": [
+    {
+     "nom": "Crytal White",
+     "hex": "#eef3f6",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 115.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.6,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Green",
+     "hex": "#2e7d32",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 115.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.6,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Light Blue",
+     "hex": "#90caf9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 115.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.6,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Light Grey",
+     "hex": "#c7c7cc",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 115.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.6,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Light Purple",
+     "hex": "#c5a3e0",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 115.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.6,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Pink",
+     "hex": "#f06292",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 115.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.6,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 115.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.6,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Rose Red",
+     "hex": "#c2185b",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 115.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.6,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Yellow",
+     "hex": "#fbc02d",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 14.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 115.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.6,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-wood",
+   "nom": "PLA Wood",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/pla-wood",
+   "couleurs": [
+    {
+     "nom": "Medium Brown",
+     "hex": "#8d6e63",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Oak Wood/Light Brown",
+     "hex": "#b08968",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Rosewood",
+     "hex": "#65000b",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Tan Birch",
+     "hex": "#d2b48c",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Walnut Wood",
+     "hex": "#5d4037",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Wood filled",
+     "hex": "#a1764a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 18.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 139.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 14.0,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pla-cf",
+   "nom": "PLA-CF",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/pla-cf-filament-1-75mm-black-1kg",
+   "couleurs": [
+    {
+     "nom": "Carbon Fiber Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 21.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 21.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 159.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Blue",
+     "hex": "#1e63c9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 21.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 21.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 159.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Brown",
+     "hex": "#6d4c41",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 21.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 21.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 159.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Green",
+     "hex": "#2e7d32",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 21.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 21.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 159.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 21.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 21.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 159.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Purple",
+     "hex": "#7b1fa2",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 21.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 21.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 159.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 21.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 21.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 159.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.0,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rapid-pla-plus",
+   "nom": "Rapid PLA Plus",
+   "matiere": "PLA",
+   "url": "https://eu.elegoo.com/products/elegoo-rapid-pla-plus-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Beige",
+     "hex": "#e2d3b5",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 15.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 39.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 13.33,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 5 kg",
+       "prix": 64.99,
+       "kg": 5.0,
+       "bobine_kg": 5.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 66.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.4,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 119.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 15.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 39.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 13.33,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 5 kg",
+       "prix": 64.99,
+       "kg": 5.0,
+       "bobine_kg": 5.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 66.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.4,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 119.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Blue",
+     "hex": "#1e63c9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 15.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 39.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 13.33,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 5 kg",
+       "prix": 64.99,
+       "kg": 5.0,
+       "bobine_kg": 5.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 66.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.4,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 119.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Brown",
+     "hex": "#6d4c41",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 15.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 39.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 13.33,
+       "dispo": false
+      },
+      {
+       "libelle": "Bobine 5 kg",
+       "prix": 64.99,
+       "kg": 5.0,
+       "bobine_kg": 5.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 66.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.4,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 119.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Green",
+     "hex": "#2e7d32",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 15.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 39.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 13.33,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 5 kg",
+       "prix": 64.99,
+       "kg": 5.0,
+       "bobine_kg": 5.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 66.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.4,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 119.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 15.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 39.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 13.33,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 5 kg",
+       "prix": 64.99,
+       "kg": 5.0,
+       "bobine_kg": 5.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 66.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.4,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 119.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Orange",
+     "hex": "#f57c00",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 15.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 39.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 13.33,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 5 kg",
+       "prix": 64.99,
+       "kg": 5.0,
+       "bobine_kg": 5.0,
+       "prix_kg": 13.0,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 66.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.4,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 119.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 15.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 39.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 13.33,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 5 kg",
+       "prix": 64.99,
+       "kg": 5.0,
+       "bobine_kg": 5.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 66.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.4,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 119.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Silver",
+     "hex": "#c0c0c0",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 15.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 39.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 13.33,
+       "dispo": false
+      },
+      {
+       "libelle": "Bobine 5 kg",
+       "prix": 64.99,
+       "kg": 5.0,
+       "bobine_kg": 5.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 66.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.4,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 119.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 15.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 39.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 13.33,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 5 kg",
+       "prix": 64.99,
+       "kg": 5.0,
+       "bobine_kg": 5.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 66.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.4,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 119.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Yellow",
+     "hex": "#fbc02d",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 15.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 39.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 13.33,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 5 kg",
+       "prix": 64.99,
+       "kg": 5.0,
+       "bobine_kg": 5.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 5 kg",
+       "prix": 66.99,
+       "kg": 5.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.4,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 119.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.0,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "petg",
+   "nom": "PETG",
+   "matiere": "PETG",
+   "url": "https://eu.elegoo.com/collections/filaments",
+   "couleurs": [
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 34.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 11.66,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 34.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 11.66,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "petg-glitter",
+   "nom": "PETG Glitter",
+   "matiere": "PETG",
+   "url": "https://eu.elegoo.com/products/petg-glitter",
+   "couleurs": [
+    {
+     "nom": "Glitter Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Glitter Blue",
+     "hex": "#1e63c9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Glitter Light Brown",
+     "hex": "#b08968",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Glitter Light Grey",
+     "hex": "#c7c7cc",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Glitter Light Pink",
+     "hex": "#f8c8d8",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Glitter Light Purple",
+     "hex": "#c5a3e0",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Glitter Olive Green",
+     "hex": "#7a8a3a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Glitter Olive Yellow",
+     "hex": "#7a8a3a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Glitter Orange",
+     "hex": "#f57c00",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Glitter Purple Pink",
+     "hex": "#7b1fa2",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Glitter Teal Green",
+     "hex": "#00897b",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "petg-hf",
+   "nom": "PETG HF",
+   "matiere": "PETG",
+   "url": "https://eu.elegoo.com/products/petg-hf",
+   "couleurs": [
+    {
+     "nom": "Beige",
+     "hex": "#e2d3b5",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Blue",
+     "hex": "#1e63c9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Brown",
+     "hex": "#6d4c41",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Green",
+     "hex": "#2e7d32",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Orange",
+     "hex": "#f57c00",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Space Grey",
+     "hex": "#4a4a4f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Transparent",
+     "hex": "#e6edf2",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Yellow",
+     "hex": "#fbc02d",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 12.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 12.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 99.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 10.0,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "petg-pro",
+   "nom": "PETG Pro",
+   "matiere": "PETG",
+   "url": "https://eu.elegoo.com/products/petg-pro-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Blue",
+     "hex": "#1e63c9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Burgundy Red",
+     "hex": "#7b1e2b",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Green",
+     "hex": "#2e7d32",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Olive Green",
+     "hex": "#7a8a3a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Pink",
+     "hex": "#f06292",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Purple",
+     "hex": "#7b1fa2",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Silver",
+     "hex": "#c0c0c0",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Light Blue",
+     "hex": "#90caf9",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Yellow",
+     "hex": "#fbc02d",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "petg-translucent",
+   "nom": "PETG Translucent",
+   "matiere": "PETG",
+   "url": "https://eu.elegoo.com/products/petg-translucent",
+   "couleurs": [
+    {
+     "nom": "Translucent Amber",
+     "hex": "#dfe8ee",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Translucent Blue",
+     "hex": "#dfe8ee",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Translucent Green",
+     "hex": "#dfe8ee",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Translucent Grey",
+     "hex": "#dfe8ee",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Translucent Olive Green",
+     "hex": "#dfe8ee",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Translucent Orange",
+     "hex": "#dfe8ee",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Translucent Pink",
+     "hex": "#dfe8ee",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Translucent Purple",
+     "hex": "#dfe8ee",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "petg-cf",
+   "nom": "PETG-CF",
+   "matiere": "PETG",
+   "url": "https://eu.elegoo.com/products/petg-cf-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Carbon Fiber Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 156.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Blue",
+     "hex": "#1e63c9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 156.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Green",
+     "hex": "#2e7d32",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 156.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 156.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Purple",
+     "hex": "#7b1fa2",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 156.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 156.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.7,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "petg-gf",
+   "nom": "PETG-GF",
+   "matiere": "PETG",
+   "url": "https://eu.elegoo.com/products/petg-gf-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Glass Fiber Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 156.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Glass Fiber Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 156.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.7,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Glass Fiber White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 20.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 20.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 156.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 15.7,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rapid-petg",
+   "nom": "Rapid PETG",
+   "matiere": "PETG",
+   "url": "https://eu.elegoo.com/products/rapid-petg-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Beige",
+     "hex": "#e2d3b5",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 34.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 11.66,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Blue",
+     "hex": "#1e63c9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Brown",
+     "hex": "#6d4c41",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Green",
+     "hex": "#2e7d32",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Orange",
+     "hex": "#f57c00",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Space Grey",
+     "hex": "#4a4a4f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Transparent",
+     "hex": "#e6edf2",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Bobine 3 kg",
+       "prix": 34.99,
+       "kg": 3.0,
+       "bobine_kg": 3.0,
+       "prix_kg": 11.66,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Yellow",
+     "hex": "#fbc02d",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 13.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 109.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 11.0,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pet-cf",
+   "nom": "PET-CF",
+   "matiere": "PET",
+   "url": "https://eu.elegoo.com/products/pet-cf",
+   "couleurs": [
+    {
+     "nom": "Carbon Fiber Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 29.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 29.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 239.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 24.0,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "abs",
+   "nom": "ABS",
+   "matiere": "ABS",
+   "url": "https://eu.elegoo.com/products/abs-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "ABS Cyan",
+     "hex": "#00bcd4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "ABS Olive Green",
+     "hex": "#7a8a3a",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "ABS Pink",
+     "hex": "#f06292",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "ABS Purple",
+     "hex": "#7b1fa2",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "ABS Sky Blue",
+     "hex": "#64b5f6",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Blue",
+     "hex": "#1e63c9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Green",
+     "hex": "#2e7d32",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Navy Blue",
+     "hex": "#1b2a5b",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Orange",
+     "hex": "#f57c00",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Orange Yellow",
+     "hex": "#ffb300",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Yellow",
+     "hex": "#fbc02d",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "asa",
+   "nom": "ASA",
+   "matiere": "ASA",
+   "url": "https://eu.elegoo.com/products/asa-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "ASA Green",
+     "hex": "#2e7d32",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Blue",
+     "hex": "#1e63c9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Deep Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 16.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 16.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "asa-cf",
+   "nom": "ASA-CF",
+   "matiere": "ASA",
+   "url": "https://eu.elegoo.com/products/asa-cf",
+   "couleurs": [
+    {
+     "nom": "Carbon Fiber Blue",
+     "hex": "#1e63c9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 22.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 22.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 179.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Green",
+     "hex": "#2e7d32",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 22.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 22.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 179.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 22.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 22.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 179.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 22.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 22.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 179.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Sand",
+     "hex": "#c2b280",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 22.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 22.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 179.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Carbon Fiber Black",
+     "hex": "#1d1d1f",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 22.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 22.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 179.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.0,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rapid-tpu-95a",
+   "nom": "Rapid TPU 95A",
+   "matiere": "TPU",
+   "url": "https://eu.elegoo.com/products/rapid-tpu-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 22.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 22.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 179.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 22.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 22.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 179.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 22.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 22.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 179.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 18.0,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "tpu-72d",
+   "nom": "TPU 72D",
+   "matiere": "TPU",
+   "url": "https://eu.elegoo.com/products/tpu-72d",
+   "couleurs": [
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 21.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 21.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 175.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.6,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Blue",
+     "hex": "#1e63c9",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 21.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 21.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 175.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.6,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Green",
+     "hex": "#2e7d32",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 21.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 21.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 175.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.6,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 21.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 21.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 175.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.6,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 21.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 21.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 175.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.6,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 21.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 21.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 175.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.6,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Yellow",
+     "hex": "#fbc02d",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 21.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 21.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 175.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.6,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "tpu-95a",
+   "nom": "TPU 95A",
+   "matiere": "TPU",
+   "url": "https://eu.elegoo.com/products/tpu-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Green",
+     "hex": "#2e7d32",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Grey",
+     "hex": "#8e8e93",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Translucent",
+     "hex": "#dfe8ee",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Blue",
+     "hex": "#1e63c9",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": false
+      }
+     ]
+    },
+    {
+     "nom": "Red",
+     "hex": "#d32f2f",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 17.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 17.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 129.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 13.0,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pc",
+   "nom": "PC",
+   "matiere": "PC",
+   "url": "https://eu.elegoo.com/products/pc-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 29.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 29.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 223.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 22.4,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Clear Black",
+     "hex": "#e6edf2",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 29.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 29.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 223.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 22.4,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "Transparent",
+     "hex": "#e6edf2",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 29.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 29.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 223.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 22.4,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 29.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 29.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 223.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 22.4,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pc-fr",
+   "nom": "PC-FR",
+   "matiere": "PC",
+   "url": "https://eu.elegoo.com/products/pc-fr",
+   "couleurs": [
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 34.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 34.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 269.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 27.0,
+       "dispo": true
+      }
+     ]
+    },
+    {
+     "nom": "White",
+     "hex": "#f4f4f4",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 34.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 34.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 269.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 27.0,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "paht-cf",
+   "nom": "PAHT-CF",
+   "matiere": "PA",
+   "url": "https://eu.elegoo.com/products/paht-cf-filament-1-75mm-colored-1kg",
+   "couleurs": [
+    {
+     "nom": "Carbon Fiber Black",
+     "hex": "#1d1d1f",
+     "dispo": true,
+     "formats": [
+      {
+       "libelle": "Bobine 1 kg",
+       "prix": 55.99,
+       "kg": 1.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 55.99,
+       "dispo": true
+      },
+      {
+       "libelle": "Lot 10 kg",
+       "prix": 399.99,
+       "kg": 10.0,
+       "bobine_kg": 1.0,
+       "prix_kg": 40.0,
+       "dispo": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pps-cf",
+   "nom": "PPS-CF",
+   "matiere": "PPS",
+   "url": "https://eu.elegoo.com/products/pps-cf",
+   "couleurs": [
+    {
+     "nom": "Black",
+     "hex": "#1d1d1f",
+     "dispo": false,
+     "formats": [
+      {
+       "libelle": "Bobine 0,75 kg",
+       "prix": 59.99,
+       "kg": 0.75,
+       "bobine_kg": 0.75,
+       "prix_kg": 79.99,
+       "dispo": false
+      },
+      {
+       "libelle": "Lot 7,5 kg",
+       "prix": 469.99,
+       "kg": 7.5,
+       "bobine_kg": 1.0,
+       "prix_kg": 62.67,
+       "dispo": false
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "lots_non_rattaches": 0
+}

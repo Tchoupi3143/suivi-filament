@@ -1,0 +1,20 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Lanceur de l'application Suivi Filament : trouve Python 3 puis démarre l'interface.
+RES="$(cd "$(dirname "$0")/../Resources" && pwd)"
+PY=""
+for c in /opt/homebrew/bin/python3 /usr/local/bin/python3 \
+         /Library/Frameworks/Python.framework/Versions/Current/bin/python3 /usr/bin/python3; do
+  if [ -x "$c" ]; then
+    if [ "$c" = /usr/bin/python3 ] && ! xcode-select -p >/dev/null 2>&1; then continue; fi
+    if "$c" -c 'import sys; sys.exit(0 if sys.version_info >= (3, 8) else 1)' 2>/dev/null; then PY="$c"; break; fi
+  fi
+done
+if [ -z "$PY" ]; then
+  r=$(osascript -e 'display dialog "Suivi Filament a besoin de Python 3, qui fait partie des outils gratuits d’Apple.\n\nInstalle-les, puis relance l’application." buttons {"Annuler", "Installer"} default button "Installer" with icon caution with title "Suivi Filament"' 2>/dev/null)
+  case "$r" in *Installer*) xcode-select --install ;; esac
+  exit 1
+fi
+mkdir -p "$HOME/SuiviFilament"
+export PYTHONDONTWRITEBYTECODE=1
+exec "$PY" "$RES/serveur.py" >>"$HOME/SuiviFilament/app.log" 2>&1
