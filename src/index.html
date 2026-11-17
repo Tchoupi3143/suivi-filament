@@ -229,7 +229,11 @@ function afficher() {
   if (!sl.installe) html = `<p>ElegooSlicer n'a pas été trouvé sur ce Mac.</p>`;
   else if (!sl.profils.length) html = `<p><b>Aucun profil de traitement personnel.</b> Dans ElegooSlicer, onglet Process, clique sur l'icône disquette pour enregistrer ton profil, puis reviens ici.</p>`;
   else if (nbOk === sl.profils.length) { attention = false;
-    html = `<p><b>ElegooSlicer est relié.</b> Chaque G-code exporté ou envoyé est comptabilisé (${sl.profils.map(p => esc(p.nom)).join(", ")}).</p>`; }
+    const da = sl.dernier_appel;
+    html = `<p><b>ElegooSlicer est relié</b> (${sl.profils.map(p => esc(p.nom)).join(", ")}).<br>
+      <small style="color:var(--doux)">${da
+        ? `Dernier G-code reçu : ${esc(da.date)} — ${esc(da.resultat || "traité")}`
+        : "Aucun G-code reçu pour l'instant : exporte ou envoie une impression depuis ElegooSlicer avec ce profil sélectionné."}</small></p>`; }
   else html = `<p><b>${sl.profils.length - nbOk} profil(s) ElegooSlicer pas encore relié(s)</b> : ${sl.profils.filter(p => !p.configure).map(p => esc(p.nom)).join(", ")}.
      ${sl.ouvert ? "Quitte ElegooSlicer (⌘Q) puis clique sur Relier." : ""}</p>
      <button class="principal" onclick="relier()" ${sl.ouvert ? "disabled" : ""}>Relier ElegooSlicer</button>`;

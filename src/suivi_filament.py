@@ -184,11 +184,15 @@ def post_traitement(chemin):
     d = charger()
     grammes, infos, texte = lire_gcode(chemin)
     nom_tache = os.path.basename(os.environ.get("SLIC3R_PP_OUTPUT_NAME") or chemin)
+    if nom_tache.lower().endswith(".pp"):
+        nom_tache = nom_tache[:-3]                    # copie temporaire du slicer
 
     if not any(grammes):
+        journal("  aucune consommation trouvée dans le fichier (pas de ligne « filament used [g] »)")
         print("suivi_filament : aucune consommation trouvée dans le G-code, rien à faire.")
         return
     if infos["deja_traite"] or any(h.get("empreinte") == infos["empreinte"] for h in d["historique"][-50:]):
+        journal("  déjà comptabilisé, ignoré")
         print("suivi_filament : ce G-code a déjà été comptabilisé, ignoré.")
         return
 
@@ -225,6 +229,7 @@ def post_traitement(chemin):
     except OSError:
         pass  # le G-code reste valide même si on ne peut pas l'annoter
 
+    journal("  " + " | ".join(resume))
     print("suivi_filament : " + " | ".join(resume))
     if avertissements:
         alerte("Suivi filament", "\n\n".join(avertissements))
@@ -315,12 +320,36 @@ def cmd_seuil(a):
     print(f"Seuil d'alerte : {a.grammes} g")
 
 
+COMMANDES = {"ajouter", "liste", "activer", "peser", "corriger", "annuler", "historique", "supprimer", "seuil"}
+JOURNAL = os.path.join(os.path.dirname(os.path.abspath(DATA)), "post_traitement.log")
+
+
+def journal(*lignes):
+    """Trace de chaque appel du slicer (diagnostic) : ~/SuiviFilament/post_traitement.log"""
+    try:
+        anciennes = []
+        if os.path.exists(JOURNAL):
+            with open(JOURNAL, encoding="utf-8", errors="replace") as f:
+                anciennes = f.read().splitlines()[-300:]
+        with open(JOURNAL, "w", encoding="utf-8") as f:
+            f.write("\n".join(anciennes + [f"[{maintenant()}] {l}" for l in lignes]) + "\n")
+    except OSError:
+        pass
+
+
 def main():
-    # Mode post-traitement : le slicer passe le chemin du G-code en dernier argument
-    if len(sys.argv) >= 2 and os.path.isfile(sys.argv[-1]) and sys.argv[-1].lower().endswith((".gcode", ".gco", ".g")):
+    # Mode post-traitement : le slicer passe le chemin du G-code en dernier argument.
+    # Le fichier peut être une copie temporaire sans extension .gcode (ex. « piece.gcode.pp »),
+    # donc tout fichier existant qui n'est pas une sous-commande est traité comme un G-code.
+    args = sys.argv[1:]
+    if args and args[0] not in COMMANDES and not args[0].startswith("-") and os.path.isfile(args[-1]):
+        chemin = args[-1]
+        journal(f"appel du slicer : fichier={chemin} | sortie={os.environ.get('SLIC3R_PP_OUTPUT_NAME', '-')} "
+                f"| hôte={os.environ.get('SLIC3R_PP_HOST', '-')}")
         try:
-            post_traitement(sys.argv[-1])
+            post_traitement(chemin)
         except Exception as e:  # ne jamais bloquer l'export du slicer
+            journal(f"  erreur : {e!r}")
             print(f"suivi_filament : erreur ignorée ({e})", file=sys.stderr)
         return
 

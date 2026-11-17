@@ -76,6 +76,21 @@ class PostTraitement(Base):
         with open(chemin, encoding="utf-8") as f:
             self.assertTrue(f.read().startswith(self.sf.MARQUEUR))
 
+    def test_copie_temporaire_du_slicer(self):
+        """Le slicer peut passer une copie « piece.gcode.pp » : elle doit être comptée."""
+        import subprocess
+        self.bobine(reste=1000)
+        chemin = self.gcode(GCODE_ORCA, nom="piece.gcode.pp")
+        env = dict(os.environ, SLIC3R_PP_OUTPUT_NAME="/Users/x/Bureau/piece.gcode")
+        r = subprocess.run([sys.executable, os.path.join(SRC, "suivi_filament.py"), chemin],
+                           env=env, capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        d = self.sf.charger()
+        self.assertEqual(len(d["historique"]), 1)
+        self.assertEqual(d["historique"][0]["tache"], "piece.gcode")
+        with open(self.sf.JOURNAL, encoding="utf-8") as f:
+            self.assertIn("appel du slicer", f.read())
+
     def test_gcode_intact(self):
         self.bobine()
         chemin = self.gcode(GCODE_ORCA)

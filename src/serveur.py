@@ -110,7 +110,21 @@ def etat_slicer():
         profils.append({"nom": d.get("name", os.path.basename(f)[:-5]),
                         "configure": any(COMMANDE_SLICER in s for s in pp)})
     return {"installe": bool(bases), "ouvert": slicer_ouvert(), "profils": profils,
-            "commande": COMMANDE_SLICER}
+            "commande": COMMANDE_SLICER, "dernier_appel": dernier_appel()}
+
+
+def dernier_appel():
+    """Dernier passage d'ElegooSlicer d'après le journal du script : date et résultat."""
+    try:
+        with open(os.path.join(DOSSIER, "post_traitement.log"), encoding="utf-8", errors="replace") as fh:
+            lignes = fh.read().splitlines()[-50:]
+    except OSError:
+        return None
+    for i in range(len(lignes) - 1, -1, -1):
+        if "appel du slicer" in lignes[i]:
+            suite = lignes[i + 1].split("] ", 1)[-1].strip() if i + 1 < len(lignes) else ""
+            return {"date": lignes[i][1:17], "resultat": suite}
+    return None
 
 
 def etat():

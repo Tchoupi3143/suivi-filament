@@ -68,6 +68,17 @@ le retire de la bobine active de chaque emplacement et met à jour `~/SuiviFilam
 L'application lit et modifie ce même fichier via un petit serveur local
 (127.0.0.1 uniquement, protégé par un jeton aléatoire).
 
+## Dépannage : une impression n'a pas été comptée
+
+1. Dans l'app, le bandeau doit être **vert** et indiquer « Dernier G-code reçu : … ».
+   S'il dit « Aucun G-code reçu », ElegooSlicer n'a pas appelé le script.
+2. Vérifie que le profil **Process** sélectionné dans ElegooSlicer est bien **ton** profil
+   (celui listé dans le bandeau), pas un profil Elegoo d'origine.
+3. Seules les impressions **découpées puis exportées ou envoyées depuis ElegooSlicer** sont
+   comptées : un fichier relancé depuis l'écran de l'imprimante, une clé USB ou l'app Elegoo
+   ne passe pas par le slicer.
+4. Chaque appel du slicer est noté dans `~/SuiviFilament/post_traitement.log`.
+
 ## Limites connues
 
 - Le comptage se fait **à l'export du G-code**, pas en fin d'impression : une impression ratée ou
