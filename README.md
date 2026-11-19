@@ -126,3 +126,8 @@ python3 src/catalogue_elegoo.py src/catalogue_elegoo_base.json
 [GPL-3.0-or-later](LICENSE). Projet indépendant, **non affilié à Elegoo**. « Elegoo »,
 « Centauri Carbon » et « ElegooSlicer » sont des marques de leurs propriétaires ; les prix
 proviennent du catalogue public de la boutique Elegoo Europe.
+
+## Voir aussi
+
+[**Suivi Loyers**](suivi-loyers/) : repère les loyers reçus sur un compte bancaire et envoie
+automatiquement les quittances aux locataires.

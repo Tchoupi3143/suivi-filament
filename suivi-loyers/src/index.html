@@ -1,0 +1,448 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later — Suivi Loyers -->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suivi Loyers</title>
+<style>
+:root {
+  --bg: #f5f5f7; --carte: #ffffff; --texte: #1d1d1f; --doux: #6e6e73; --trait: #e3e3e8;
+  --accent: #0a84ff; --accent-texte: #ffffff; --ok: #1f9d55; --alerte: #d97706; --danger: #dc2626;
+  --piste: #ececf0; --ombre: 0 1px 2px rgba(0,0,0,.05), 0 4px 16px rgba(0,0,0,.05);
+  --ok-fond: #e5f6ec; --alerte-fond: #fdf1e1; --danger-fond: #fde8e8;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161618; --carte: #222225; --texte: #f2f2f4; --doux: #a1a1a8; --trait: #34343a;
+    --accent: #3b9bff; --ok: #34c472; --alerte: #f5a524; --danger: #f05252; --piste: #303036;
+    --ombre: 0 1px 2px rgba(0,0,0,.3); --ok-fond: #193a27; --alerte-fond: #3d2c12; --danger-fond: #431c1c;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--texte);
+  font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif; }
+main { max-width: 1080px; margin: 0 auto; padding: 28px 16px 60px; }
+header { display: flex; align-items: center; gap: 8px; margin-bottom: 22px; flex-wrap: wrap; }
+header h1 { font-size: 24px; margin: 0; letter-spacing: -.01em; flex: 1; min-width: 180px; }
+h2 { font-size: 16px; margin: 32px 0 12px; }
+button { font: inherit; border: 1px solid var(--trait); background: var(--carte); color: var(--texte);
+  padding: 7px 13px; border-radius: 8px; cursor: pointer; }
+button:hover { border-color: var(--doux); }
+button.principal { background: var(--accent); border-color: var(--accent); color: var(--accent-texte); font-weight: 600; }
+button.lien { border: none; background: none; color: var(--accent); padding: 3px 6px; }
+button.danger { color: var(--danger); }
+button.petit { padding: 3px 9px; font-size: 12px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.stat { background: var(--carte); border-radius: 12px; padding: 14px 16px; box-shadow: var(--ombre); }
+.stat b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--doux); font-size: 12px; }
+.stat.rouge b { color: var(--danger); }
+.stat.orange b { color: var(--alerte); }
+.bandeau { margin-top: 14px; border-radius: 12px; padding: 12px 16px; display: flex; gap: 12px; align-items: center;
+  flex-wrap: wrap; background: var(--carte); box-shadow: var(--ombre); border-left: 4px solid var(--alerte); }
+.bandeau p { margin: 0; flex: 1; min-width: 220px; }
+.carte { background: var(--carte); border-radius: 14px; box-shadow: var(--ombre); margin-bottom: 14px; overflow: hidden; }
+.carte-tete { display: flex; gap: 12px; align-items: flex-start; padding: 16px; flex-wrap: wrap; }
+.carte-tete .nom { font-weight: 600; font-size: 16px; }
+.carte-tete .sous { color: var(--doux); font-size: 12px; white-space: pre-line; }
+.carte-tete .montant { margin-left: auto; text-align: right; }
+.carte-tete .montant b { font-size: 18px; font-variant-numeric: tabular-nums; }
+.carte.archive { opacity: .6; }
+.etiquette { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 99px;
+  background: var(--piste); color: var(--doux); white-space: nowrap; }
+.etiquette.payé, .etiquette.avance { background: var(--ok-fond); color: var(--ok); }
+.etiquette.partiel, .etiquette.attendu { background: var(--alerte-fond); color: var(--alerte); }
+.etiquette.retard { background: var(--danger-fond); color: var(--danger); }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 8px 14px; border-top: 1px solid var(--trait); vertical-align: middle; }
+th { font-size: 12px; color: var(--doux); font-weight: 500; }
+td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.actions { text-align: right; white-space: nowrap; }
+.defile { overflow-x: auto; }
+.defile table { min-width: 640px; }
+.tableau { background: var(--carte); border-radius: 12px; box-shadow: var(--ombre); overflow: hidden; }
+.tableau tr:first-child th { border-top: none; }
+.lib { max-width: 380px; overflow-wrap: anywhere; font-size: 13px; }
+.doux { color: var(--doux); font-size: 12px; }
+a { color: var(--accent); text-decoration: none; font-weight: 500; }
+a:hover { text-decoration: underline; }
+th.n { text-align: right; }
+.credit { color: var(--ok); }
+.vide-etat { background: var(--carte); border-radius: 14px; padding: 36px; text-align: center; color: var(--doux); box-shadow: var(--ombre); }
+details { margin-top: 28px; }
+summary { cursor: pointer; font-weight: 600; font-size: 16px; margin-bottom: 12px; }
+dialog { border: none; border-radius: 14px; padding: 0; width: min(520px, calc(100vw - 32px));
+  background: var(--carte); color: var(--texte); box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+dialog::backdrop { background: rgba(0,0,0,.35); }
+dialog form { padding: 20px; display: grid; gap: 12px; max-height: calc(100vh - 60px); overflow-y: auto; }
+dialog h3 { margin: 0 0 4px; font-size: 17px; }
+dialog h4 { margin: 10px 0 0; font-size: 13px; }
+label { display: grid; gap: 4px; font-size: 12px; color: var(--doux); }
+label.case { display: flex; align-items: center; gap: 8px; color: var(--texte); font-size: 13px; }
+label.case input { width: auto; }
+input, select, textarea { font: inherit; color: var(--texte); background: var(--bg); border: 1px solid var(--trait);
+  border-radius: 8px; padding: 8px 10px; width: 100%; }
+textarea { resize: vertical; min-height: 60px; }
+.ligne { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 480px) { .ligne { grid-template-columns: 1fr; } }
+.pied { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.pied .gauche { margin-right: auto; }
+.aide { font-size: 12px; color: var(--doux); margin: 0; }
+#toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); opacity: 0;
+  background: var(--texte); color: var(--bg); padding: 10px 16px; border-radius: 10px; transition: .25s;
+  max-width: calc(100vw - 32px); pointer-events: none; z-index: 10; }
+#toast.visible { opacity: 1; transform: translateX(-50%); }
+#toast.erreur { background: var(--danger); color: #fff; }
+#depot { position: fixed; inset: 0; background: rgba(10,132,255,.15); border: 3px dashed var(--accent);
+  display: none; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; z-index: 5; }
+body.glisse #depot { display: flex; }
+.pied-page { margin-top: 36px; color: var(--doux); font-size: 12px; display: grid; gap: 4px; overflow-wrap: anywhere; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Suivi Loyers</h1>
+    <button onclick="document.getElementById('fichier').click()">Importer un relevé</button>
+    <button onclick="analyser()" title="Importe les relevés déposés dans le dossier a-importer">Analyser le dossier</button>
+    <button onclick="ouvrirReglages()">Réglages</button>
+    <button class="principal" onclick="ouvrirBail()">＋ Logement</button>
+    <input type="file" id="fichier" accept=".csv,.ofx,.qfx,.xml,.txt" multiple hidden onchange="importer(this.files)">
+  </header>
+
+  <section class="stats" id="stats"></section>
+  <div id="bandeaux"></div>
+
+  <div id="verifier"></div>
+
+  <h2>Logements</h2>
+  <div id="baux"></div>
+
+  <details>
+    <summary>Opérations du compte</summary>
+    <div class="tableau defile" id="operations"></div>
+  </details>
+  <details>
+    <summary>Journal</summary>
+    <div class="tableau" id="journal"></div>
+  </details>
+
+  <div class="pied-page" id="pied"></div>
+</main>
+<div id="depot">Dépose le relevé ici</div>
+<div id="toast"></div>
+
+<dialog id="dlgBail"><form method="dialog" onsubmit="return enregistrerBail(event)">
+  <h3 id="bailTitre">Nouveau logement</h3>
+  <label>Locataire(s)<input name="locataire" required placeholder="Jean Dupont"></label>
+  <label>E-mail du locataire (pour l'envoi des quittances)<input name="email" type="email" placeholder="jean.dupont@exemple.fr"></label>
+  <label>Adresse du logement<textarea name="logement" rows="3" placeholder="Appartement 2, 1er étage&#10;8 rue de la Paix&#10;33000 Bordeaux"></textarea></label>
+  <div class="ligne">
+    <label>Loyer hors charges (€)<input name="loyer" required inputmode="decimal" placeholder="780"></label>
+    <label>Provision pour charges (€)<input name="charges" inputmode="decimal" placeholder="70"></label>
+  </div>
+  <label id="champRevision" hidden>Nouveau montant applicable à partir de<input name="revision_depuis" type="month"></label>
+  <div class="ligne">
+    <label>Payable le (jour du mois)<input name="jour_echeance" type="number" min="1" max="31" value="5"></label>
+    <label>Premier mois suivi<input name="debut" type="month" required></label>
+  </div>
+  <label>Mots à reconnaître dans le libellé du virement
+    <textarea name="motifs" rows="2" placeholder="DUPONT&#10;CAF 1234567"></textarea></label>
+  <p class="aide">Un virement est attribué à ce logement si son libellé contient <b>tous les mots</b> d'une des lignes.
+    Vide = le nom du locataire. Ajoute une ligne par payeur (conjoint, garant, CAF…).</p>
+  <label>Fin du bail (facultatif)<input name="fin" type="month"></label>
+  <label class="case"><input type="checkbox" name="envoi_auto" checked> Envoyer automatiquement les quittances</label>
+  <label class="case"><input type="checkbox" name="actif" checked> Bail en cours</label>
+  <div class="pied">
+    <button type="button" class="danger gauche" id="bailSupprimer" onclick="supprimerBail()">Supprimer</button>
+    <button type="button" onclick="this.closest('dialog').close()">Annuler</button>
+    <button class="principal">Enregistrer</button>
+  </div>
+</form></dialog>
+
+<dialog id="dlgPaiement"><form method="dialog" onsubmit="return enregistrerPaiement(event)">
+  <h3>Paiement reçu hors virement</h3>
+  <p class="aide" id="paiementQui"></p>
+  <div class="ligne">
+    <label>Date<input name="date" type="date" required></label>
+    <label>Montant (€)<input name="montant" required inputmode="decimal"></label>
+  </div>
+  <label>Note<input name="note" placeholder="Chèque n° …, espèces…"></label>
+  <div class="pied">
+    <button type="button" onclick="this.closest('dialog').close()">Annuler</button>
+    <button class="principal">Ajouter</button>
+  </div>
+</form></dialog>
+
+<dialog id="dlgReglages"><form method="dialog" onsubmit="return enregistrerReglages(event)">
+  <h3>Réglages</h3>
+  <h4>Bailleur (figure sur les quittances)</h4>
+  <label>Nom ou raison sociale<input name="b_nom" placeholder="Arthur Martin ou SCI Les Lilas"></label>
+  <label>Signataire (si différent)<input name="b_signataire" placeholder="Arthur Martin, gérant"></label>
+  <label>Adresse<textarea name="b_adresse" rows="2"></textarea></label>
+  <div class="ligne">
+    <label>Ville (« Fait à … »)<input name="b_ville"></label>
+    <label>Ton e-mail<input name="b_email" type="email"></label>
+  </div>
+  <h4>Envoi des e-mails (SMTP)</h4>
+  <p class="aide">Gmail : smtp.gmail.com, port 465, avec un <b>mot de passe d'application</b>
+    (compte Google &gt; Sécurité &gt; Validation en deux étapes &gt; Mots de passe des applications).
+    Outlook : smtp-mail.outlook.com, port 587. Orange : smtp.orange.fr, 465. Free : smtp.free.fr, 465.</p>
+  <div class="ligne">
+    <label>Serveur SMTP<input name="s_hote" placeholder="smtp.gmail.com"></label>
+    <label>Port<input name="s_port" type="number" placeholder="465"></label>
+  </div>
+  <div class="ligne">
+    <label>Adresse d'expédition<input name="s_expediteur" type="email"></label>
+    <label>Nom affiché<input name="s_nom_expediteur"></label>
+  </div>
+  <div class="ligne">
+    <label>Identifiant (si différent)<input name="s_utilisateur" autocomplete="off"></label>
+    <label>Mot de passe<input name="mdp" type="password" autocomplete="new-password" id="champMdp"></label>
+  </div>
+  <label>Sécurité<select name="s_securite"><option value="ssl">SSL/TLS (465)</option><option value="starttls">STARTTLS (587)</option></select></label>
+  <label class="case"><input type="checkbox" name="s_copie_bailleur"> M'envoyer une copie cachée de chaque e-mail</label>
+  <h4>Fonctionnement</h4>
+  <label class="case"><input type="checkbox" name="r_envoi_auto"> Envoyer la quittance automatiquement dès le paiement complet</label>
+  <label>Retard signalé après l'échéance + (jours)<input name="r_jours_grace" type="number" min="0" max="31"></label>
+  <label>Objet de l'e-mail<input name="r_sujet"></label>
+  <label>Texte de l'e-mail<textarea name="r_texte" rows="8"></textarea></label>
+  <p class="aide">Variables : {locataire} {periode} {montant} {date_paiement} {logement} {bailleur}</p>
+  <div class="pied">
+    <button type="button" class="gauche" onclick="testEmail()">Envoyer un e-mail de test</button>
+    <button type="button" onclick="this.closest('dialog').close()">Fermer</button>
+    <button class="principal">Enregistrer</button>
+  </div>
+</form></dialog>
+
+<script>
+const JETON = "@JETON@";
+let E = null, bailEdite = null, paiementBail = null;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const eur = c => (c / 100).toLocaleString("fr-FR", {style: "currency", currency: "EUR"});
+const euroSaisie = c => (c / 100).toFixed(2).replace(".", ",").replace(",00", "");
+const MOIS = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+const per = p => { const [a, m] = p.split("-"); return MOIS[+m - 1] + " " + a; };
+const dateFr = s => s ? new Date(s.slice(0, 10) + "T12:00").toLocaleDateString("fr-FR") : "";
+
+function toast(msg, erreur) {
+  const t = $("#toast"); t.textContent = msg; t.className = "visible" + (erreur ? " erreur" : "");
+  clearTimeout(toast.t); toast.t = setTimeout(() => t.className = "", erreur ? 6000 : 3500);
+}
+
+async function api(chemin, corps) {
+  const r = await fetch("/api/" + chemin, corps === undefined ? {headers: {"X-Jeton": JETON}} :
+    {method: "POST", headers: {"X-Jeton": JETON, "Content-Type": "application/json"}, body: JSON.stringify(corps)});
+  const d = await r.json().catch(() => ({erreur: "Réponse illisible"}));
+  if (!r.ok) { toast(d.erreur || "Erreur", true); throw new Error(d.erreur); }
+  if (d.baux) { E = d; afficher(); }
+  if (d.message) toast(d.message);
+  return d;
+}
+
+function statutClasse(s) { return s.includes("retard") ? "retard" : s.split(" ")[0]; }
+function statutTexte(e) {
+  return {"payé": "Payé", "avance": "Payé d'avance", "partiel": "Partiel", "attendu": "Attendu",
+          "en retard": "En retard", "partiel en retard": "Partiel, en retard", "futur": "À venir"}[e.statut] || e.statut;
+}
+
+function afficher() {
+  const s = E.stats;
+  $("#stats").innerHTML = `
+    <div class="stat"><span>Attendu en ${per(E.courant)}</span><b>${eur(s.attendu)}</b></div>
+    <div class="stat"><span>Reçu</span><b>${eur(s.recu)}</b></div>
+    <div class="stat ${s.en_retard ? "rouge" : ""}"><span>Loyers en retard</span><b>${s.en_retard}</b></div>
+    <div class="stat ${s.a_verifier ? "orange" : ""}"><span>Virements à vérifier</span><b>${s.a_verifier}</b></div>`;
+
+  const b = [];
+  if (!E.bailleur.nom) b.push(["Renseigne ton nom et ton adresse : ils figurent sur les quittances.", "Réglages", "ouvrirReglages()"]);
+  if (!E.smtp.hote || !E.smtp.expediteur) b.push(["L'envoi des e-mails n'est pas configuré : les quittances sont générées mais pas envoyées.", "Configurer", "ouvrirReglages()"]);
+  $("#bandeaux").innerHTML = b.map(([t, l, f]) => `<div class="bandeau"><p>${t}</p><button onclick="${f}">${l}</button></div>`).join("");
+
+  // virements à vérifier
+  const actifs = E.baux.filter(x => x.actif !== false);
+  const options = actifs.map(x => `<option value="${x.id}">${esc(x.locataire)}</option>`).join("");
+  $("#verifier").innerHTML = !E.a_verifier.length ? "" : `<h2>Virements reçus non reconnus</h2>
+    <p class="aide" style="margin:-6px 0 10px">Choisis le logement concerné, ou ignore le virement s'il ne s'agit pas d'un loyer
+      (dépôt de garantie, remboursement…). Pour qu'il soit reconnu automatiquement la prochaine fois, ajoute un mot de son libellé au logement.</p>
+    <div class="tableau defile"><table><tr><th>Date</th><th>Libellé</th><th class="n">Montant</th><th></th></tr>
+    ${E.a_verifier.map(o => `<tr><td>${dateFr(o.date)}</td><td class="lib">${esc(o.libelle)}</td>
+      <td class="n credit">${eur(o.montant)}</td><td class="actions">
+      ${o.suggestion ? `<button class="petit principal" onclick="affecter('${o.id}', ${o.suggestion})">C'est ${esc(o.suggestion_nom)}</button>` : ""}
+      <select class="petit" style="width:auto;padding:3px 6px" onchange="this.value && affecter('${o.id}', this.value)">
+        <option value="">Attribuer à…</option>${options}</select>
+      <button class="lien" onclick="api('operations/${o.id}/ignorer', {})">Ignorer</button></td></tr>`).join("")}
+    </table></div>`;
+
+  // logements
+  $("#baux").innerHTML = !E.baux.length ? `<div class="vide-etat">Aucun logement.<br><br>
+      <button class="principal" onclick="ouvrirBail()">＋ Ajouter un logement</button></div>` :
+    E.baux.map(x => {
+      const c = x.mois_courant;
+      return `<div class="carte ${x.actif === false ? "archive" : ""}">
+      <div class="carte-tete">
+        <div><div class="nom">${esc(x.locataire)} ${c && x.actif !== false ? `<span class="etiquette ${statutClasse(c.statut)}">${statutTexte(c)}</span>` : ""}
+          ${x.actif === false ? `<span class="etiquette">Archivé</span>` : ""}</div>
+          <div class="sous">${esc(x.logement)}</div>
+          <div class="sous">${x.email ? esc(x.email) : "⚠︎ pas d'e-mail : quittances non envoyées"} · payable le ${x.jour_echeance}
+            · reconnaît « ${esc((x.motifs.length ? x.motifs : [x.locataire]).join(" » ou « "))} »</div></div>
+        <div class="montant"><b>${eur(x.loyer + x.charges)}</b><div class="doux">${eur(x.loyer)} + ${eur(x.charges)} de charges</div>
+          ${x.trop_percu ? `<div class="doux">Trop-perçu : ${eur(x.trop_percu)}</div>` : ""}
+          <div style="margin-top:6px"><button class="lien" onclick="ouvrirPaiement(${x.id})">Paiement manuel</button>
+          <button class="lien" onclick="ouvrirBail(${x.id})">Modifier</button></div></div>
+      </div>
+      <div class="defile"><table><tr><th>Mois</th><th class="n">Dû</th><th class="n">Reçu</th><th>Statut</th><th>Quittance</th><th></th></tr>
+      ${x.mois.map(m => ligneMois(x, m)).join("") || `<tr><td colspan="6" class="doux">Aucun mois à afficher.</td></tr>`}
+      </table></div></div>`;
+    }).join("");
+
+  // opérations
+  const noms = Object.fromEntries(E.baux.map(x => [x.id, x.locataire]));
+  $("#operations").innerHTML = `<table><tr><th>Date</th><th>Libellé</th><th class="n">Montant</th><th>Attribué à</th><th></th></tr>
+    ${E.operations.map(o => `<tr><td>${dateFr(o.date)}</td><td class="lib">${esc(o.libelle)}<div class="doux">${esc(o.source)}${o.doublon_de ? " · doublon probable d'un autre relevé" : ""}</div></td>
+      <td class="n ${o.montant > 0 ? "credit" : ""}">${eur(o.montant)}</td>
+      <td>${o.ignoree ? `<span class="etiquette">Ignoré</span>` : o.bail ? esc(noms[o.bail] || "?") + ` <span class="doux">(${esc(o.methode || "")})</span>` : o.montant > 0 ? `<span class="etiquette partiel">À vérifier</span>` : ""}</td>
+      <td class="actions">${o.ignoree ? `<button class="lien" onclick="api('operations/${o.id}/restaurer', {})">Restaurer</button>` :
+        o.bail ? (o.source === "manuel" ? `<button class="lien danger" onclick="api('operations/${o.id}/supprimer', {})">Supprimer</button>` :
+                  `<button class="lien" onclick="affecter('${o.id}', null)">Détacher</button>`) : ""}</td></tr>`).join("")
+      || `<tr><td colspan="5" class="doux">Aucune opération : importe un relevé (OFX, CSV ou CAMT.053) exporté depuis ta banque.</td></tr>`}</table>`;
+
+  $("#journal").innerHTML = `<table>${E.journal.map(j => `<tr><td class="doux" style="white-space:nowrap">${esc(j.date)}</td><td>${esc(j.texte)}</td></tr>`).join("")
+    || `<tr><td class="doux">Vide</td></tr>`}</table>`;
+  $("#pied").innerHTML = `<span>Dernière analyse : ${esc(E.dernier_scan || "jamais")}</span>
+    <span>Relevés à déposer dans : ${esc(E.dossiers.boite)}</span><span>Quittances : ${esc(E.dossiers.quittances)}</span>
+    <span>Données : ${esc(E.dossiers.donnees)}</span>`;
+}
+
+function ligneMois(x, m) {
+  const q = m.quittance, r = m.recu, b = x.id, p = m.periode;
+  let doc = "", act = "";
+  if (q) {
+    doc = `<a href="/api/pdf?t=${JETON}&bail=${b}&periode=${p}" target="_blank">PDF</a> ` +
+      (q.envoyee_le ? `<span class="doux">envoyée le ${dateFr(q.envoyee_le)}</span>` :
+       q.erreur ? `<span class="doux" style="color:var(--danger)" title="${esc(q.erreur)}">échec d'envoi</span>` : `<span class="doux">non envoyée</span>`);
+    act = `<button class="lien" onclick="envoyer(${b}, '${p}', 'quittance')">${q.envoyee_le ? "Renvoyer" : "Envoyer"}</button>`;
+  } else if (m.paye > 0 && m.paye < m.du) {
+    doc = r ? `<a href="/api/pdf?t=${JETON}&bail=${b}&periode=${p}&type=recu" target="_blank">Reçu</a> <span class="doux">${r.envoyee_le ? "envoyé" : ""}</span>` : "";
+    act = `<button class="lien" onclick="envoyer(${b}, '${p}', 'recu')">Envoyer un reçu</button>`;
+  } else if (m.statut === "avance") {
+    doc = `<span class="doux">émise le 1er du mois</span>`;
+  }
+  if (m.statut.includes("retard") && x.email)
+    act += `<button class="lien" onclick="relancer(${b}, '${p}')" title="${m.relance ? "Déjà relancé le " + esc(m.relance) : ""}">Relancer${m.relance ? " ✓" : ""}</button>`;
+  return `<tr><td>${per(p)}</td><td class="n">${eur(m.du)}</td><td class="n">${eur(m.paye)}</td>
+    <td><span class="etiquette ${statutClasse(m.statut)}">${statutTexte(m)}</span>
+      ${m.date_paiement ? `<span class="doux">le ${dateFr(m.date_paiement)}</span>` : ""}</td>
+    <td>${doc}</td><td class="actions">${act}</td></tr>`;
+}
+
+// ----------------------------------------------------------------- actions
+async function charger() { await api("etat"); }
+const affecter = (op, bail) => api(`operations/${op}/affecter`, {bail});
+const envoyer = (bail, periode, type) => api(type === "recu" ? "recu" : "quittance/envoyer", {bail, periode});
+function relancer(bail, periode) {
+  if (confirm(`Envoyer un e-mail de relance pour le loyer de ${per(periode)} ?`)) api("relance", {bail, periode});
+}
+async function analyser() { const d = await api("scan", {}); resume(d.rapport); }
+function resume(r) {
+  if (!r) return;
+  const morceaux = [];
+  if (!r.fichiers.length) morceaux.push("Aucun relevé dans le dossier a-importer");
+  else morceaux.push(r.fichiers.join(" · "));
+  if (r.envoyees.length) morceaux.push(`${r.envoyees.length} quittance(s) envoyée(s)`);
+  if (r.erreurs.length) morceaux.push("échec d'envoi : " + r.erreurs[0]);
+  toast(morceaux.join(" — "), r.erreurs.length > 0);
+}
+async function importer(fichiers) {
+  for (const f of fichiers) {
+    const contenu = await new Promise(ok => { const l = new FileReader();
+      l.onload = () => ok(l.result.split(",")[1] || ""); l.readAsDataURL(f); });
+    await api("import", {nom: f.name, contenu}).catch(() => {});
+  }
+  $("#fichier").value = "";
+}
+
+function ouvrirBail(id) {
+  const f = $("#dlgBail form"); f.reset();
+  bailEdite = id ? E.baux.find(x => x.id === id) : null;
+  $("#bailTitre").textContent = bailEdite ? "Modifier le logement" : "Nouveau logement";
+  $("#bailSupprimer").hidden = !bailEdite;
+  $("#champRevision").hidden = !bailEdite;
+  f.debut.value = E.courant;
+  if (bailEdite) {
+    const x = bailEdite;
+    for (const k of ["locataire", "email", "logement", "jour_echeance", "debut"]) f[k].value = x[k] ?? "";
+    f.fin.value = x.fin || ""; f.motifs.value = x.motifs.join("\n");
+    f.loyer.value = euroSaisie(x.loyer); f.charges.value = euroSaisie(x.charges);
+    f.envoi_auto.checked = x.envoi_auto !== false; f.actif.checked = x.actif !== false;
+  }
+  $("#dlgBail").showModal();
+}
+async function enregistrerBail(ev) {
+  ev.preventDefault();
+  const f = ev.target, c = Object.fromEntries(new FormData(f));
+  c.envoi_auto = f.envoi_auto.checked; c.actif = f.actif.checked;
+  await api(bailEdite ? `baux/${bailEdite.id}/modifier` : "baux", c);
+  $("#dlgBail").close();
+}
+async function supprimerBail() {
+  if (!confirm("Supprimer ce logement ?")) return;
+  await api(`baux/${bailEdite.id}/supprimer`, {}); $("#dlgBail").close();
+}
+function ouvrirPaiement(id) {
+  paiementBail = E.baux.find(x => x.id === id);
+  const f = $("#dlgPaiement form"); f.reset();
+  f.date.value = new Date().toISOString().slice(0, 10);
+  f.montant.value = euroSaisie(paiementBail.loyer + paiementBail.charges);
+  $("#paiementQui").textContent = paiementBail.locataire + " — chèque, espèces, ou virement arrivé sur un autre compte.";
+  $("#dlgPaiement").showModal();
+}
+async function enregistrerPaiement(ev) {
+  ev.preventDefault();
+  await api("paiement", {bail: paiementBail.id, ...Object.fromEntries(new FormData(ev.target))});
+  $("#dlgPaiement").close();
+}
+function ouvrirReglages() {
+  const f = $("#dlgReglages form");
+  for (const [pre, obj] of [["b_", E.bailleur], ["s_", E.smtp], ["r_", E.reglages]])
+    for (const [k, v] of Object.entries(obj)) {
+      const el = f.elements[pre + k]; if (!el) continue;
+      if (el.type === "checkbox") el.checked = !!v; else el.value = v ?? "";
+    }
+  f.mdp.value = ""; f.mdp.placeholder = E.smtp.mdp_defini ? "•••••• (inchangé)" : "";
+  $("#dlgReglages").showModal();
+}
+function corpsReglages(f) {
+  const c = {bailleur: {}, smtp: {}, reglages: {}};
+  for (const el of f.elements) {
+    if (!el.name) continue;
+    const [pre, ...r] = el.name.split("_"); const k = r.join("_");
+    const cible = {b: c.bailleur, s: c.smtp, r: c.reglages}[pre];
+    if (cible) cible[k] = el.type === "checkbox" ? el.checked : el.value;
+  }
+  if (f.mdp.value) c.mdp = f.mdp.value;
+  return c;
+}
+async function enregistrerReglages(ev) {
+  ev.preventDefault();
+  await api("reglages", corpsReglages(ev.target)); toast("Réglages enregistrés"); $("#dlgReglages").close();
+}
+async function testEmail() {
+  const f = $("#dlgReglages form");
+  await api("reglages", corpsReglages(f)); f.mdp.value = "";
+  await api("test-email", {});
+}
+
+// glisser-déposer d'un relevé
+let profondeur = 0;
+addEventListener("dragenter", e => { if (e.dataTransfer.types.includes("Files")) { profondeur++; document.body.classList.add("glisse"); } });
+addEventListener("dragleave", () => { if (--profondeur <= 0) { profondeur = 0; document.body.classList.remove("glisse"); } });
+addEventListener("dragover", e => e.preventDefault());
+addEventListener("drop", e => { e.preventDefault(); profondeur = 0; document.body.classList.remove("glisse"); importer(e.dataTransfer.files); });
+addEventListener("focus", () => charger().catch(() => {}));
+charger();
+</script>
+</body>
+</html>
