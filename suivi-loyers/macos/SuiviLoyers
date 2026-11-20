@@ -18,4 +18,12 @@ fi
 DONNEES="${SUIVI_LOYERS_DOSSIER:-$HOME/SuiviLoyers}"
 mkdir -p "$DONNEES"
 export PYTHONDONTWRITEBYTECODE=1
-exec "$PY" "$RES/serveur.py" >>"$DONNEES/app.log" 2>&1
+echo "--- $(date '+%Y-%m-%d %H:%M:%S') lancement avec $PY" >>"$DONNEES/app.log"
+"$PY" "$RES/serveur.py" >>"$DONNEES/app.log" 2>&1
+rc=$?
+if [ $rc -ne 0 ]; then
+  # le serveur s'est arrêté sur une erreur : on l'affiche au lieu de ne rien faire
+  detail=$(tail -n 6 "$DONNEES/app.log" | tr '"' "'" | tr '\\' '/')
+  osascript -e "display dialog \"Suivi Loyers n'a pas pu démarrer (code $rc).\n\n$detail\n\nJournal complet : $DONNEES/app.log\" buttons {\"OK\"} default button \"OK\" with icon caution with title \"Suivi Loyers\"" >/dev/null 2>&1
+fi
+exit $rc

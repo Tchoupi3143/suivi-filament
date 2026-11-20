@@ -309,7 +309,7 @@ body.glisse #depot { display: flex; }
 
 <main>
   <section data-page="accueil">
-    <div class="synthese" id="stats"></div>
+    <div class="synthese" id="stats"><div class="carte principale"><div class="tuile-titre">Chargement…</div></div></div>
     <div id="bandeaux"></div>
     <div id="verifier"></div>
     <h2>Logements <span class="doux" id="nbLogements"></span></h2>
@@ -563,6 +563,18 @@ body.glisse #depot { display: flex; }
   <symbol id="i-cle" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3"/></symbol>
 </svg>
 
+<noscript><p style="padding:40px;text-align:center">Active JavaScript dans ton navigateur pour utiliser Suivi Loyers.</p></noscript>
+<div id="erreurPage" hidden style="position:fixed;left:16px;right:16px;bottom:16px;z-index:99;background:#d92d20;color:#fff;
+  padding:14px 16px;border-radius:12px;font:13px/1.5 -apple-system,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.3)"></div>
+<script>
+// toute erreur JavaScript s'affiche à l'écran (au lieu d'une page vide) : à recopier pour le support
+function erreurPage(m) {
+  const z = document.getElementById("erreurPage");
+  z.hidden = false;
+  z.textContent = "Erreur d'affichage : " + m + " — navigateur : " + navigator.userAgent;
+}
+addEventListener("error", e => erreurPage((e.message || "inconnue") + (e.lineno ? " (ligne " + e.lineno + ")" : "")));
+</script>
 <script>
 const JETON = "@JETON@";
 let E = null, bailEdite = null, paiementBail = null, filtreOps = "tout";
@@ -618,7 +630,7 @@ async function api(chemin, corps, bouton) {
       {method: "POST", headers: {"X-Jeton": JETON, "Content-Type": "application/json"}, body: JSON.stringify(corps)});
     const d = await r.json().catch(() => ({erreur: "Réponse illisible"}));
     if (!r.ok) { toast(d.erreur || "Erreur", true); throw new Error(d.erreur); }
-    if (d.baux) { E = d; afficher(); }
+    if (d.baux) { E = d; try { afficher(); } catch (ex) { erreurPage(ex.message + " " + (ex.stack || "").split("\n")[1]); throw ex; } }
     if (d.message) toast(d.message);
     return d;
   } finally {
