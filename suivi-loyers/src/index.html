@@ -3,287 +3,570 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Suivi Loyers</title>
 <link rel="icon" href="/icone.png">
 <style>
 :root {
-  --bg: #f5f5f7; --carte: #ffffff; --texte: #1d1d1f; --doux: #6e6e73; --trait: #e3e3e8;
-  --accent: #0a84ff; --accent-texte: #ffffff; --ok: #1f9d55; --alerte: #d97706; --danger: #dc2626;
-  --piste: #ececf0; --ombre: 0 1px 2px rgba(0,0,0,.05), 0 4px 16px rgba(0,0,0,.05);
-  --ok-fond: #e5f6ec; --alerte-fond: #fdf1e1; --danger-fond: #fde8e8;
+  --bg: #f4f5f8; --carte: #ffffff; --carte-2: #f8f9fb; --texte: #15171c; --doux: #667085; --trait: #e6e8ee;
+  --accent: #1f6fe8; --accent-2: #e8f0fe; --accent-texte: #fff;
+  --ok: #138a4b; --ok-fond: #e3f6ec; --alerte: #b45309; --alerte-fond: #fdf1df; --danger: #d92d20; --danger-fond: #fde9e7;
+  --neutre-fond: #eef0f4;
+  --ombre: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06);
+  --ombre-haute: 0 24px 48px -12px rgba(16,24,40,.25);
+  --rayon: 14px; --barre: rgba(244,245,248,.82);
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #161618; --carte: #222225; --texte: #f2f2f4; --doux: #a1a1a8; --trait: #34343a;
-    --accent: #3b9bff; --ok: #34c472; --alerte: #f5a524; --danger: #f05252; --piste: #303036;
-    --ombre: 0 1px 2px rgba(0,0,0,.3); --ok-fond: #193a27; --alerte-fond: #3d2c12; --danger-fond: #431c1c;
+    --bg: #111215; --carte: #1b1d22; --carte-2: #22252b; --texte: #f1f2f5; --doux: #9aa1ad; --trait: #2c3038;
+    --accent: #5b9bff; --accent-2: #1d2a40; --ok: #3ccf7e; --ok-fond: #15301f; --alerte: #f3b04a; --alerte-fond: #362812;
+    --danger: #ff6b5e; --danger-fond: #3b1a17; --neutre-fond: #262930;
+    --ombre: 0 1px 2px rgba(0,0,0,.4); --ombre-haute: 0 24px 48px -12px rgba(0,0,0,.6); --barre: rgba(17,18,21,.8);
   }
 }
 * { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--bg); color: var(--texte);
-  font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif; }
-main { max-width: 1080px; margin: 0 auto; padding: 28px 16px 60px; }
-header { display: flex; align-items: center; gap: 8px; margin-bottom: 22px; flex-wrap: wrap; }
-header h1 { font-size: 24px; margin: 0; letter-spacing: -.01em; flex: 1; min-width: 180px; }
-h2 { font-size: 16px; margin: 32px 0 12px; }
+  font: 14px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased; }
+.num, td.n, .montant-grand { font-variant-numeric: tabular-nums; }
+svg.i { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round; vertical-align: -3px; }
+
+/* ---------------------------------------------------------------- barre du haut */
+.barre { position: sticky; top: 0; z-index: 20; background: var(--barre); backdrop-filter: saturate(1.6) blur(14px);
+  -webkit-backdrop-filter: saturate(1.6) blur(14px); border-bottom: 1px solid var(--trait); }
+.barre-int { max-width: 1120px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; gap: 10px; }
+.marque { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; letter-spacing: -.01em;
+  margin-right: auto; white-space: nowrap; }
+.marque img { width: 30px; height: 30px; border-radius: 8px; }
+.pastille-synchro { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--doux);
+  padding: 5px 10px; border-radius: 99px; background: var(--carte); border: 1px solid var(--trait); cursor: pointer;
+  white-space: nowrap; }
+.pastille-synchro:hover { border-color: var(--doux); }
+.point { width: 8px; height: 8px; border-radius: 50%; background: var(--doux); flex: none; }
+.point.ok { background: var(--ok); box-shadow: 0 0 0 3px var(--ok-fond); }
+.point.ko { background: var(--danger); box-shadow: 0 0 0 3px var(--danger-fond); }
+.onglets { max-width: 1120px; margin: 0 auto; padding: 0 20px; display: flex; gap: 4px; }
+.onglets button { border: none; background: none; border-radius: 0; padding: 9px 4px 10px; margin-right: 14px;
+  color: var(--doux); font-weight: 500; border-bottom: 2px solid transparent; }
+.onglets button:hover { color: var(--texte); border-color: transparent; }
+.onglets button.actif { color: var(--texte); border-bottom-color: var(--accent); }
+.onglets .compte { margin-left: 4px; font-size: 11px; background: var(--alerte-fond); color: var(--alerte);
+  padding: 0 6px; border-radius: 99px; font-weight: 600; }
+#chargement { position: fixed; top: 0; left: 0; height: 2px; width: 0; background: var(--accent); z-index: 50;
+  transition: width .4s ease, opacity .3s; opacity: 0; }
+body.occupe #chargement { width: 70%; opacity: 1; transition: width 2.5s cubic-bezier(.1,.6,.2,1); }
+
+/* ---------------------------------------------------------------- éléments */
+main { max-width: 1120px; margin: 0 auto; padding: 24px 20px 64px; }
+h2 { font-size: 15px; margin: 30px 0 12px; display: flex; align-items: center; gap: 8px; }
+h2 .doux { font-weight: 400; }
 button { font: inherit; border: 1px solid var(--trait); background: var(--carte); color: var(--texte);
-  padding: 7px 13px; border-radius: 8px; cursor: pointer; }
-button:hover { border-color: var(--doux); }
+  padding: 7px 13px; border-radius: 9px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  transition: background .15s, border-color .15s, color .15s, transform .05s; white-space: nowrap; }
+button:hover { border-color: #c4c9d4; }
+button:active { transform: translateY(1px); }
+button:disabled { opacity: .55; cursor: default; }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px; }
 button.principal { background: var(--accent); border-color: var(--accent); color: var(--accent-texte); font-weight: 600; }
-button.lien { border: none; background: none; color: var(--accent); padding: 3px 6px; }
+button.principal:hover { filter: brightness(1.07); }
+button.fantome { border-color: transparent; background: none; color: var(--doux); }
+button.fantome:hover { background: var(--neutre-fond); color: var(--texte); }
+button.lien { border: none; background: none; color: var(--accent); padding: 4px 6px; font-weight: 500; }
+button.lien:hover { background: var(--accent-2); }
 button.danger { color: var(--danger); }
-button.petit { padding: 3px 9px; font-size: 12px; }
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
-.stat { background: var(--carte); border-radius: 12px; padding: 14px 16px; box-shadow: var(--ombre); }
-.stat b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; }
-.stat span { color: var(--doux); font-size: 12px; }
-.stat.rouge b { color: var(--danger); }
-.stat.orange b { color: var(--alerte); }
-.bandeau { margin-top: 14px; border-radius: 12px; padding: 12px 16px; display: flex; gap: 12px; align-items: center;
-  flex-wrap: wrap; background: var(--carte); box-shadow: var(--ombre); border-left: 4px solid var(--alerte); }
-.bandeau p { margin: 0; flex: 1; min-width: 220px; }
-.carte { background: var(--carte); border-radius: 14px; box-shadow: var(--ombre); margin-bottom: 14px; overflow: hidden; }
-.carte-tete { display: flex; gap: 12px; align-items: flex-start; padding: 16px; flex-wrap: wrap; }
-.carte-tete .nom { font-weight: 600; font-size: 16px; }
-.carte-tete .sous { color: var(--doux); font-size: 12px; white-space: pre-line; }
-.carte-tete .montant { margin-left: auto; text-align: right; }
-.carte-tete .montant b { font-size: 18px; font-variant-numeric: tabular-nums; }
-.carte.archive { opacity: .6; }
-.etiquette { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 99px;
-  background: var(--piste); color: var(--doux); white-space: nowrap; }
+button.icone { padding: 7px; }
+button.petit { padding: 4px 10px; font-size: 12px; border-radius: 8px; }
+button.tourne svg { animation: tourne .8s linear infinite; }
+@keyframes tourne { to { transform: rotate(360deg); } }
+a { color: var(--accent); text-decoration: none; font-weight: 500; }
+a:hover { text-decoration: underline; }
+.doux { color: var(--doux); font-size: 12px; }
+.aide { font-size: 12px; color: var(--doux); margin: 0; line-height: 1.5; }
+.credit { color: var(--ok); }
+.carte { background: var(--carte); border: 1px solid var(--trait); border-radius: var(--rayon); box-shadow: var(--ombre); }
+
+/* ---------------------------------------------------------------- synthèse du mois */
+.synthese { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 14px; }
+.synthese .carte { padding: 18px 20px; }
+.tuile-titre { font-size: 12px; color: var(--doux); font-weight: 500; display: flex; align-items: center; gap: 6px; }
+.montant-grand { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin: 4px 0 2px; }
+.montant-grand small { font-size: 15px; font-weight: 500; color: var(--doux); letter-spacing: 0; }
+.progression { height: 8px; background: var(--neutre-fond); border-radius: 99px; overflow: hidden; margin: 12px 0 8px; }
+.progression i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--ok), #2fbf71);
+  transition: width .6s cubic-bezier(.2,.8,.2,1); }
+.legende { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--doux); }
+.legende b { color: var(--texte); font-weight: 600; }
+.tuile { cursor: pointer; transition: border-color .15s, transform .15s; }
+.tuile:hover { border-color: #c4c9d4; }
+.tuile.rouge .montant-grand { color: var(--danger); }
+.tuile.orange .montant-grand { color: var(--alerte); }
+.tuile.ok .montant-grand { color: var(--ok); }
+
+/* ---------------------------------------------------------------- bandeaux */
+.bandeau { margin-top: 12px; padding: 12px 14px 12px 16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  background: var(--carte); border: 1px solid var(--trait); border-radius: 12px; box-shadow: var(--ombre); }
+.bandeau .ic { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; flex: none;
+  background: var(--alerte-fond); color: var(--alerte); }
+.bandeau.ko .ic { background: var(--danger-fond); color: var(--danger); }
+.bandeau.ok .ic { background: var(--ok-fond); color: var(--ok); }
+.bandeau p { margin: 0; flex: 1; min-width: 200px; }
+
+/* ---------------------------------------------------------------- virements à vérifier */
+.verif { display: grid; gap: 8px; }
+.verif .carte { padding: 12px 14px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  border-left: 3px solid var(--alerte); }
+.verif .lib { flex: 1; min-width: 220px; overflow-wrap: anywhere; }
+.verif .lib b { display: block; font-weight: 500; }
+.verif .somme { font-weight: 700; color: var(--ok); white-space: nowrap; }
+.verif .actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+select.compact { width: auto; padding: 4px 8px; font-size: 12px; border-radius: 8px; }
+
+/* ---------------------------------------------------------------- logements */
+.logements { display: grid; gap: 14px; }
+.logement { overflow: hidden; animation: apparait .25s ease both; }
+@keyframes apparait { from { opacity: 0; transform: translateY(4px); } }
+.logement.archive { opacity: .6; }
+.lg-tete { display: flex; gap: 14px; padding: 16px 18px 12px; align-items: flex-start; flex-wrap: wrap; }
+.avatar { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-weight: 700;
+  color: var(--accent); background: var(--accent-2); flex: none; font-size: 15px; letter-spacing: .02em; }
+.lg-id { flex: 1; min-width: 200px; }
+.lg-nom { font-weight: 650; font-size: 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.lg-adresse { color: var(--doux); font-size: 13px; }
+.lg-meta { display: flex; gap: 6px 14px; flex-wrap: wrap; margin-top: 6px; font-size: 12px; color: var(--doux); }
+.lg-meta span { display: inline-flex; align-items: center; gap: 5px; }
+.lg-meta .attention { color: var(--alerte); }
+.lg-somme { text-align: right; }
+.lg-somme b { font-size: 20px; letter-spacing: -.01em; display: block; }
+.frise { display: flex; gap: 4px; padding: 0 18px 14px; flex-wrap: wrap; align-items: center; }
+.frise i { width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center; font-style: normal;
+  font-size: 10px; font-weight: 600; background: var(--neutre-fond); color: var(--doux); cursor: default; }
+.frise i.payé, .frise i.avance { background: var(--ok-fond); color: var(--ok); }
+.frise i.partiel, .frise i.attendu { background: var(--alerte-fond); color: var(--alerte); }
+.frise i.retard { background: var(--danger-fond); color: var(--danger); }
+.frise i.courant { box-shadow: 0 0 0 2px var(--carte), 0 0 0 3.5px currentColor; }
+.lg-actions { display: flex; gap: 4px; padding: 8px 12px; border-top: 1px solid var(--trait); background: var(--carte-2);
+  flex-wrap: wrap; align-items: center; }
+.lg-actions .espace { flex: 1; }
+
+.etiquette { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 2px 8px;
+  border-radius: 99px; background: var(--neutre-fond); color: var(--doux); white-space: nowrap; line-height: 1.6; }
 .etiquette.payé, .etiquette.avance { background: var(--ok-fond); color: var(--ok); }
 .etiquette.partiel, .etiquette.attendu { background: var(--alerte-fond); color: var(--alerte); }
 .etiquette.retard { background: var(--danger-fond); color: var(--danger); }
+
 table { width: 100%; border-collapse: collapse; }
-th, td { text-align: left; padding: 8px 14px; border-top: 1px solid var(--trait); vertical-align: middle; }
-th { font-size: 12px; color: var(--doux); font-weight: 500; }
-td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
-td.n .doux { white-space: normal; max-width: 260px; margin-left: auto; text-align: right; }
+th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--trait); vertical-align: top; }
+th { font-size: 11px; color: var(--doux); font-weight: 600; text-transform: uppercase; letter-spacing: .04em;
+  background: var(--carte-2); padding-top: 8px; padding-bottom: 8px; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+td .doux { margin-top: 2px; }
+td.n .doux { white-space: normal; max-width: 280px; margin-left: auto; }
 td.actions { text-align: right; white-space: nowrap; }
+tbody tr { transition: background .12s; }
+tbody tr:hover { background: var(--carte-2); }
+.mois-table { table-layout: fixed; }
+.mois-table td:first-child { font-weight: 500; }
+.mois-table td { overflow-wrap: anywhere; }
+.voir-plus { width: 100%; justify-content: center; border: none; border-top: 1px solid var(--trait); border-radius: 0;
+  background: none; color: var(--accent); font-weight: 500; padding: 9px; }
+.voir-plus:hover { background: var(--accent-2); }
+
+/* ---------------------------------------------------------------- opérations / journal */
+.filtres { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+.filtres input { max-width: 320px; }
+.recherche { position: relative; flex: 1; min-width: 200px; max-width: 360px; }
+.recherche svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--doux); }
+.recherche input { padding-left: 32px; max-width: none; }
+.segments { display: inline-flex; background: var(--neutre-fond); border-radius: 10px; padding: 3px; gap: 2px; }
+.segments button { border: none; background: none; padding: 5px 11px; border-radius: 8px; color: var(--doux); font-size: 13px; }
+.segments button.actif { background: var(--carte); color: var(--texte); box-shadow: var(--ombre); font-weight: 600; }
+.tableau { overflow: hidden; }
 .defile { overflow-x: auto; }
-.defile table { min-width: 640px; }
-.tableau { background: var(--carte); border-radius: 12px; box-shadow: var(--ombre); overflow: hidden; }
-.tableau tr:first-child th { border-top: none; }
-.lib { max-width: 380px; overflow-wrap: anywhere; font-size: 13px; }
-.doux { color: var(--doux); font-size: 12px; }
-a { color: var(--accent); text-decoration: none; font-weight: 500; }
-a:hover { text-decoration: underline; }
-th.n { text-align: right; }
-.credit { color: var(--ok); }
-.vide-etat { background: var(--carte); border-radius: 14px; padding: 36px; text-align: center; color: var(--doux); box-shadow: var(--ombre); }
-details { margin-top: 28px; }
-summary { cursor: pointer; font-weight: 600; font-size: 16px; margin-bottom: 12px; }
-dialog { border: none; border-radius: 14px; padding: 0; width: min(520px, calc(100vw - 32px));
-  background: var(--carte); color: var(--texte); box-shadow: 0 20px 60px rgba(0,0,0,.3); }
-dialog::backdrop { background: rgba(0,0,0,.35); }
-dialog form { padding: 20px; display: grid; gap: 12px; max-height: calc(100vh - 60px); overflow-y: auto; }
-dialog h3 { margin: 0 0 4px; font-size: 17px; }
-dialog h4 { margin: 10px 0 0; font-size: 13px; }
-label { display: grid; gap: 4px; font-size: 12px; color: var(--doux); }
-label.case { display: flex; align-items: center; gap: 8px; color: var(--texte); font-size: 13px; }
-label.case input { width: auto; }
-input, select, textarea { font: inherit; color: var(--texte); background: var(--bg); border: 1px solid var(--trait);
-  border-radius: 8px; padding: 8px 10px; width: 100%; }
-textarea { resize: vertical; min-height: 60px; }
-.ligne { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-@media (max-width: 480px) { .ligne { grid-template-columns: 1fr; } }
-.pied { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
-.pied .gauche { margin-right: auto; }
-.aide { font-size: 12px; color: var(--doux); margin: 0; }
-#toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); opacity: 0;
-  background: var(--texte); color: var(--bg); padding: 10px 16px; border-radius: 10px; transition: .25s;
-  max-width: calc(100vw - 32px); pointer-events: none; z-index: 10; }
-#toast.visible { opacity: 1; transform: translateX(-50%); }
-#toast.erreur { background: var(--danger); color: #fff; }
-.message-dlg { margin: 0; padding: 10px 12px; border-radius: 8px; background: var(--ok-fond); color: var(--ok);
-  font-size: 13px; overflow-wrap: anywhere; position: sticky; top: -20px; z-index: 1; }
+.lib { max-width: 420px; overflow-wrap: anywhere; }
+.vide-etat { padding: 48px 24px; text-align: center; color: var(--doux); }
+.vide-etat svg { width: 40px; height: 40px; stroke-width: 1.5; margin-bottom: 8px; color: var(--accent); }
+.vide-etat h3 { color: var(--texte); margin: 4px 0; font-size: 16px; }
+.pied-page { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--trait); color: var(--doux); font-size: 12px;
+  display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+.pied-page .infos { flex: 1; display: grid; gap: 2px; overflow-wrap: anywhere; min-width: 240px; }
+
+/* ---------------------------------------------------------------- fenêtres */
+dialog { border: none; border-radius: 18px; padding: 0; width: min(560px, calc(100vw - 24px));
+  background: var(--carte); color: var(--texte); box-shadow: var(--ombre-haute); max-height: calc(100vh - 40px); }
+dialog[open] { animation: ouvre .2s cubic-bezier(.2,.8,.2,1); }
+@keyframes ouvre { from { opacity: 0; transform: translateY(8px) scale(.98); } }
+dialog::backdrop { background: rgba(15,18,25,.45); backdrop-filter: blur(3px); }
+dialog > form { display: flex; flex-direction: column; max-height: calc(100vh - 40px); margin: 0; }
+.dlg-tete { display: flex; align-items: center; gap: 10px; padding: 16px 20px; border-bottom: 1px solid var(--trait); }
+.dlg-tete h3 { margin: 0; font-size: 17px; flex: 1; }
+.dlg-corps { padding: 18px 20px; overflow-y: auto; display: grid; gap: 14px; }
+.dlg-pied { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--trait);
+  background: var(--carte-2); flex-wrap: wrap; border-radius: 0 0 18px 18px; }
+.dlg-pied .gauche { margin-right: auto; }
+.section { display: grid; gap: 12px; padding-top: 14px; border-top: 1px solid var(--trait); }
+.section:first-child { border-top: none; padding-top: 0; }
+.section-titre { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--doux);
+  display: flex; align-items: center; gap: 8px; margin: 0; }
+.etape { width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center;
+  font-size: 11px; letter-spacing: 0; flex: none; }
+.etape.faite { background: var(--ok); }
+label { display: grid; gap: 5px; font-size: 12px; color: var(--doux); font-weight: 500; }
+label.case { display: flex; align-items: center; gap: 9px; color: var(--texte); font-size: 13px; font-weight: 400; cursor: pointer; }
+label.case input { width: 16px; height: 16px; accent-color: var(--accent); }
+input, select, textarea { font: inherit; font-size: 14px; color: var(--texte); background: var(--carte);
+  border: 1px solid var(--trait); border-radius: 9px; padding: 8px 11px; width: 100%; transition: border-color .15s, box-shadow .15s; }
+input:hover, select:hover, textarea:hover { border-color: #c4c9d4; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-2); }
+textarea { resize: vertical; min-height: 64px; }
+.ligne { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ligne.trois { grid-template-columns: 1fr 1fr 1fr; }
+.encadre { background: var(--carte-2); border: 1px solid var(--trait); border-radius: 12px; padding: 12px 14px; }
+.encadre.ok { background: var(--ok-fond); border-color: transparent; }
+.encadre.ko { background: var(--danger-fond); border-color: transparent; }
+details.repli > summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--accent); list-style: none;
+  display: flex; align-items: center; gap: 6px; }
+details.repli > summary::-webkit-details-marker { display: none; }
+details.repli > summary::before { content: "›"; display: inline-block; transition: transform .15s; font-size: 16px; line-height: 1; }
+details.repli[open] > summary::before { transform: rotate(90deg); }
+details.repli > div { display: grid; gap: 12px; margin-top: 12px; }
+.message-dlg { margin: 0; padding: 10px 12px; border-radius: 10px; background: var(--ok-fond); color: var(--ok);
+  font-size: 13px; overflow-wrap: anywhere; font-weight: 500; }
 .message-dlg.erreur { background: var(--danger-fond); color: var(--danger); }
-#depot { position: fixed; inset: 0; background: rgba(10,132,255,.15); border: 3px dashed var(--accent);
-  display: none; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; z-index: 5; }
+
+/* ---------------------------------------------------------------- notifications */
+#toast { position: fixed; right: 20px; bottom: 20px; transform: translateY(16px); opacity: 0; z-index: 60;
+  background: #1d2129; color: #fff; padding: 11px 16px; border-radius: 12px; transition: .25s cubic-bezier(.2,.8,.2,1);
+  max-width: min(440px, calc(100vw - 32px)); pointer-events: none; box-shadow: var(--ombre-haute); font-size: 13px;
+  display: flex; gap: 10px; align-items: flex-start; }
+#toast.visible { opacity: 1; transform: none; }
+#toast.erreur { background: var(--danger); }
+#depot { position: fixed; inset: 12px; border-radius: 20px; background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 2px dashed var(--accent); display: none; align-items: center; justify-content: center; flex-direction: column; gap: 8px;
+  font-size: 18px; font-weight: 600; color: var(--accent); z-index: 40; backdrop-filter: blur(2px); }
+#depot svg { width: 36px; height: 36px; }
 body.glisse #depot { display: flex; }
-.pied-page { margin-top: 36px; color: var(--doux); font-size: 12px; display: grid; gap: 4px; overflow-wrap: anywhere; }
+#ferme { text-align: center; padding: 100px 20px; color: var(--doux); }
+[hidden] { display: none !important; }
+
+/* ---------------------------------------------------------------- téléphone */
+@media (max-width: 760px) {
+  .synthese { grid-template-columns: 1fr 1fr; }
+  .synthese .principale { grid-column: 1 / -1; }
+  .barre-int { padding: 8px 14px; }
+  .onglets, main { padding-left: 14px; padding-right: 14px; }
+  .masque-mobile { display: none !important; }
+  .lg-somme { text-align: left; width: 100%; padding-left: 56px; }
+  .lg-somme b { display: inline; margin-right: 6px; }
+  .mois-table thead { display: none; }
+  .mois-table, .mois-table tbody { display: block; }
+  .mois-table colgroup { display: none; }
+  .mois-table tr { display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: "mois statut" "du recu" "doc act";
+    gap: 6px 12px; padding: 12px 14px; border-top: 1px solid var(--trait); }
+  .mois-table td { border: none; padding: 0; }
+  .mois-table td:nth-child(1) { grid-area: mois; }
+  .mois-table td:nth-child(2) { grid-area: du; text-align: left; }
+  .mois-table td:nth-child(3) { grid-area: recu; }
+  .mois-table td:nth-child(4) { grid-area: statut; text-align: right; }
+  .mois-table td:nth-child(5) { grid-area: doc; }
+  .mois-table td:nth-child(6) { grid-area: act; text-align: right; }
+  .mois-table td:nth-child(5):empty, .mois-table td:nth-child(6):empty { display: none; }
+  .mois-table td[data-l]::before { content: attr(data-l) " "; color: var(--doux); font-size: 11px; font-weight: 400; }
+  .mois-table td.n .doux { max-width: none; text-align: right; }
+  .frise i { width: 22px; height: 22px; font-size: 9px; }
+  .ligne, .ligne.trois { grid-template-columns: 1fr; }
+  dialog { width: 100vw; max-width: 100vw; margin: auto 0 0; border-radius: 18px 18px 0 0; max-height: 92vh; }
+  dialog > form { max-height: 92vh; }
+  .dlg-pied { border-radius: 0; padding-bottom: max(12px, env(safe-area-inset-bottom)); }
+  #toast { left: 16px; right: 16px; bottom: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
-<main>
-  <header>
-    <h1>Suivi Loyers</h1>
-    <button onclick="document.getElementById('fichier').click()">Importer un relevé</button>
-    <button onclick="analyser()" title="Interroge la banque et importe les relevés déposés dans le dossier a-importer">Actualiser</button>
-    <button onclick="ouvrirBanque()">Banque</button>
-    <button onclick="ouvrirReglages()">Réglages</button>
-    <button class="principal" onclick="ouvrirBail()">＋ Logement</button>
+<div id="chargement"></div>
+<div class="barre">
+  <div class="barre-int">
+    <div class="marque"><img src="/icone.png" alt="">Suivi Loyers</div>
+    <button class="pastille-synchro masque-mobile" id="pastille" onclick="ouvrirBanque()"></button>
+    <button id="btnActualiser" onclick="analyser()" title="Interroger la banque et traiter les relevés déposés">
+      <svg class="i"><use href="#i-actualiser"/></svg><span class="masque-mobile">Actualiser</span></button>
+    <button class="fantome icone" onclick="document.getElementById('fichier').click()" title="Importer un relevé (OFX, CSV, QIF, CAMT.053)">
+      <svg class="i"><use href="#i-import"/></svg></button>
+    <button class="fantome icone" onclick="ouvrirBanque()" title="Connexion bancaire"><svg class="i"><use href="#i-banque"/></svg></button>
+    <button class="fantome icone" onclick="ouvrirReglages()" title="Réglages"><svg class="i"><use href="#i-reglages"/></svg></button>
+    <button class="principal" onclick="ouvrirBail()"><svg class="i"><use href="#i-plus"/></svg><span class="masque-mobile">Logement</span></button>
     <input type="file" id="fichier" accept=".csv,.ofx,.qfx,.qif,.xml,.txt" multiple hidden onchange="importer(this.files)">
-  </header>
+  </div>
+  <nav class="onglets" id="onglets">
+    <button data-onglet="accueil" onclick="onglet('accueil')">Tableau de bord</button>
+    <button data-onglet="operations" onclick="onglet('operations')">Opérations<span class="compte" id="compteVerif" hidden></span></button>
+    <button data-onglet="journal" onclick="onglet('journal')">Journal</button>
+  </nav>
+</div>
 
-  <section class="stats" id="stats"></section>
-  <div id="bandeaux"></div>
+<main>
+  <section data-page="accueil">
+    <div class="synthese" id="stats"></div>
+    <div id="bandeaux"></div>
+    <div id="verifier"></div>
+    <h2>Logements <span class="doux" id="nbLogements"></span></h2>
+    <div class="logements" id="baux"></div>
+  </section>
 
-  <div id="verifier"></div>
+  <section data-page="operations" hidden>
+    <div class="filtres">
+      <div class="recherche"><svg class="i"><use href="#i-loupe"/></svg>
+        <input id="rechercheOps" type="search" placeholder="Rechercher un libellé, un montant, un locataire…" oninput="afficherOperations()"></div>
+      <div class="segments" id="filtreOps">
+        <button data-f="tout" class="actif">Tout</button><button data-f="credits">Crédits</button>
+        <button data-f="verifier">À vérifier</button><button data-f="ignores">Ignorés</button>
+      </div>
+    </div>
+    <div class="carte tableau defile" id="operations"></div>
+  </section>
 
-  <h2>Logements</h2>
-  <div id="baux"></div>
+  <section data-page="journal" hidden>
+    <div class="carte tableau" id="journal"></div>
+  </section>
 
-  <details>
-    <summary>Opérations du compte</summary>
-    <div class="tableau defile" id="operations"></div>
-  </details>
-  <details>
-    <summary>Journal</summary>
-    <div class="tableau" id="journal"></div>
-  </details>
-
-  <div class="pied-page" id="pied"></div>
-  <p style="margin-top:14px"><button onclick="quitter()">Quitter Suivi Loyers</button>
-    <span class="doux">La vérification quotidienne continue même application fermée.</span></p>
+  <footer class="pied-page">
+    <div class="infos" id="pied"></div>
+    <button class="fantome" onclick="quitter()"><svg class="i"><use href="#i-quitter"/></svg>Quitter</button>
+  </footer>
 </main>
-<div id="ferme" hidden style="text-align:center;padding:80px 20px;color:var(--doux)">
-  <h2>Suivi Loyers est fermé.</h2><p>Tu peux fermer cet onglet. Pour le rouvrir : double-clic sur l'application.</p></div>
-<div id="depot">Dépose le relevé ici</div>
+<div id="ferme" hidden><img src="/icone.png" alt="" width="64" height="64" style="border-radius:14px">
+  <h2 style="justify-content:center">Suivi Loyers est fermé.</h2>
+  <p>Tu peux fermer cet onglet. Pour le rouvrir : double-clic sur l'application.<br>
+  La vérification quotidienne continue même application fermée.</p></div>
+<div id="depot"><svg class="i"><use href="#i-import"/></svg>Dépose le relevé ici</div>
 <div id="toast"></div>
 
+<!-- ======================================================== fenêtre logement -->
 <dialog id="dlgBail"><form method="dialog" onsubmit="return enregistrerBail(event)">
-  <h3 id="bailTitre">Nouveau logement</h3>
-  <label>Locataire(s)<input name="locataire" required placeholder="Jean Dupont"></label>
-  <label>E-mail du locataire (pour l'envoi des quittances)<input name="email" type="email" placeholder="jean.dupont@exemple.fr"></label>
-  <label>Adresse du logement<textarea name="logement" rows="3" placeholder="Appartement 2, 1er étage&#10;8 rue de la Paix&#10;33000 Bordeaux"></textarea></label>
-  <div class="ligne">
-    <label>Loyer hors charges (€)<input name="loyer" required inputmode="decimal" placeholder="780" oninput="majProrata()"></label>
-    <label>Provision pour charges (€)<input name="charges" inputmode="decimal" placeholder="70" oninput="majProrata()"></label>
+  <div class="dlg-tete"><h3 id="bailTitre">Nouveau logement</h3>
+    <button type="button" class="fantome icone" onclick="this.closest('dialog').close()" aria-label="Fermer"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="dlg-corps">
+    <div class="section">
+      <p class="section-titre">Locataire</p>
+      <div class="ligne">
+        <label>Nom du ou des locataires<input name="locataire" required placeholder="Jean Dupont"></label>
+        <label>E-mail (envoi des quittances)<input name="email" type="email" placeholder="jean.dupont@exemple.fr"></label>
+      </div>
+      <label>Adresse du logement<textarea name="logement" rows="2" placeholder="Appartement 2, 1er étage&#10;8 rue de la Paix, 33000 Bordeaux"></textarea></label>
+    </div>
+    <div class="section">
+      <p class="section-titre">Loyer</p>
+      <div class="ligne trois">
+        <label>Loyer hors charges (€)<input name="loyer" required inputmode="decimal" placeholder="520" oninput="majProrata()"></label>
+        <label>Charges (€)<input name="charges" inputmode="decimal" placeholder="70" oninput="majProrata()"></label>
+        <label>Payable le<input name="jour_echeance" type="number" min="1" max="31" value="5"></label>
+      </div>
+      <label id="champRevision" hidden>Si le montant change : applicable à partir de<input name="revision_depuis" type="month"></label>
+      <p class="aide" id="historiqueMontants" hidden></p>
+    </div>
+    <div class="section">
+      <p class="section-titre">Entrée et dépôt de garantie</p>
+      <div class="ligne">
+        <label>Date d'entrée du locataire<input name="entree" type="date" oninput="majProrata()"></label>
+        <label>Dépôt de garantie (€)<input name="depot" inputmode="decimal" placeholder="0"></label>
+      </div>
+      <label id="champPremier" hidden>Montant dû pour le premier mois (€)
+        <input name="premier_mois" inputmode="decimal" oninput="majProrata()"></label>
+      <p class="aide" id="aideProrata"></p>
+    </div>
+    <div class="section">
+      <p class="section-titre">Reconnaissance des virements</p>
+      <label>Mots à trouver dans le libellé (un payeur par ligne)
+        <textarea name="motifs" rows="2" placeholder="DUPONT&#10;CAF 1234567"></textarea></label>
+      <p class="aide">Un virement est attribué à ce logement si son libellé contient <b>tous les mots</b> d'une des lignes.
+        Vide = le nom du locataire. Ajoute une ligne par payeur (conjoint, garant, CAF…).</p>
+    </div>
+    <details class="repli section">
+      <summary>Options avancées</summary>
+      <div>
+        <div class="ligne">
+          <label>Premier mois suivi<input name="debut" type="month" required></label>
+          <label>Date de sortie (prorata du dernier mois)<input name="sortie" type="date"></label>
+        </div>
+        <input type="hidden" name="fin">
+        <label class="case"><input type="checkbox" name="envoi_auto" checked> Envoyer automatiquement les quittances</label>
+        <label class="case"><input type="checkbox" name="actif" checked> Bail en cours (décocher pour archiver)</label>
+      </div>
+    </details>
   </div>
-  <label id="champRevision" hidden>Nouveau montant applicable à partir de<input name="revision_depuis" type="month"></label>
-  <p class="aide" id="historiqueMontants" hidden></p>
-  <div class="ligne">
-    <label>Date d'entrée du locataire<input name="entree" type="date" oninput="majProrata()"></label>
-    <label>Dépôt de garantie (€)<input name="depot" inputmode="decimal" placeholder="0"></label>
-  </div>
-  <label id="champPremier" hidden>Montant dû pour le premier mois (€)
-    <input name="premier_mois" inputmode="decimal" oninput="majProrata()"></label>
-  <p class="aide" id="aideProrata"></p>
-  <div class="ligne">
-    <label>Payable le (jour du mois)<input name="jour_echeance" type="number" min="1" max="31" value="5"></label>
-    <label>Premier mois suivi<input name="debut" type="month" required></label>
-  </div>
-  <label>Mots à reconnaître dans le libellé du virement
-    <textarea name="motifs" rows="2" placeholder="DUPONT&#10;CAF 1234567"></textarea></label>
-  <p class="aide">Un virement est attribué à ce logement si son libellé contient <b>tous les mots</b> d'une des lignes.
-    Vide = le nom du locataire. Ajoute une ligne par payeur (conjoint, garant, CAF…).</p>
-  <label>Date de sortie (facultatif : dernier mois calculé au prorata)<input name="sortie" type="date"></label>
-  <input type="hidden" name="fin">
-  <label class="case"><input type="checkbox" name="envoi_auto" checked> Envoyer automatiquement les quittances</label>
-  <label class="case"><input type="checkbox" name="actif" checked> Bail en cours</label>
-  <div class="pied">
-    <button type="button" class="danger gauche" id="bailSupprimer" onclick="supprimerBail()">Supprimer</button>
+  <div class="dlg-pied">
+    <button type="button" class="danger gauche fantome" id="bailSupprimer" onclick="supprimerBail()">Supprimer</button>
     <button type="button" onclick="this.closest('dialog').close()">Annuler</button>
     <button class="principal">Enregistrer</button>
   </div>
 </form></dialog>
 
+<!-- ======================================================== fenêtre paiement -->
 <dialog id="dlgPaiement"><form method="dialog" onsubmit="return enregistrerPaiement(event)">
-  <h3>Paiement reçu hors virement</h3>
-  <p class="aide" id="paiementQui"></p>
-  <div class="ligne">
-    <label>Date<input name="date" type="date" required></label>
-    <label>Montant (€)<input name="montant" required inputmode="decimal"></label>
+  <div class="dlg-tete"><h3>Paiement hors virement</h3>
+    <button type="button" class="fantome icone" onclick="this.closest('dialog').close()" aria-label="Fermer"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="dlg-corps">
+    <p class="aide" id="paiementQui"></p>
+    <div class="ligne">
+      <label>Date<input name="date" type="date" required></label>
+      <label>Montant (€)<input name="montant" required inputmode="decimal"></label>
+    </div>
+    <label>Note<input name="note" placeholder="Chèque n° …, espèces…"></label>
   </div>
-  <label>Note<input name="note" placeholder="Chèque n° …, espèces…"></label>
-  <div class="pied">
+  <div class="dlg-pied">
     <button type="button" onclick="this.closest('dialog').close()">Annuler</button>
-    <button class="principal">Ajouter</button>
+    <button class="principal">Ajouter le paiement</button>
   </div>
 </form></dialog>
 
+<!-- ======================================================== fenêtre banque -->
 <dialog id="dlgBanque"><form method="dialog" onsubmit="return false">
-  <h3>Connexion automatique à la banque</h3>
-  <p class="aide">Suivi Loyers lit les opérations du compte des loyers <b>en lecture seule</b>, par la voie officielle
-    des banques européennes (DSP2), grâce à <b>Enable Banking</b> : gratuit pour relier tes propres comptes.
-    Aucun mot de passe bancaire n'est saisi ici : tu t'identifies sur le site de ta banque.</p>
-  <div id="banqueEtat"></div>
+  <div class="dlg-tete"><h3>Connexion bancaire</h3>
+    <button type="button" class="fantome icone" onclick="this.closest('dialog').close()" aria-label="Fermer"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="dlg-corps">
+    <div id="banqueEtat"></div>
+    <details class="repli section" id="repliConnexion">
+      <summary id="titreConnexion">Connecter ou reconnecter la banque</summary>
+      <div>
+        <p class="aide">Lecture seule, par la voie officielle des banques européennes (DSP2), via <b>Enable Banking</b> :
+          gratuit pour tes propres comptes. Aucun mot de passe bancaire n'est saisi ici.</p>
+        <p class="section-titre"><span class="etape" id="etape1">1</span>Ton application Enable Banking</p>
+        <ol class="aide" style="padding-left:18px;margin:0;display:grid;gap:4px">
+          <li>Compte sur <a href="https://enablebanking.com/sign-in/" target="_blank" rel="noopener">enablebanking.com</a>, puis
+            <a href="https://enablebanking.com/cp/applications" target="_blank" rel="noopener">Applications</a>.</li>
+          <li>« Register new application » : <b>Production</b>, URL de redirection <b id="urlRetourAide"></b>,
+            clé « Generate in the browser » (fichier <b>.pem</b>).</li>
+          <li><b>« Activate by linking accounts »</b> et relie le compte des loyers.</li>
+        </ol>
+        <label>Application ID<input name="app_id" placeholder="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee" autocomplete="off"></label>
+        <div class="ligne">
+          <label>Clé privée (.pem)<input name="cle" type="file" accept=".pem,.key,.txt"></label>
+          <label>URL de redirection<input name="redirect_url"></label>
+        </div>
+        <div><button type="button" onclick="enregistrerBanque()">Enregistrer</button></div>
 
-  <h4>1. Ton accès Enable Banking (une seule fois)</h4>
-  <ol class="aide" style="padding-left:18px;margin:0;display:grid;gap:4px">
-    <li>Crée un compte sur <a href="https://enablebanking.com/sign-in/" target="_blank" rel="noopener">enablebanking.com</a>
-      puis ouvre le <a href="https://enablebanking.com/cp/applications" target="_blank" rel="noopener">panneau de contrôle › Applications</a>.</li>
-    <li>« Register new application » : environnement <b>Production</b>, nom « Suivi Loyers », URL de redirection
-      <b id="urlRetourAide"></b>, et « Generate in the browser » pour la clé : le fichier <b>.pem</b> se télécharge.</li>
-    <li>Sur l'application créée : <b>« Activate by linking accounts »</b> et relie le compte des loyers (mode restreint, gratuit).</li>
-  </ol>
-  <label>Identifiant de l'application (Application ID)<input name="app_id" placeholder="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee" autocomplete="off"></label>
-  <label>Clé privée (fichier .pem téléchargé)<input name="cle" type="file" accept=".pem,.key,.txt"></label>
-  <label>URL de redirection (identique à celle déclarée)<input name="redirect_url"></label>
-  <div class="pied"><button type="button" onclick="enregistrerBanque()">Enregistrer</button></div>
+        <p class="section-titre"><span class="etape" id="etape2">2</span>Autoriser l'accès au compte</p>
+        <div style="display:flex;gap:8px">
+          <select name="banque"><option value="">Choisis ta banque…</option></select>
+          <button type="button" onclick="chargerBanques()">Charger la liste</button>
+        </div>
+        <p class="aide">Banque Populaire : choisis <b>ta banque régionale</b> (« Banque Populaire Grand Ouest », « BRED »…).</p>
+        <div><button type="button" class="principal" onclick="connecterBanque()">Se connecter à la banque</button></div>
 
-  <h4>2. Autoriser l'accès au compte</h4>
-  <div class="ligne" style="grid-template-columns:1fr auto">
-    <select name="banque"><option value="">Choisis ta banque…</option></select>
-    <button type="button" onclick="chargerBanques()">Charger la liste</button>
+        <p class="section-titre"><span class="etape" id="etape3">3</span>Coller l'adresse de retour</p>
+        <label>Après validation sur le site de la banque, tu arrives sur « Example Domain » : copie l'adresse complète
+          de la barre du navigateur et colle-la ici
+          <input name="adresse" placeholder="https://example.com/redirect?state=…&amp;code=…" autocomplete="off"></label>
+        <div><button type="button" class="principal" onclick="terminerBanque()">Valider la connexion</button></div>
+      </div>
+    </details>
+    <div class="section">
+      <p class="section-titre"><span class="etape" id="etape4">✓</span>Vérification automatique chaque jour</p>
+      <p class="aide">Ton ordinateur interroge la banque une fois par jour, reconnaît les loyers et envoie les quittances,
+        même application fermée. S'il dort à l'heure prévue, la vérification se fait au réveil (Mac).</p>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <input name="heure" type="time" value="09:00" style="width:120px">
+        <span class="aide" id="planEtat" style="flex:1"></span>
+        <button type="button" id="planBouton" onclick="planifier()">Activer</button>
+      </div>
+    </div>
   </div>
-  <p class="aide">Banque Populaire : choisis <b>ta banque régionale</b> (ex. « Banque Populaire Grand Ouest », « BRED »…).</p>
-  <div class="pied"><button type="button" class="principal" onclick="connecterBanque()">Se connecter à la banque</button></div>
-  <label>3. Une fois validé sur le site de la banque, tu arrives sur une page « Example Domain »
-    (c'est normal) : copie son adresse complète depuis la barre du navigateur et colle-la ici
-    <input name="adresse" placeholder="https://example.com/redirect?state=…&amp;code=…" autocomplete="off"></label>
-  <h4>4. Vérification automatique chaque jour</h4>
-  <p class="aide">Ton ordinateur interroge la banque une fois par jour, reconnaît les loyers et envoie les quittances,
-    sans que l'interface soit ouverte. S'il est éteint ou en veille à l'heure prévue, la vérification se fait
-    au prochain réveil (Mac) ou au jour suivant.</p>
-  <div class="ligne" style="grid-template-columns:auto 1fr auto;align-items:center">
-    <input name="heure" type="time" value="09:00" style="width:120px">
-    <span class="aide" id="planEtat"></span>
-    <button type="button" id="planBouton" onclick="planifier()">Activer</button>
-  </div>
-  <div class="pied">
-    <button type="button" class="gauche danger" id="banqueDeco" onclick="deconnecterBanque()">Déconnecter</button>
+  <div class="dlg-pied">
+    <button type="button" class="gauche danger fantome" id="banqueDeco" onclick="deconnecterBanque()">Déconnecter</button>
     <button type="button" onclick="this.closest('dialog').close()">Fermer</button>
-    <button type="button" class="principal" onclick="terminerBanque()">Valider</button>
   </div>
 </form></dialog>
 
+<!-- ======================================================== fenêtre réglages -->
 <dialog id="dlgReglages"><form method="dialog" onsubmit="return enregistrerReglages(event)">
-  <h3>Réglages</h3>
-  <h4>Bailleur (figure sur les quittances)</h4>
-  <label>Nom ou raison sociale<input name="b_nom" placeholder="Arthur Martin ou SCI Les Lilas"></label>
-  <label>Signataire (si différent)<input name="b_signataire" placeholder="Arthur Martin, gérant"></label>
-  <label>Adresse<textarea name="b_adresse" rows="2"></textarea></label>
-  <div class="ligne">
-    <label>Ville (« Fait à … »)<input name="b_ville"></label>
-    <label>Ton e-mail<input name="b_email" type="email"></label>
+  <div class="dlg-tete"><h3>Réglages</h3>
+    <button type="button" class="fantome icone" onclick="this.closest('dialog').close()" aria-label="Fermer"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="dlg-corps">
+    <div class="section">
+      <p class="section-titre">Bailleur — figure sur les quittances</p>
+      <div class="ligne">
+        <label>Nom ou raison sociale<input name="b_nom" placeholder="Arthur Martin ou SCI Les Lilas"></label>
+        <label>Signataire (si différent)<input name="b_signataire" placeholder="Arthur Martin, gérant"></label>
+      </div>
+      <label>Adresse<textarea name="b_adresse" rows="2"></textarea></label>
+      <div class="ligne">
+        <label>Ville (« Fait à … »)<input name="b_ville"></label>
+        <label>Ton e-mail<input name="b_email" type="email"></label>
+      </div>
+    </div>
+    <div class="section">
+      <p class="section-titre">Envoi des e-mails</p>
+      <p class="aide">Gmail : <b>smtp.gmail.com</b>, port 465, avec un <b>mot de passe d'application</b>
+        (myaccount.google.com/apppasswords). Outlook : smtp-mail.outlook.com, 587. Orange : smtp.orange.fr, 465. Free : smtp.free.fr, 465.</p>
+      <div class="ligne">
+        <label>Serveur SMTP<input name="s_hote" placeholder="smtp.gmail.com"></label>
+        <label>Adresse d'expédition<input name="s_expediteur" type="email"></label>
+      </div>
+      <div class="ligne">
+        <label>Mot de passe<input name="mdp" type="password" autocomplete="new-password" id="champMdp"></label>
+        <label>Nom affiché<input name="s_nom_expediteur"></label>
+      </div>
+      <details class="repli">
+        <summary>Port, sécurité, identifiant</summary>
+        <div>
+          <div class="ligne trois">
+            <label>Port<input name="s_port" type="number" placeholder="465"></label>
+            <label>Sécurité<select name="s_securite"><option value="ssl">SSL/TLS</option><option value="starttls">STARTTLS</option></select></label>
+            <label>Identifiant<input name="s_utilisateur" autocomplete="off" placeholder="si différent"></label>
+          </div>
+        </div>
+      </details>
+      <label class="case"><input type="checkbox" name="s_copie_bailleur"> M'envoyer une copie cachée de chaque e-mail</label>
+      <div><button type="button" onclick="testEmail()"><svg class="i"><use href="#i-mail"/></svg>Envoyer un e-mail de test</button></div>
+    </div>
+    <div class="section">
+      <p class="section-titre">Quittances</p>
+      <label class="case"><input type="checkbox" name="r_envoi_auto"> Envoyer la quittance automatiquement dès le paiement complet</label>
+      <label style="max-width:260px">Retard signalé après l'échéance + (jours)<input name="r_jours_grace" type="number" min="0" max="31"></label>
+      <details class="repli">
+        <summary>Modèle de l'e-mail</summary>
+        <div>
+          <label>Objet<input name="r_sujet"></label>
+          <label>Texte<textarea name="r_texte" rows="8"></textarea></label>
+          <p class="aide">Variables : {locataire} {periode} {montant} {date_paiement} {logement} {bailleur}</p>
+        </div>
+      </details>
+    </div>
   </div>
-  <h4>Envoi des e-mails (SMTP)</h4>
-  <p class="aide">Gmail : smtp.gmail.com, port 465, avec un <b>mot de passe d'application</b>
-    (compte Google &gt; Sécurité &gt; Validation en deux étapes &gt; Mots de passe des applications).
-    Outlook : smtp-mail.outlook.com, port 587. Orange : smtp.orange.fr, 465. Free : smtp.free.fr, 465.</p>
-  <div class="ligne">
-    <label>Serveur SMTP<input name="s_hote" placeholder="smtp.gmail.com"></label>
-    <label>Port<input name="s_port" type="number" placeholder="465"></label>
-  </div>
-  <div class="ligne">
-    <label>Adresse d'expédition<input name="s_expediteur" type="email"></label>
-    <label>Nom affiché<input name="s_nom_expediteur"></label>
-  </div>
-  <div class="ligne">
-    <label>Identifiant (si différent)<input name="s_utilisateur" autocomplete="off"></label>
-    <label>Mot de passe<input name="mdp" type="password" autocomplete="new-password" id="champMdp"></label>
-  </div>
-  <label>Sécurité<select name="s_securite"><option value="ssl">SSL/TLS (465)</option><option value="starttls">STARTTLS (587)</option></select></label>
-  <label class="case"><input type="checkbox" name="s_copie_bailleur"> M'envoyer une copie cachée de chaque e-mail</label>
-  <h4>Fonctionnement</h4>
-  <label class="case"><input type="checkbox" name="r_envoi_auto"> Envoyer la quittance automatiquement dès le paiement complet</label>
-  <label>Retard signalé après l'échéance + (jours)<input name="r_jours_grace" type="number" min="0" max="31"></label>
-  <label>Objet de l'e-mail<input name="r_sujet"></label>
-  <label>Texte de l'e-mail<textarea name="r_texte" rows="8"></textarea></label>
-  <p class="aide">Variables : {locataire} {periode} {montant} {date_paiement} {logement} {bailleur}</p>
-  <div class="pied">
-    <button type="button" class="gauche" onclick="testEmail()">Envoyer un e-mail de test</button>
+  <div class="dlg-pied">
     <button type="button" onclick="this.closest('dialog').close()">Fermer</button>
     <button class="principal">Enregistrer</button>
   </div>
 </form></dialog>
+
+<!-- ======================================================== icônes -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-actualiser" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></symbol>
+  <symbol id="i-import" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></symbol>
+  <symbol id="i-banque" viewBox="0 0 24 24"><path d="M3 10 12 4l9 6"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"/><path d="M3 21h18"/></symbol>
+  <symbol id="i-reglages" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-loupe" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-alerte" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-maison" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9v12h14V9"/><path d="M10 21v-6h4v6"/></symbol>
+  <symbol id="i-euro" viewBox="0 0 24 24"><path d="M18 7a7 7 0 1 0 0 10"/><path d="M4 10h10M4 14h10"/></symbol>
+  <symbol id="i-calendrier" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></symbol>
+  <symbol id="i-crayon" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-quitter" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-fichier" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></symbol>
+  <symbol id="i-cle" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3"/></symbol>
+</svg>
 
 <script>
 const JETON = "@JETON@";
-let E = null, bailEdite = null, paiementBail = null;
+let E = null, bailEdite = null, paiementBail = null, filtreOps = "tout";
+const ouverts = new Set();                       // logements dont tous les mois sont dépliés
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const eur = c => (c / 100).toLocaleString("fr-FR", {style: "currency", currency: "EUR"});
@@ -291,36 +574,57 @@ const euroSaisie = c => (c / 100).toFixed(2).replace(".", ",").replace(",00", ""
 const MOIS = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
 const moisSuivant = p => { let [a, m] = p.split("-").map(Number); m++; if (m > 12) { m = 1; a++; } return a + "-" + String(m).padStart(2, "0"); };
 const per = p => { const [a, m] = p.split("-"); return MOIS[+m - 1] + " " + a; };
+const perCourt = p => { const [a, m] = p.split("-"); return MOIS[+m - 1].slice(0, 4).replace(/\.$/, "") + ". " + a.slice(2); };
 const dateFr = s => s ? new Date(s.slice(0, 10) + "T12:00").toLocaleDateString("fr-FR") : "";
+const ico = (n, cls = "i") => `<svg class="${cls}"><use href="#i-${n}"/></svg>`;
+const initiales = n => n.split(/[\s-]+/).filter(Boolean).slice(0, 2).map(m => m[0].toUpperCase()).join("");
+const depuis = s => {                                  // « il y a 2 h » pour un horodatage « AAAA-MM-JJ HH:MM »
+  if (!s) return "jamais";
+  const t = new Date(s.replace(" ", "T")), min = Math.round((Date.now() - t) / 60000);
+  if (isNaN(min)) return s;
+  if (min < 1) return "à l'instant";
+  if (min < 60) return `il y a ${min} min`;
+  if (min < 1440) return `il y a ${Math.round(min / 60)} h`;
+  return "le " + t.toLocaleDateString("fr-FR", {day: "numeric", month: "short"});
+};
 
 function toast(msg, erreur) {
   const t = $("#toast");
-  // une fenêtre ouverte (Réglages, Banque…) passe au-dessus de tout le reste : le message va dedans
+  // une fenêtre ouverte passe au-dessus de tout le reste : le message s'affiche aussi dedans
   const dlg = document.querySelector("dialog[open]");
   (dlg || document.body).appendChild(t);
   if (dlg) {
     let zone = dlg.querySelector(".message-dlg");
     if (!zone) {
       zone = document.createElement("p"); zone.className = "message-dlg";
-      dlg.querySelector("form").prepend(zone);
+      (dlg.querySelector(".dlg-corps") || dlg.querySelector("form")).prepend(zone);
     }
     zone.textContent = msg; zone.classList.toggle("erreur", !!erreur); zone.hidden = false;
-    zone.scrollIntoView({block: "nearest"});
+    zone.scrollIntoView({block: "nearest", behavior: "smooth"});
   }
-  t.textContent = msg; t.className = "visible" + (erreur ? " erreur" : "");
+  t.innerHTML = ico(erreur ? "alerte" : "ok") + `<span>${esc(msg)}</span>`;
+  t.className = "visible" + (erreur ? " erreur" : "");
   clearTimeout(toast.t); toast.t = setTimeout(() => t.className = "", erreur ? 10000 : 3500);
 }
 addEventListener("unhandledrejection", e => e.preventDefault());   // l'erreur est déjà affichée
 document.addEventListener("close", e => { const z = e.target.querySelector?.(".message-dlg"); if (z) z.hidden = true; }, true);
 
-async function api(chemin, corps) {
-  const r = await fetch("/api/" + chemin, corps === undefined ? {headers: {"X-Jeton": JETON}} :
-    {method: "POST", headers: {"X-Jeton": JETON, "Content-Type": "application/json"}, body: JSON.stringify(corps)});
-  const d = await r.json().catch(() => ({erreur: "Réponse illisible"}));
-  if (!r.ok) { toast(d.erreur || "Erreur", true); throw new Error(d.erreur); }
-  if (d.baux) { E = d; afficher(); }
-  if (d.message) toast(d.message);
-  return d;
+let enCours = 0;
+async function api(chemin, corps, bouton) {
+  enCours++; document.body.classList.add("occupe");
+  if (bouton) { bouton.disabled = true; bouton.classList.add("tourne"); }
+  try {
+    const r = await fetch("/api/" + chemin, corps === undefined ? {headers: {"X-Jeton": JETON}} :
+      {method: "POST", headers: {"X-Jeton": JETON, "Content-Type": "application/json"}, body: JSON.stringify(corps)});
+    const d = await r.json().catch(() => ({erreur: "Réponse illisible"}));
+    if (!r.ok) { toast(d.erreur || "Erreur", true); throw new Error(d.erreur); }
+    if (d.baux) { E = d; afficher(); }
+    if (d.message) toast(d.message);
+    return d;
+  } finally {
+    if (--enCours <= 0) { enCours = 0; document.body.classList.remove("occupe"); }
+    if (bouton) { bouton.disabled = false; bouton.classList.remove("tourne"); }
+  }
 }
 
 function statutClasse(s) { return s.includes("retard") ? "retard" : s.split(" ")[0]; }
@@ -329,112 +633,195 @@ function statutTexte(e) {
           "en retard": "En retard", "partiel en retard": "Partiel, en retard", "futur": "À venir"}[e.statut] || e.statut;
 }
 
-function afficher() {
-  const s = E.stats;
-  $("#stats").innerHTML = `
-    <div class="stat"><span>Attendu en ${per(E.courant)}</span><b>${eur(s.attendu)}</b></div>
-    <div class="stat"><span>Reçu</span><b>${eur(s.recu)}</b></div>
-    <div class="stat ${s.en_retard ? "rouge" : ""}"><span>Loyers en retard</span><b>${s.en_retard}</b></div>
-    <div class="stat ${s.a_verifier ? "orange" : ""}"><span>Virements à vérifier</span><b>${s.a_verifier}</b></div>`;
+// ----------------------------------------------------------------- onglets
+function onglet(nom) {
+  document.querySelectorAll("[data-page]").forEach(s => s.hidden = s.dataset.page !== nom);
+  document.querySelectorAll("#onglets button").forEach(b => b.classList.toggle("actif", b.dataset.onglet === nom));
+  try { localStorage.setItem("onglet", nom); } catch (e) {}
+  if (location.hash !== "#" + nom) history.replaceState(null, "", "#" + nom);
+  scrollTo({top: 0});
+}
+document.querySelectorAll("#filtreOps button").forEach(b => b.onclick = () => {
+  filtreOps = b.dataset.f;
+  document.querySelectorAll("#filtreOps button").forEach(x => x.classList.toggle("actif", x === b));
+  afficherOperations();
+});
 
+// ----------------------------------------------------------------- affichage
+function afficher() {
+  const s = E.stats, bq = E.banque;
+  const actifs = E.baux.filter(x => x.actif !== false);
+  const duMois = actifs.map(x => x.mois_courant).filter(Boolean);
+  const nbPayes = duMois.filter(m => m.paye >= m.du).length;
+  const pct = s.attendu ? Math.min(100, Math.round(s.recu / s.attendu * 100)) : 0;
+  $("#stats").innerHTML = `
+    <div class="carte principale">
+      <div class="tuile-titre">${ico("calendrier")}Loyers de ${per(E.courant)}</div>
+      <div class="montant-grand">${eur(s.recu)} <small>sur ${eur(s.attendu)}</small></div>
+      <div class="progression"><i style="width:${pct}%"></i></div>
+      <div class="legende"><span><b>${nbPayes}</b> payé${nbPayes > 1 ? "s" : ""} sur ${duMois.length}</span>
+        <span><b>${pct} %</b> encaissé</span>${s.attendu > s.recu ? `<span>reste <b>${eur(s.attendu - s.recu)}</b></span>` : ""}</div>
+    </div>
+    <div class="carte tuile ${s.en_retard ? "rouge" : "ok"}" onclick="allerA('baux')">
+      <div class="tuile-titre">${ico("alerte")}En retard</div>
+      <div class="montant-grand">${s.en_retard}</div>
+      <div class="doux">${s.en_retard ? "loyer" + (s.en_retard > 1 ? "s" : "") + " à relancer" : "aucun retard"}</div>
+    </div>
+    <div class="carte tuile ${s.a_verifier ? "orange" : "ok"}" onclick="${s.a_verifier ? "allerA('verifier')" : "onglet('operations')"}">
+      <div class="tuile-titre">${ico("euro")}À vérifier</div>
+      <div class="montant-grand">${s.a_verifier}</div>
+      <div class="doux">${s.a_verifier ? "virement" + (s.a_verifier > 1 ? "s" : "") + " non reconnu" + (s.a_verifier > 1 ? "s" : "") : "tout est attribué"}</div>
+    </div>`;
+
+  // pastille de synchronisation
+  const etatPastille = !bq.connectee ? ["", "Banque non connectée"] : bq.erreur ? ["ko", "Synchronisation en échec"]
+    : ["ok", "Banque synchronisée " + depuis(bq.derniere_synchro)];
+  $("#pastille").innerHTML = `<span class="point ${etatPastille[0]}"></span>${esc(etatPastille[1])}`;
+  const cv = $("#compteVerif"); cv.hidden = !s.a_verifier; cv.textContent = s.a_verifier;
+
+  // bandeaux
   const b = [];
-  if (!E.bailleur.nom) b.push(["Renseigne ton nom et ton adresse : ils figurent sur les quittances.", "Réglages", "ouvrirReglages()"]);
-  const bq = E.banque;
-  if (!bq.connectee) b.push(["Relie le compte bancaire des loyers pour que les paiements soient vérifiés automatiquement, sans importer de fichier.", "Connecter la banque", "ouvrirBanque()"]);
-  else if (!E.planification) b.push(["La banque est connectée, mais la vérification quotidienne n'est pas activée.", "Activer", "ouvrirBanque()"]);
-  else if (bq.erreur) b.push(["Synchronisation bancaire en échec : " + esc(bq.erreur), "Banque", "ouvrirBanque()"]);
-  else if (bq.valide_jusqu && (new Date(bq.valide_jusqu) - new Date()) / 864e5 <= 10) b.push([`L'accès bancaire expire le ${dateFr(bq.valide_jusqu)} : reconnecte la banque pour continuer.`, "Reconnecter", "ouvrirBanque()"]);
-  if (!E.smtp.hote || !E.smtp.expediteur) b.push(["L'envoi des e-mails n'est pas configuré : les quittances sont générées mais pas envoyées.", "Configurer", "ouvrirReglages()"]);
-  $("#bandeaux").innerHTML = b.map(([t, l, f]) => `<div class="bandeau"><p>${t}</p><button onclick="${f}">${l}</button></div>`).join("");
+  if (!E.bailleur.nom) b.push(["", "maison", "Renseigne ton nom et ton adresse : ils figurent sur les quittances.", "Réglages", "ouvrirReglages()"]);
+  if (!bq.connectee) b.push(["", "banque", "Relie le compte des loyers pour que les paiements soient vérifiés automatiquement.", "Connecter la banque", "ouvrirBanque()"]);
+  else if (!E.planification) b.push(["", "calendrier", "La banque est connectée, mais la vérification quotidienne n'est pas activée.", "Activer", "ouvrirBanque()"]);
+  else if (bq.erreur) b.push(["ko", "alerte", "Synchronisation bancaire en échec : " + esc(bq.erreur), "Voir", "ouvrirBanque()"]);
+  else if (bq.valide_jusqu && (new Date(bq.valide_jusqu) - new Date()) / 864e5 <= 10)
+    b.push(["", "cle", `L'accès bancaire expire le ${dateFr(bq.valide_jusqu)} : reconnecte la banque pour continuer.`, "Reconnecter", "ouvrirBanque()"]);
+  if (!E.smtp.hote || !E.smtp.expediteur) b.push(["", "mail", "L'envoi des e-mails n'est pas configuré : les quittances sont créées mais pas envoyées.", "Configurer", "ouvrirReglages()"]);
+  $("#bandeaux").innerHTML = b.map(([c, i, t, l, f]) =>
+    `<div class="bandeau ${c}"><span class="ic">${ico(i)}</span><p>${t}</p><button class="petit" onclick="${f}">${l}</button></div>`).join("");
 
   // virements à vérifier
-  const actifs = E.baux.filter(x => x.actif !== false);
   const options = actifs.map(x => `<option value="${x.id}">${esc(x.locataire)}</option>`).join("");
-  $("#verifier").innerHTML = !E.a_verifier.length ? "" : `<h2>Virements reçus non reconnus</h2>
-    <p class="aide" style="margin:-6px 0 10px">Choisis le logement concerné, ou ignore le virement s'il ne s'agit pas d'un loyer
-      (dépôt de garantie, remboursement…). Pour qu'il soit reconnu automatiquement la prochaine fois, ajoute un mot de son libellé au logement.</p>
-    <div class="tableau defile"><table><tr><th>Date</th><th>Libellé</th><th class="n">Montant</th><th></th></tr>
-    ${E.a_verifier.map(o => `<tr><td>${dateFr(o.date)}</td><td class="lib">${esc(o.libelle)}</td>
-      <td class="n credit">${eur(o.montant)}</td><td class="actions">
-      ${o.suggestion ? `<button class="petit principal" onclick="affecter('${o.id}', ${o.suggestion})">C'est ${esc(o.suggestion_nom)}</button>` : ""}
-      <select class="petit" style="width:auto;padding:3px 6px" onchange="this.value && affecter('${o.id}', this.value)">
-        <option value="">Attribuer à…</option>${options}</select>
-      <button class="lien" onclick="api('operations/${o.id}/ignorer', {})">Ignorer</button></td></tr>`).join("")}
-    </table></div>`;
+  $("#verifier").innerHTML = !E.a_verifier.length ? "" : `<h2 id="ancre-verifier">Virements à vérifier
+      <span class="doux">— choisis le logement, ou ignore s'il ne s'agit pas d'un loyer</span></h2>
+    <div class="verif">${E.a_verifier.map(o => `<div class="carte">
+      <div class="lib"><b>${esc(o.libelle) || "<span class='doux'>sans libellé</span>"}</b><span class="doux">${dateFr(o.date)}</span></div>
+      <span class="somme">${eur(o.montant)}</span>
+      <div class="actions">
+        ${o.suggestion ? `<button class="petit principal" onclick="affecter('${o.id}', ${o.suggestion}, this)">${ico("ok")}C'est ${esc(o.suggestion_nom)}</button>` : ""}
+        <select class="compact" onchange="this.value && affecter('${o.id}', this.value)"><option value="">Attribuer à…</option>${options}</select>
+        <button class="petit fantome" onclick="api('operations/${o.id}/ignorer', {}, this)">Ignorer</button>
+      </div></div>`).join("")}</div>`;
 
   // logements
-  $("#baux").innerHTML = !E.baux.length ? `<div class="vide-etat">Aucun logement.<br><br>
-      <button class="principal" onclick="ouvrirBail()">＋ Ajouter un logement</button></div>` :
-    E.baux.map(x => {
-      const c = x.mois_courant;
-      return `<div class="carte ${x.actif === false ? "archive" : ""}">
-      <div class="carte-tete">
-        <div><div class="nom">${esc(x.locataire)} ${c && x.actif !== false ? `<span class="etiquette ${statutClasse(c.statut)}">${statutTexte(c)}</span>` : ""}
-          ${x.actif === false ? `<span class="etiquette">Archivé</span>` : ""}</div>
-          <div class="sous">${esc(x.logement)}</div>
-          <div class="sous">${x.email ? esc(x.email) : "⚠︎ pas d'e-mail : quittances non envoyées"} · payable le ${x.jour_echeance}
-            · reconnaît « ${esc((x.motifs.length ? x.motifs : [x.locataire]).join(" » ou « "))} »</div></div>
-        <div class="montant"><b>${eur(x.loyer + x.charges)}</b><div class="doux">${eur(x.loyer)} + ${eur(x.charges)} de charges</div>
-          ${x.trop_percu ? `<div class="doux">Trop-perçu : ${eur(x.trop_percu)}</div>` : ""}
-          ${x.depot_etat && x.depot_etat.du ? `<div class="doux">Dépôt de garantie : ${x.depot_etat.paye >= x.depot_etat.du
-            ? `${eur(x.depot_etat.du)} reçu le ${dateFr(x.depot_etat.date)}` : `${eur(x.depot_etat.paye)} reçu sur ${eur(x.depot_etat.du)}`}</div>` : ""}
-          <div style="margin-top:6px"><button class="lien" onclick="ouvrirPaiement(${x.id})">Paiement manuel</button>
-          <button class="lien" onclick="ouvrirBail(${x.id})">Modifier</button></div></div>
+  $("#nbLogements").textContent = E.baux.length ? `— ${actifs.length} en cours` : "";
+  $("#baux").innerHTML = !E.baux.length ? `<div class="carte vide-etat">${ico("maison")}
+      <h3>Aucun logement pour l'instant</h3><p>Ajoute ton premier logement pour suivre ses loyers.</p>
+      <button class="principal" onclick="ouvrirBail()">${ico("plus")}Ajouter un logement</button></div>` :
+    E.baux.map(carteLogement).join("");
+
+  afficherOperations();
+  $("#journal").innerHTML = E.journal.length ? `<table><tbody>${E.journal.map(j =>
+      `<tr><td class="doux" style="white-space:nowrap;width:1%">${esc(j.date)}</td><td>${esc(j.texte)}</td></tr>`).join("")}</tbody></table>`
+    : `<div class="vide-etat">Le journal est vide.</div>`;
+  $("#pied").innerHTML = `<span>Suivi Loyers ${esc(E.version)} · dernière analyse ${esc(depuis(E.dernier_scan))}`
+    + (bq.connectee ? ` · ${esc(bq.banque)}, accès valable jusqu'au ${dateFr(bq.valide_jusqu)}` : "") + `</span>
+    <span>Quittances : ${esc(E.dossiers.quittances)}</span><span>Relevés à déposer : ${esc(E.dossiers.boite)}</span>`;
+}
+
+function carteLogement(x) {
+  const c = x.mois_courant, archive = x.actif === false;
+  const passes = x.mois.filter(m => m.periode <= E.courant);
+  const futurs = x.mois.filter(m => m.periode > E.courant);
+  const frise = [...passes].reverse().slice(-12).map(m =>
+    `<i class="${statutClasse(m.statut)} ${m.periode === E.courant ? "courant" : ""}" title="${per(m.periode)} : ${statutTexte(m)} — ${eur(m.paye)} / ${eur(m.du)}">${MOIS[+m.periode.slice(5) - 1][0].toUpperCase()}</i>`).join("");
+  const tout = ouverts.has(x.id);
+  const visibles = tout ? x.mois : [...futurs, ...passes.slice(0, 3)];
+  const caches = x.mois.length - visibles.length;
+  const d = x.depot_etat;
+  const meta = [
+    x.email ? `<span>${ico("mail")}${esc(x.email)}</span>` : `<span class="attention">${ico("alerte")}pas d'e-mail : quittances non envoyées</span>`,
+    `<span>${ico("calendrier")}payable le ${x.jour_echeance}</span>`,
+    `<span title="Mots reconnus dans le libellé des virements">${ico("loupe")}« ${esc((x.motifs.length ? x.motifs : [x.locataire]).join(" » ou « "))} »</span>`,
+    d && d.du ? `<span>${ico("cle")}dépôt ${d.paye >= d.du ? `${eur(d.du)} reçu` : `${eur(d.paye)} / ${eur(d.du)}`}</span>` : "",
+    x.trop_percu ? `<span>${ico("euro")}trop-perçu ${eur(x.trop_percu)}</span>` : "",
+  ].join("");
+  return `<article class="carte logement ${archive ? "archive" : ""}" id="logement-${x.id}">
+    <div class="lg-tete">
+      <div class="avatar">${esc(initiales(x.locataire))}</div>
+      <div class="lg-id">
+        <div class="lg-nom">${esc(x.locataire)}
+          ${archive ? `<span class="etiquette">Archivé</span>` : c ? `<span class="etiquette ${statutClasse(c.statut)}">${statutTexte(c)}</span>` : ""}</div>
+        <div class="lg-adresse">${esc((x.logement || "").split("\n").join(" · "))}</div>
+        <div class="lg-meta">${meta}</div>
       </div>
-      <div class="defile"><table><tr><th>Mois</th><th class="n">Dû</th><th class="n">Reçu</th><th>Statut</th><th>Quittance</th><th></th></tr>
-      ${x.mois.map(m => ligneMois(x, m)).join("") || `<tr><td colspan="6" class="doux">Aucun mois à afficher.</td></tr>`}
-      </table></div></div>`;
-    }).join("");
-
-  // opérations
-  const noms = Object.fromEntries(E.baux.map(x => [x.id, x.locataire]));
-  $("#operations").innerHTML = `<table><tr><th>Date</th><th>Libellé</th><th class="n">Montant</th><th>Attribué à</th><th></th></tr>
-    ${E.operations.map(o => `<tr><td>${dateFr(o.date)}</td><td class="lib">${esc(o.libelle)}<div class="doux">${esc(o.source)}${o.doublon_de ? " · doublon probable d'un autre relevé" : ""}</div></td>
-      <td class="n ${o.montant > 0 ? "credit" : ""}">${eur(o.montant)}</td>
-      <td>${o.ignoree ? `<span class="etiquette">Ignoré</span>` : o.bail ? esc(noms[o.bail] || "?") + ` <span class="doux">(${esc(o.methode || "")})</span>` : o.montant > 0 ? `<span class="etiquette partiel">À vérifier</span>` : ""}</td>
-      <td class="actions">${o.ignoree ? `<button class="lien" onclick="api('operations/${o.id}/restaurer', {})">Restaurer</button>` :
-        o.bail ? (o.source === "manuel" ? `<button class="lien danger" onclick="api('operations/${o.id}/supprimer', {})">Supprimer</button>` :
-                  `<button class="lien" onclick="affecter('${o.id}', null)">Détacher</button>`) : ""}</td></tr>`).join("")
-      || `<tr><td colspan="5" class="doux">Aucune opération : importe un relevé (OFX, CSV, QIF ou CAMT.053) exporté depuis ta banque.</td></tr>`}</table>`;
-
-  $("#journal").innerHTML = `<table>${E.journal.map(j => `<tr><td class="doux" style="white-space:nowrap">${esc(j.date)}</td><td>${esc(j.texte)}</td></tr>`).join("")
-    || `<tr><td class="doux">Vide</td></tr>`}</table>`;
-  $("#pied").innerHTML = `<span>Suivi Loyers version ${esc(E.version)}</span>` + (bq.connectee ? `<span>Banque : ${esc(bq.banque)} — synchronisée le ${esc(bq.derniere_synchro || "jamais")}, accès valable jusqu'au ${dateFr(bq.valide_jusqu)}</span>` : "") + `<span>Dernière analyse : ${esc(E.dernier_scan || "jamais")}</span>
-    <span>Relevés à déposer dans : ${esc(E.dossiers.boite)}</span><span>Quittances : ${esc(E.dossiers.quittances)}</span>
-    <span>Données : ${esc(E.dossiers.donnees)}</span>`;
+      <div class="lg-somme"><b class="num">${eur(x.loyer + x.charges)}</b><span class="doux">${eur(x.loyer)} + ${eur(x.charges)} charges</span></div>
+    </div>
+    ${frise ? `<div class="frise" aria-label="12 derniers mois">${frise}</div>` : ""}
+    <table class="mois-table"><colgroup><col style="width:19%"><col style="width:12%"><col style="width:25%">
+      <col style="width:17%"><col style="width:13%"><col></colgroup><thead><tr><th>Mois</th><th class="n">Dû</th><th class="n">Reçu</th><th>Statut</th><th>Quittance</th><th></th></tr></thead>
+      <tbody>${visibles.map(m => ligneMois(x, m)).join("") || `<tr><td colspan="6" class="doux">Aucun mois à afficher.</td></tr>`}</tbody></table>
+    ${caches > 0 || tout ? `<button class="voir-plus" onclick="basculer(${x.id})">${tout ? "Réduire" : `Voir les ${caches} mois précédents`}</button>` : ""}
+    <div class="lg-actions">
+      <button class="lien" onclick="ouvrirPaiement(${x.id})">${ico("euro")}Paiement manuel</button>
+      <button class="lien" onclick="ouvrirBail(${x.id})">${ico("crayon")}Modifier</button>
+    </div>
+  </article>`;
+}
+function basculer(id) { ouverts.has(id) ? ouverts.delete(id) : ouverts.add(id); afficher(); }
+function allerA(quoi) {
+  onglet("accueil");
+  const cible = quoi === "verifier" ? $("#ancre-verifier") : $("#baux");
+  if (cible) cible.scrollIntoView({behavior: "smooth", block: "start"});
 }
 
 function ligneMois(x, m) {
   const q = m.quittance, r = m.recu, b = x.id, p = m.periode;
   let doc = "", act = "";
   if (q) {
-    doc = `<a href="/api/pdf?t=${JETON}&bail=${b}&periode=${p}" target="_blank">PDF</a> ` +
-      (q.envoyee_le ? `<span class="doux">envoyée le ${dateFr(q.envoyee_le)}</span>` :
-       q.erreur ? `<span class="doux" style="color:var(--danger)" title="${esc(q.erreur)}">échec d'envoi</span>` : `<span class="doux">non envoyée</span>`);
-    act = `<button class="lien" onclick="envoyer(${b}, '${p}', 'quittance')">${q.envoyee_le ? "Renvoyer" : "Envoyer"}</button>`;
+    doc = `<a href="/api/pdf?t=${JETON}&bail=${b}&periode=${p}" target="_blank">${ico("fichier")} PDF</a>` +
+      (q.envoyee_le ? `<div class="doux">envoyée le ${dateFr(q.envoyee_le)}</div>` :
+       q.erreur ? `<div class="doux" style="color:var(--danger)" title="${esc(q.erreur)}">échec d'envoi</div>` : `<div class="doux">non envoyée</div>`);
+    act = `<button class="lien" onclick="envoyer(${b}, '${p}', 'quittance', this)">${q.envoyee_le ? "Renvoyer" : "Envoyer"}</button>`;
   } else if (m.paye > 0 && m.paye < m.du && m.statut !== "futur") {
-    doc = r ? `<a href="/api/pdf?t=${JETON}&bail=${b}&periode=${p}&type=recu" target="_blank">Reçu</a> <span class="doux">${r.envoyee_le ? "envoyé" : ""}</span>` : "";
-    act = `<button class="lien" onclick="envoyer(${b}, '${p}', 'recu')">Envoyer un reçu</button>`;
+    doc = r ? `<a href="/api/pdf?t=${JETON}&bail=${b}&periode=${p}&type=recu" target="_blank">${ico("fichier")} Reçu</a><div class="doux">${r.envoyee_le ? "envoyé" : ""}</div>` : "";
+    act = `<button class="lien" onclick="envoyer(${b}, '${p}', 'recu', this)">Envoyer un reçu</button>`;
   } else if (m.statut === "avance") {
     doc = `<span class="doux">émise le 1er du mois</span>`;
   }
   if (m.statut.includes("retard") && x.email)
-    act += `<button class="lien" onclick="relancer(${b}, '${p}')" title="${m.relance ? "Déjà relancé le " + esc(m.relance) : ""}">Relancer${m.relance ? " ✓" : ""}</button>`;
+    act += `<button class="lien" onclick="relancer(${b}, '${p}', this)" title="${m.relance ? "Déjà relancé le " + esc(m.relance) : ""}">Relancer${m.relance ? " ✓" : ""}</button>`;
   // un virement réparti sur plusieurs mois (590 € : 587 € ici + 3 € pour un autre mois) est expliqué
   const recu = eur(m.paye) + (m.details || []).map(v =>
     `<div class="doux">virement de ${eur(v.montant)} du ${dateFr(v.date)} : ${eur(v.part)} ici, `
     + v.autres.map(a => `${eur(a.part)} pour ${a.periode === "depot" ? "le dépôt de garantie" : per(a.periode)}`).join(", ")
     + (v.reste ? `${v.autres.length ? ", " : ""}${eur(v.reste)} en trop-perçu` : "") + "</div>").join("");
   const moisTxt = per(p) + (m.prorata ? `<div class="doux">du ${m.prorata[0]} au ${m.prorata[1]} (prorata)</div>` : "");
-  return `<tr><td>${moisTxt}</td><td class="n">${eur(m.du)}</td><td class="n">${recu}</td>
+  return `<tr><td>${moisTxt}</td><td class="n" data-l="Dû">${eur(m.du)}</td><td class="n" data-l="Reçu">${recu}</td>
     <td><span class="etiquette ${statutClasse(m.statut)}">${statutTexte(m)}</span>
-      ${m.date_paiement ? `<span class="doux">le ${dateFr(m.date_paiement)}</span>` : ""}</td>
+      ${m.date_paiement ? `<div class="doux">le ${dateFr(m.date_paiement)}</div>` : ""}</td>
     <td>${doc}</td><td class="actions">${act}</td></tr>`;
+}
+
+function afficherOperations() {
+  if (!E) return;
+  const noms = Object.fromEntries(E.baux.map(x => [x.id, x.locataire]));
+  const q = ($("#rechercheOps").value || "").trim().toLowerCase();
+  const ops = E.operations.filter(o => {
+    if (filtreOps === "credits" && o.montant <= 0) return false;
+    if (filtreOps === "verifier" && (o.montant <= 0 || o.bail || o.ignoree)) return false;
+    if (filtreOps === "ignores" && !o.ignoree) return false;
+    if (!q) return true;
+    return [o.libelle, noms[o.bail], eur(o.montant), dateFr(o.date), o.source].join(" ").toLowerCase().includes(q);
+  });
+  $("#operations").innerHTML = !E.operations.length
+    ? `<div class="vide-etat">${ico("banque")}<h3>Aucune opération</h3><p>Connecte la banque, ou importe un relevé (OFX, CSV, QIF, CAMT.053).</p></div>`
+    : !ops.length ? `<div class="vide-etat">Aucune opération ne correspond.</div>`
+    : `<table><thead><tr><th>Date</th><th>Libellé</th><th class="n">Montant</th><th>Attribué à</th><th></th></tr></thead><tbody>
+    ${ops.map(o => `<tr><td style="white-space:nowrap">${dateFr(o.date)}</td>
+      <td class="lib">${esc(o.libelle)}<div class="doux">${esc(o.source)}${o.doublon_de ? " · doublon probable d'un autre relevé" : ""}</div></td>
+      <td class="n ${o.montant > 0 ? "credit" : ""}">${eur(o.montant)}</td>
+      <td>${o.ignoree ? `<span class="etiquette">Ignoré</span>` : o.bail ? esc(noms[o.bail] || "?") + `<div class="doux">${esc(o.methode || "")}</div>`
+        : o.montant > 0 ? `<span class="etiquette partiel">À vérifier</span>` : ""}</td>
+      <td class="actions">${o.ignoree ? `<button class="lien" onclick="api('operations/${o.id}/restaurer', {}, this)">Restaurer</button>` :
+        o.bail ? (o.source === "manuel" ? `<button class="lien danger" onclick="api('operations/${o.id}/supprimer', {}, this)">Supprimer</button>` :
+                  `<button class="lien" onclick="affecter('${o.id}', null, this)">Détacher</button>`) : ""}</td></tr>`).join("")}</tbody></table>`;
 }
 
 // ----------------------------------------------------------------- actions
 async function charger() { await api("etat"); }
-function ferme() { document.querySelector("main").hidden = true; $("#ferme").hidden = false; }
+function ferme() { document.querySelector("main").hidden = true; document.querySelector(".barre").hidden = true; $("#ferme").hidden = false; }
 async function quitter() {
   await fetch("/api/quitter", {method: "POST", headers: {"X-Jeton": JETON}}).catch(() => {});
   ferme();
@@ -446,12 +833,12 @@ setInterval(() => {
       .catch(() => ferme());
   else fetch("/api/bonjour", {headers: {"X-Jeton": JETON}}).catch(() => ferme());
 }, 120000);
-const affecter = (op, bail) => api(`operations/${op}/affecter`, {bail});
-const envoyer = (bail, periode, type) => api(type === "recu" ? "recu" : "quittance/envoyer", {bail, periode});
-function relancer(bail, periode) {
-  if (confirm(`Envoyer un e-mail de relance pour le loyer de ${per(periode)} ?`)) api("relance", {bail, periode});
+const affecter = (op, bail, bouton) => api(`operations/${op}/affecter`, {bail}, bouton);
+const envoyer = (bail, periode, type, bouton) => api(type === "recu" ? "recu" : "quittance/envoyer", {bail, periode}, bouton);
+function relancer(bail, periode, bouton) {
+  if (confirm(`Envoyer un e-mail de relance pour le loyer de ${per(periode)} ?`)) api("relance", {bail, periode}, bouton);
 }
-async function analyser() { const d = await api("scan", {}); resume(d.rapport); }
+async function analyser() { const d = await api("scan", {}, $("#btnActualiser")); resume(d.rapport); }
 function resume(r) {
   if (!r) return;
   const morceaux = [];
@@ -471,11 +858,12 @@ async function importer(fichiers) {
   }
   $("#fichier").value = "";
 }
+const boutonEnvoi = f => f.querySelector("button.principal");
 
 function ouvrirBail(id) {
   const f = $("#dlgBail form"); f.reset();
   bailEdite = id ? E.baux.find(x => x.id === id) : null;
-  $("#bailTitre").textContent = bailEdite ? "Modifier le logement" : "Nouveau logement";
+  $("#bailTitre").textContent = bailEdite ? `Modifier — ${bailEdite.locataire}` : "Nouveau logement";
   $("#bailSupprimer").hidden = !bailEdite;
   $("#champRevision").hidden = !bailEdite;
   const h = $("#historiqueMontants");
@@ -484,6 +872,7 @@ function ouvrirBail(id) {
       `<b>${eur(m.loyer + m.charges)}</b> à partir de ${per(m.depuis)}`).join(" ; ")
     + ". Pour corriger un mois passé, indique le bon montant et ce mois dans « applicable à partir de ».";
   f.debut.value = E.courant;
+  f.querySelector("details.repli").open = false;
   if (bailEdite) {
     const x = bailEdite;
     for (const k of ["locataire", "email", "logement", "jour_echeance", "debut"]) f[k].value = x[k] ?? "";
@@ -496,6 +885,7 @@ function ouvrirBail(id) {
   }
   majProrata(true);
   $("#dlgBail").showModal();
+  if (!bailEdite) f.locataire.focus();
 }
 // entrée en cours de mois : premier mois au prorata des jours (modifiable)
 function majProrata(ouverture) {
@@ -517,7 +907,7 @@ async function enregistrerBail(ev) {
   ev.preventDefault();
   const f = ev.target, c = Object.fromEntries(new FormData(f));
   c.envoi_auto = f.envoi_auto.checked; c.actif = f.actif.checked;
-  await api(bailEdite ? `baux/${bailEdite.id}/modifier` : "baux", c);
+  await api(bailEdite ? `baux/${bailEdite.id}/modifier` : "baux", c, boutonEnvoi(f));
   $("#dlgBail").close();
 }
 async function supprimerBail() {
@@ -531,10 +921,11 @@ function ouvrirPaiement(id) {
   f.montant.value = euroSaisie(paiementBail.loyer + paiementBail.charges);
   $("#paiementQui").textContent = paiementBail.locataire + " — chèque, espèces, ou virement arrivé sur un autre compte.";
   $("#dlgPaiement").showModal();
+  f.montant.select();
 }
 async function enregistrerPaiement(ev) {
   ev.preventDefault();
-  await api("paiement", {bail: paiementBail.id, ...Object.fromEntries(new FormData(ev.target))});
+  await api("paiement", {bail: paiementBail.id, ...Object.fromEntries(new FormData(ev.target))}, boutonEnvoi(ev.target));
   $("#dlgPaiement").close();
 }
 function ouvrirReglages() {
@@ -560,36 +951,47 @@ function corpsReglages(f) {
 }
 async function enregistrerReglages(ev) {
   ev.preventDefault();
-  await api("reglages", corpsReglages(ev.target)); toast("Réglages enregistrés"); $("#dlgReglages").close();
+  await api("reglages", corpsReglages(ev.target), boutonEnvoi(ev.target)); toast("Réglages enregistrés"); $("#dlgReglages").close();
 }
 async function testEmail() {
-  const f = $("#dlgReglages form");
+  const f = $("#dlgReglages form"), bouton = document.activeElement;
   await api("reglages", corpsReglages(f)); f.mdp.value = "";
-  await api("test-email", {});
+  await api("test-email", {}, bouton?.tagName === "BUTTON" ? bouton : null);
 }
 
 // ----------------------------------------------------------------- banque
 function etatBanque() {
   const bq = E.banque, f = $("#dlgBanque form");
   const comptes = bq.comptes || [];
-  $("#banqueEtat").innerHTML = !bq.session_id ? `<div class="bandeau" style="margin:0"><p>Pas encore connectée.</p></div>` :
-    `<div class="bandeau" style="margin:0;border-left-color:${bq.erreur ? "var(--danger)" : "var(--ok)"}"><p>
-      <b>${esc(bq.banque)}</b> connectée — accès valable jusqu'au ${dateFr(bq.valide_jusqu)}.<br>
-      Dernière synchronisation : ${esc(bq.derniere_synchro || "jamais")}${bq.erreur ? `<br><span style="color:var(--danger)">${esc(bq.erreur)}</span>` : ""}
-      ${comptes.length > 1 ? `<br><label style="margin-top:6px">Compte qui reçoit les loyers<select onchange="choisirCompte(this.value)">
-        <option value="">Choisis…</option>${comptes.map(c => `<option value="${esc(c.uid)}" ${c.uid === bq.compte ? "selected" : ""}>${esc(c.nom || "Compte")} ${esc(c.iban)}</option>`).join("")}</select></label>` : ""}
-      </p>${bq.connectee ? `<button type="button" onclick="analyser()">Synchroniser maintenant</button>` : ""}</div>`;
+  $("#banqueEtat").innerHTML = !bq.session_id
+    ? `<div class="encadre"><b>Banque non connectée.</b><p class="aide">Suis les trois étapes ci-dessous (une seule fois).</p></div>`
+    : `<div class="encadre ${bq.erreur ? "ko" : "ok"}" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <div style="flex:1;min-width:220px"><b>${esc(bq.banque)}</b> connectée
+        <div class="aide">Accès valable jusqu'au ${dateFr(bq.valide_jusqu)} · synchronisée ${esc(depuis(bq.derniere_synchro))}</div>
+        ${bq.erreur ? `<div class="aide" style="color:var(--danger)">${esc(bq.erreur)}</div>` : ""}
+        ${comptes.length > 1 ? `<label style="margin-top:8px">Compte qui reçoit les loyers<select onchange="choisirCompte(this.value)">
+          <option value="">Choisis…</option>${comptes.map(c => `<option value="${esc(c.uid)}" ${c.uid === bq.compte ? "selected" : ""}>${esc(c.nom || "Compte")} ${esc(c.iban)}</option>`).join("")}</select></label>` : ""}
+      </div>
+      ${bq.connectee ? `<button type="button" onclick="analyser()">${ico("actualiser")}Synchroniser</button>` : ""}</div>`;
   $("#urlRetourAide").textContent = bq.redirect_url;
   $("#planEtat").textContent = E.planification ? "Activée : chaque jour à " + E.planification : "Non activée";
   $("#planBouton").textContent = E.planification ? "Désactiver" : "Activer";
+  $("#planBouton").className = E.planification ? "" : "principal";
   if (E.planification && /^\d\d:\d\d$/.test(E.planification)) f.heure.value = E.planification;
   $("#banqueDeco").hidden = !bq.session_id;
+  const fait = (id, ok, n) => { const e = $(id); e.classList.toggle("faite", ok); e.textContent = ok ? "✓" : n; };
+  fait("#etape1", !!(bq.app_id && bq.cle_presente), "1");
+  fait("#etape2", !!bq.session_id, "2");
+  fait("#etape3", !!bq.connectee, "3");
+  fait("#etape4", !!E.planification, "4");
+  $("#titreConnexion").textContent = bq.session_id ? "Reconnecter ou changer de banque" : "Connecter la banque";
 }
 function ouvrirBanque() {
   const f = $("#dlgBanque form"), bq = E.banque;
   f.app_id.value = bq.app_id || ""; f.redirect_url.value = bq.redirect_url || ""; f.cle.value = ""; f.adresse.value = "";
   if (bq.banque && ![...f.banque.options].some(o => o.value === bq.banque))
     f.banque.add(new Option(bq.banque, bq.banque, true, true));
+  $("#repliConnexion").open = !bq.connectee || !!bq.erreur;
   etatBanque();
   $("#dlgBanque").showModal();
 }
@@ -621,12 +1023,12 @@ async function connecterBanque() {
 async function terminerBanque() {
   const f = $("#dlgBanque form");
   if (!f.adresse.value.trim()) return toast("Colle l'adresse de la page de retour", true);
-  const r = await api("banque/terminer", {adresse: f.adresse.value});
+  await api("banque/terminer", {adresse: f.adresse.value});
   f.adresse.value = ""; etatBanque();
 }
 async function planifier() {
   const f = $("#dlgBanque form");
-  await api("planification", E.planification ? {retirer: true} : {heure: f.heure.value || "09:00"}); etatBanque();
+  await api("planification", E.planification ? {retirer: true} : {heure: f.heure.value || "09:00"}, $("#planBouton")); etatBanque();
 }
 async function choisirCompte(uid) { if (uid) { await api("banque/compte", {uid}); etatBanque(); } }
 async function deconnecterBanque() {
@@ -640,6 +1042,12 @@ addEventListener("dragleave", () => { if (--profondeur <= 0) { profondeur = 0; d
 addEventListener("dragover", e => e.preventDefault());
 addEventListener("drop", e => { e.preventDefault(); profondeur = 0; document.body.classList.remove("glisse"); importer(e.dataTransfer.files); });
 addEventListener("focus", () => charger().catch(() => {}));
+// clic sur le fond d'une fenêtre : la ferme
+document.querySelectorAll("dialog").forEach(d => d.addEventListener("click", e => { if (e.target === d) d.close(); }));
+
+let depart = (location.hash || "").slice(1);
+try { depart = depart || localStorage.getItem("onglet") || "accueil"; } catch (e) { depart = depart || "accueil"; }
+onglet(["accueil", "operations", "journal"].includes(depart) ? depart : "accueil");
 charger();
 </script>
 </body>
