@@ -146,6 +146,39 @@ def du(bail, periode):
     return actuel["loyer"], actuel["charges"]
 
 
+def jours_occupes(bail, periode):
+    """(premier jour, dernier jour, jours du mois) occupés par le locataire pour la période."""
+    a, m = map(int, periode.split("-"))
+    nb = calendar.monthrange(a, m)[1]
+    j1, j2 = 1, nb
+    if bail.get("entree") and bail["entree"][:7] == periode:
+        j1 = int(bail["entree"][8:10])
+    if bail.get("sortie") and bail["sortie"][:7] == periode:
+        j2 = int(bail["sortie"][8:10])
+    return j1, j2, nb
+
+
+def du_mois(bail, periode):
+    """
+    (loyer, charges) réellement dus pour la période : montant du bail, au prorata des jours occupés
+    le mois d'entrée et le mois de sortie (ou montant du premier mois saisi à la main).
+    """
+    loyer, charges = du(bail, periode)
+    total = loyer + charges
+    j1, j2, nb = jours_occupes(bail, periode)
+    entree = bool(bail.get("entree")) and bail["entree"][:7] == periode
+    if entree and bail.get("premier_mois") not in (None, ""):
+        cible = int(bail["premier_mois"])
+    elif (j1, j2) != (1, nb):
+        cible = round(total * (j2 - j1 + 1) / nb)
+    else:
+        return loyer, charges
+    if not total:
+        return 0, 0
+    loyer_p = round(loyer * cible / total)
+    return loyer_p, cible - loyer_p
+
+
 def echeance(bail, periode):
     a, m = map(int, periode.split("-"))
     return dt.date(a, m, min(int(bail.get("jour_echeance") or 1), calendar.monthrange(a, m)[1]))
@@ -191,7 +224,7 @@ def rapprocher(d):
             continue
         # pas (ou trop) de correspondance sur le nom : simple suggestion d'après le montant, à confirmer
         pool = candidats or [b for b in d["baux"] if b.get("actif", True) and actif_a(b, p)]
-        par_montant = [b for b in pool if sum(du(b, p)) == op["montant"]]
+        par_montant = [b for b in pool if sum(du_mois(b, p)) == op["montant"]]
         if len(par_montant) == 1:
             op["suggestion"] = par_montant[0]["id"]
     return nouvelles
@@ -213,23 +246,32 @@ def affecter(d, op_id, bail_id):
 # --------------------------------------------------------------------------- calcul des soldes
 
 def situation(d, bail, jusqua=None):
-    """
-    Répartit les paiements du bail sur les mois, du plus ancien au plus récent.
-    Renvoie {periode: {...}} et le trop-perçu éventuel.
-    """
+    """Répartit les paiements du bail sur les mois. Renvoie {periode: {...}} et le trop-perçu éventuel."""
+    etat, trop, _ = repartir(d, bail)
+    return etat, trop
+
+
+def depot_garantie(d, bail):
+    """{"du", "paye", "date", "operations"} du dépôt de garantie (du = 0 si aucun dépôt n'est prévu)."""
+    return repartir(d, bail)[2]
+
+
+def repartir(d, bail):
     courant = mois(aujourdhui().isoformat())
     fin = bail.get("fin") or mois_suivant(courant, HORIZON_AVANCE)
     fin = min(fin, mois_suivant(courant, HORIZON_AVANCE))
     periodes = list(plage(bail["debut"], fin))
     etat = {}
     for p in periodes:
-        loyer, charges = du(bail, p)
-        etat[p] = {"periode": p, "loyer": loyer, "charges": charges, "du": loyer + charges, "paye": 0,
+        loyer, charges = du_mois(bail, p)
+        j1, j2, nb = jours_occupes(bail, p)
+        etat[p] = {"prorata": None if (j1, j2) == (1, nb) else [j1, j2, nb], "periode": p, "loyer": loyer, "charges": charges, "du": loyer + charges, "paye": 0,
                    "date_paiement": None, "operations": [], "details": [],
                    "reporte": 0,          # part des virements de ce mois reportée sur les mois suivants
                    "avance_recue": 0}     # part payée par un virement d'un mois précédent (excédent, avance)
     ops = sorted((o for o in d["operations"] if o.get("bail") == bail["id"] and not o.get("ignoree")),
                  key=lambda o: (o["date"], o["id"]))
+    depot = {"du": int(bail.get("depot") or 0), "paye": 0, "date": None, "operations": []}
     reste_total = 0
     for op in ops:
         reste = op["montant"]
@@ -240,11 +282,23 @@ def situation(d, bail, jusqua=None):
         # d'abord), puis les mois suivants (avance). Ainsi un petit manque sur un mois reste sur ce mois
         # et ne décale pas tous les mois suivants (ni ne bloque leurs quittances).
         cible = min(max(mois(op["date"]), periodes[0]), periodes[-1]) if periodes else None
-        ordre = ([cible] + [p for p in periodes if p < cible] + [p for p in periodes if p > cible]) if cible else []
+        # le dépôt de garantie passe avant les mois suivants : versé à l'entrée avec le premier loyer
+        ordre = ([cible] + [p for p in periodes if p < cible] + ["depot"] + [p for p in periodes if p > cible]) \
+            if cible else ["depot"]
         parts = []                            # (mois, montant) alimentés par ce virement
         for p in ordre:
             if reste <= 0:
                 break
+            if p == "depot":
+                part = min(reste, depot["du"] - depot["paye"])
+                if part > 0:
+                    depot["paye"] += part
+                    depot["operations"].append(op["id"])
+                    reste -= part
+                    if depot["paye"] >= depot["du"]:
+                        depot["date"] = op["date"]
+                    parts.append(({"periode": "depot", "avance_recue": 0, "reporte": 0, "details": []}, part))
+                continue
             e = etat[p]
             part = min(reste, e["du"] - e["paye"])
             if part > 0:
@@ -286,7 +340,7 @@ def situation(d, bail, jusqua=None):
         else:
             e["statut"] = "partiel" if e["paye"] else "attendu"
         e["echeance"] = echeance(bail, p).isoformat()
-    return etat, max(reste_total, 0)
+    return etat, max(reste_total, 0), depot
 
 
 # --------------------------------------------------------------------------- quittances
@@ -325,8 +379,9 @@ def fabriquer(d, bail, e, type_="quittance"):
                        f"{'Quittance' if type_ == 'quittance' else 'Recu'}-{e['periode']}.pdf")
     date_paiement = e["date_paiement"] or (max(o["date"] for o in d["operations"] if o["id"] in e["operations"])
                                            if e["operations"] else aujourdhui().isoformat())
+    j1, j2, _ = jours_occupes(bail, e["periode"])
     pdf = qt.generer(d["bailleur"], bail, e["periode"], e["loyer"], e["charges"], e["paye"], date_paiement, numero,
-                     emise_le=aujourdhui().isoformat())
+                     emise_le=aujourdhui().isoformat(), jours=(j1, j2))
     os.makedirs(os.path.dirname(os.path.join(QUITTANCES, rel)), exist_ok=True)
     with open(os.path.join(QUITTANCES, rel), "wb") as f:
         f.write(pdf)

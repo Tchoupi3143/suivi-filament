@@ -149,11 +149,18 @@ body.glisse #depot { display: flex; }
   <label>E-mail du locataire (pour l'envoi des quittances)<input name="email" type="email" placeholder="jean.dupont@exemple.fr"></label>
   <label>Adresse du logement<textarea name="logement" rows="3" placeholder="Appartement 2, 1er étage&#10;8 rue de la Paix&#10;33000 Bordeaux"></textarea></label>
   <div class="ligne">
-    <label>Loyer hors charges (€)<input name="loyer" required inputmode="decimal" placeholder="780"></label>
-    <label>Provision pour charges (€)<input name="charges" inputmode="decimal" placeholder="70"></label>
+    <label>Loyer hors charges (€)<input name="loyer" required inputmode="decimal" placeholder="780" oninput="majProrata()"></label>
+    <label>Provision pour charges (€)<input name="charges" inputmode="decimal" placeholder="70" oninput="majProrata()"></label>
   </div>
   <label id="champRevision" hidden>Nouveau montant applicable à partir de<input name="revision_depuis" type="month"></label>
   <p class="aide" id="historiqueMontants" hidden></p>
+  <div class="ligne">
+    <label>Date d'entrée du locataire<input name="entree" type="date" oninput="majProrata()"></label>
+    <label>Dépôt de garantie (€)<input name="depot" inputmode="decimal" placeholder="0"></label>
+  </div>
+  <label id="champPremier" hidden>Montant dû pour le premier mois (€)
+    <input name="premier_mois" inputmode="decimal" oninput="majProrata()"></label>
+  <p class="aide" id="aideProrata"></p>
   <div class="ligne">
     <label>Payable le (jour du mois)<input name="jour_echeance" type="number" min="1" max="31" value="5"></label>
     <label>Premier mois suivi<input name="debut" type="month" required></label>
@@ -162,7 +169,8 @@ body.glisse #depot { display: flex; }
     <textarea name="motifs" rows="2" placeholder="DUPONT&#10;CAF 1234567"></textarea></label>
   <p class="aide">Un virement est attribué à ce logement si son libellé contient <b>tous les mots</b> d'une des lignes.
     Vide = le nom du locataire. Ajoute une ligne par payeur (conjoint, garant, CAF…).</p>
-  <label>Fin du bail (facultatif)<input name="fin" type="month"></label>
+  <label>Date de sortie (facultatif : dernier mois calculé au prorata)<input name="sortie" type="date"></label>
+  <input type="hidden" name="fin">
   <label class="case"><input type="checkbox" name="envoi_auto" checked> Envoyer automatiquement les quittances</label>
   <label class="case"><input type="checkbox" name="actif" checked> Bail en cours</label>
   <div class="pied">
@@ -368,6 +376,8 @@ function afficher() {
             · reconnaît « ${esc((x.motifs.length ? x.motifs : [x.locataire]).join(" » ou « "))} »</div></div>
         <div class="montant"><b>${eur(x.loyer + x.charges)}</b><div class="doux">${eur(x.loyer)} + ${eur(x.charges)} de charges</div>
           ${x.trop_percu ? `<div class="doux">Trop-perçu : ${eur(x.trop_percu)}</div>` : ""}
+          ${x.depot_etat && x.depot_etat.du ? `<div class="doux">Dépôt de garantie : ${x.depot_etat.paye >= x.depot_etat.du
+            ? `${eur(x.depot_etat.du)} reçu le ${dateFr(x.depot_etat.date)}` : `${eur(x.depot_etat.paye)} reçu sur ${eur(x.depot_etat.du)}`}</div>` : ""}
           <div style="margin-top:6px"><button class="lien" onclick="ouvrirPaiement(${x.id})">Paiement manuel</button>
           <button class="lien" onclick="ouvrirBail(${x.id})">Modifier</button></div></div>
       </div>
@@ -413,9 +423,10 @@ function ligneMois(x, m) {
   // un virement réparti sur plusieurs mois (590 € : 587 € ici + 3 € pour un autre mois) est expliqué
   const recu = eur(m.paye) + (m.details || []).map(v =>
     `<div class="doux">virement de ${eur(v.montant)} du ${dateFr(v.date)} : ${eur(v.part)} ici, `
-    + v.autres.map(a => `${eur(a.part)} pour ${per(a.periode)}`).join(", ")
+    + v.autres.map(a => `${eur(a.part)} pour ${a.periode === "depot" ? "le dépôt de garantie" : per(a.periode)}`).join(", ")
     + (v.reste ? `${v.autres.length ? ", " : ""}${eur(v.reste)} en trop-perçu` : "") + "</div>").join("");
-  return `<tr><td>${per(p)}</td><td class="n">${eur(m.du)}</td><td class="n">${recu}</td>
+  const moisTxt = per(p) + (m.prorata ? `<div class="doux">du ${m.prorata[0]} au ${m.prorata[1]} (prorata)</div>` : "");
+  return `<tr><td>${moisTxt}</td><td class="n">${eur(m.du)}</td><td class="n">${recu}</td>
     <td><span class="etiquette ${statutClasse(m.statut)}">${statutTexte(m)}</span>
       ${m.date_paiement ? `<span class="doux">le ${dateFr(m.date_paiement)}</span>` : ""}</td>
     <td>${doc}</td><td class="actions">${act}</td></tr>`;
@@ -477,10 +488,30 @@ function ouvrirBail(id) {
     const x = bailEdite;
     for (const k of ["locataire", "email", "logement", "jour_echeance", "debut"]) f[k].value = x[k] ?? "";
     f.fin.value = x.fin || ""; f.motifs.value = x.motifs.join("\n");
+    f.entree.value = x.entree || ""; f.sortie.value = x.sortie || "";
+    f.depot.value = x.depot ? euroSaisie(x.depot) : "";
+    f.premier_mois.value = x.premier_mois != null ? euroSaisie(x.premier_mois) : "";
     f.loyer.value = euroSaisie(x.loyer); f.charges.value = euroSaisie(x.charges);
     f.envoi_auto.checked = x.envoi_auto !== false; f.actif.checked = x.actif !== false;
   }
+  majProrata(true);
   $("#dlgBail").showModal();
+}
+// entrée en cours de mois : premier mois au prorata des jours (modifiable)
+function majProrata(ouverture) {
+  const f = $("#dlgBail form"), aide = $("#aideProrata"), champ = $("#champPremier");
+  const v = f.entree.value;
+  if (v && !ouverture && (!bailEdite || !bailEdite.mois.length)) f.debut.value = v.slice(0, 7);
+  const jour = v ? +v.slice(8, 10) : 1;
+  champ.hidden = jour <= 1;
+  if (jour <= 1) { aide.textContent = ""; return; }
+  const [a, m] = v.split("-").map(Number), nb = new Date(a, m, 0).getDate();
+  const total = Math.round((parseFloat((f.loyer.value || "0").replace(/\s/g, "").replace(",", ".")) || 0) * 100)
+    + Math.round((parseFloat((f.charges.value || "0").replace(/\s/g, "").replace(",", ".")) || 0) * 100);
+  const prorata = Math.round(total * (nb - jour + 1) / nb);
+  f.premier_mois.placeholder = euroSaisie(prorata);
+  aide.innerHTML = `Arrivée le ${jour} : ${nb - jour + 1} jours sur ${nb} en ${per(v.slice(0, 7))}, soit <b>${eur(prorata)}</b> au prorata.`
+    + " Laisse le champ vide pour utiliser ce montant, ou indique celui prévu au bail.";
 }
 async function enregistrerBail(ev) {
   ev.preventDefault();

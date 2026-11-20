@@ -117,6 +117,12 @@ la première synchronisation pour vérifier.
 - Un loyer est « en retard » après le jour d'échéance + le délai de grâce (5 jours par défaut).
 - Révision de loyer : dans « Modifier », change le montant et indique le mois d'application ;
   les mois précédents gardent l'ancien montant.
+- **Entrée en cours de mois** : indique la date d'entrée ; le premier mois est calculé au prorata
+  des jours (ou au montant saisi), et la quittance porte la période réelle (« du 15 au 30 novembre »).
+  Même chose pour une date de sortie.
+- **Dépôt de garantie** : indique son montant. Un virement paie d'abord son mois, puis un arriéré,
+  puis le dépôt, puis les mois suivants : le virement d'entrée (prorata + mois suivant + dépôt) est
+  donc réparti tout seul. Le dépôt n'apparaît jamais sur une quittance.
 - Chèque, espèces : « Paiement manuel ».
 
 ## Données
@@ -137,11 +143,7 @@ que sur `127.0.0.1` et exige un jeton aléatoire généré à chaque lancement.
 - La gratuité du mode restreint d'Enable Banking (usage personnel non commercial) dépend de ses
   conditions, qui peuvent évoluer ; les relevés restent une solution de secours. Les banques
   limitent les consultations automatiques : une par jour suffit.
-- Pas de prorata automatique pour un mois d'entrée ou de sortie incomplet : saisis le montant
-  du premier mois via une révision de loyer, ou ajuste à la main.
-- Le dépôt de garantie, s'il est versé par le locataire avec un libellé reconnu, serait compté
-  comme loyer : fais commencer le bail au premier mois de loyer et ignore ce virement
-  (« Opérations du compte » › Détacher, puis Ignorer).
+- La restitution du dépôt de garantie en fin de bail n'est pas suivie.
 - Les rejets de virement apparaissent comme des débits : détache le virement rejeté.
 
 ## Développement

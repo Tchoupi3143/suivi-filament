@@ -170,7 +170,7 @@ def libelle_periode(periode):
     return f"{MOIS[m - 1]} {a}"
 
 
-def generer(bailleur, bail, periode, loyer, charges, paye, date_paiement, numero, emise_le=None):
+def generer(bailleur, bail, periode, loyer, charges, paye, date_paiement, numero, emise_le=None, jours=None):
     """
     Renvoie le PDF (bytes). Si paye < loyer + charges : reçu de paiement partiel.
     Montants en centimes.
@@ -179,6 +179,8 @@ def generer(bailleur, bail, periode, loyer, charges, paye, date_paiement, numero
     complet = paye >= total
     emise_le = emise_le or dt.date.today().isoformat()
     debut, fin = bornes(periode)
+    if jours:                                   # entrée ou sortie en cours de mois : période réelle
+        debut, fin = debut[:8] + f"{jours[0]:02d}", debut[:8] + f"{jours[1]:02d}"
     p = Page()
     G, D, L = 64, 531, 467                                   # marges gauche/droite, largeur utile
     titre = "Quittance de loyer" if complet else "Reçu de paiement partiel"

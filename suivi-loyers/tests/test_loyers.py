@@ -196,6 +196,47 @@ class Rapprochement(Base):
         self.assertEqual([e[p]["statut"] for p in ("2026-10", "2026-11", "2026-12")], ["payé", "payé", "avance"])
         self.assertEqual(e["2026-10"]["date_paiement"], "2026-11-04")
 
+    def bail_entree(self, d, premier=None):
+        b = d["baux"][0]
+        b.update(debut="2026-11", entree="2026-11-15", depot=52000, premier_mois=premier,
+                 montants=[{"depuis": "2026-11", "loyer": 52000, "charges": 7000}])      # 590 €
+        return b
+
+    def test_entree_en_cours_de_mois_et_depot(self):
+        d = self.donnees()
+        b = self.bail_entree(d)
+        self.assertEqual(sum(self.L.du_mois(b, "2026-11")), 31467)          # 590 € x 16/30 jours
+        self.assertEqual(self.L.du_mois(b, "2026-12"), (52000, 7000))
+        # un seul virement à l'entrée : prorata de novembre + décembre + dépôt
+        self.L.ajouter_paiement_manuel(d, 1, "2026-11-14", 31467 + 59000 + 52000)
+        etat, trop, depot = self.L.repartir(d, b)
+        self.assertEqual((etat["2026-11"]["statut"], etat["2026-11"]["prorata"]), ("payé", [15, 30, 30]))
+        self.assertEqual(etat["2026-12"]["statut"], "avance")
+        self.assertEqual((depot["paye"], depot["date"]), (52000, "2026-11-14"))
+        self.assertEqual(trop, 0)
+        autres = etat["2026-11"]["details"][0]["autres"]
+        self.assertEqual(autres, [{"periode": "depot", "part": 52000}, {"periode": "2026-12", "part": 59000}])
+
+    def test_premier_mois_saisi_et_quittance_sur_la_periode_reelle(self):
+        d = self.donnees(smtp=True)
+        self.bail_entree(d, premier=31500)                                   # montant prévu au bail
+        self.L.ajouter_paiement_manuel(d, 1, "2026-11-14", 31500 + 52000)
+        etat, _, depot = self.L.repartir(d, d["baux"][0])
+        self.assertEqual((etat["2026-11"]["du"], etat["2026-11"]["loyer"]), (31500, 27763))
+        self.assertEqual(depot["paye"], 52000)
+        cr = self.L.emettre(d)
+        self.assertEqual(cr["envoyees"], ["Jean Dupont 2026-11"])
+        pdf = next(self.smtp.messages[0].iter_attachments()).get_content()
+        self.assertIn(b"du 15 novembre 2026 au 30 novembre 2026", pdf)
+        self.assertIn(b"315,00", pdf)
+
+    def test_sortie_en_cours_de_mois(self):
+        d = self.donnees()
+        b = d["baux"][0]
+        b.update(sortie="2026-11-10", fin="2026-11")
+        self.assertEqual(sum(self.L.du_mois(b, "2026-11")), 28333)          # 850 € x 10/30
+        self.assertEqual(list(self.L.situation(d, b)[0]), ["2026-10", "2026-11"])
+
     def test_revision_de_loyer(self):
         d = self.donnees()
         d["baux"][0]["montants"].append({"depuis": "2026-11", "loyer": 80000, "charges": 7000})

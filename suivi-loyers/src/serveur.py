@@ -55,7 +55,7 @@ def etat():
     noms = {b["id"]: b["locataire"] for b in d["baux"]}
     baux = []
     for b in d["baux"]:
-        sit, trop = L.situation(d, b)
+        sit, trop, depot = L.repartir(d, b)
         lignes = []
         for p, e in sorted(sit.items(), reverse=True):
             if p < debut or (p > courant and e["paye"] == 0):
@@ -64,7 +64,7 @@ def etat():
             r = L.trouver_quittance(d, b["id"], p, "recu")
             lignes.append({**e, "quittance": q, "recu": r, "relance": b.get("relances", {}).get(p)})
         loyer, charges = L.du(b, courant)
-        baux.append({**b, "loyer": loyer, "charges": charges, "mois": lignes, "trop_percu": trop,
+        baux.append({**b, "loyer": loyer, "charges": charges, "mois": lignes, "trop_percu": trop, "depot_etat": depot,
                      "mois_courant": sit.get(courant)})
     a_verifier = [o for o in d["operations"] if o["montant"] > 0 and not o.get("bail") and not o.get("ignoree")
                   and not o.get("manuel_libre")]
@@ -94,11 +94,28 @@ def bail_depuis(corps, b=None):
     locataire = (corps.get("locataire") or "").strip()
     if not locataire:
         raise ValueError("Indique le nom du locataire")
-    debut = corps.get("debut") or L.mois(L.aujourdhui().isoformat())
+    entree = (corps.get("entree") or "").strip()[:10] or None
+    sortie = (corps.get("sortie") or "").strip()[:10] or None
+    for nom, v in (("d'entrée", entree), ("de sortie", sortie)):
+        if v:
+            try:
+                L.dt.date.fromisoformat(v)
+            except ValueError:
+                raise ValueError(f"Date {nom} invalide")
+    if entree and sortie and sortie < entree:
+        raise ValueError("La date de sortie est avant la date d'entrée")
+    debut = (corps.get("debut") or (entree or L.aujourdhui().isoformat()))[:7]
+    if entree and entree[:7] > debut:
+        debut = entree[:7]                  # rien n'est dû avant l'arrivée du locataire
+    premier = (str(corps.get("premier_mois") or "")).strip()
+    b.update(entree=entree, sortie=sortie,
+             premier_mois=euros_vers_centimes(premier) if premier else None,
+             depot=euros_vers_centimes(corps.get("depot"), 0),
+             fin=sortie[:7] if sortie else ((corps.get("fin") or "")[:7] or None))
     b.update(locataire=locataire, email=(corps.get("email") or "").strip(),
              logement=(corps.get("logement") or "").strip(),
              jour_echeance=max(1, min(31, int(corps.get("jour_echeance") or 5))),
-             debut=debut[:7], fin=(corps.get("fin") or "")[:7] or None,
+             debut=debut[:7],
              motifs=[m.strip() for m in str(corps.get("motifs") or "").replace(",", "\n").splitlines() if m.strip()],
              envoi_auto=bool(corps.get("envoi_auto", True)), actif=bool(corps.get("actif", True)))
     loyer, charges = euros_vers_centimes(corps.get("loyer")), euros_vers_centimes(corps.get("charges"), 0)
