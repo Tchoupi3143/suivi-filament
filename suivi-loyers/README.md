@@ -23,8 +23,17 @@ Python 3.8 ou plus récent, bibliothèque standard uniquement : rien à installe
 
 ## Démarrage
 
-1. Double-clique sur **`Suivi Loyers.command`** (macOS/Linux) ou **`Suivi Loyers.bat`** (Windows),
-   ou lance `python3 src/serveur.py`. L'interface s'ouvre dans le navigateur.
+1. **Mac** : dézippe `SuiviLoyers-mac-*.zip` et glisse **Suivi Loyers.app** dans **Applications**
+   (puis dans le Dock si tu veux). Premier lancement : **clic droit › Ouvrir › Ouvrir** (l'application
+   n'est pas signée par Apple). Si macOS la dit « endommagée » :
+   ```bash
+   xattr -cr "/Applications/Suivi Loyers.app"
+   ```
+   L'interface s'ouvre dans le navigateur ; un nouveau double-clic rouvre le même onglet. L'application
+   s'arrête avec le bouton « Quitter » ou 30 minutes après la fermeture de l'onglet ; la vérification
+   quotidienne, elle, tourne même application fermée.
+   **Windows / Linux** : double-clic sur **`Suivi Loyers.bat`** ou **`Suivi Loyers.command`**,
+   ou `python3 src/serveur.py`.
 2. **Réglages** : ton nom ou celui de la SCI, ton adresse, puis le compte e-mail d'envoi.
    Clique sur « Envoyer un e-mail de test ».
    - Gmail : `smtp.gmail.com`, port 465, avec un **mot de passe d'application**
@@ -144,12 +153,15 @@ src/quittance.py   génération du PDF (générateur PDF intégré, montant en l
 src/envoi.py       envoi SMTP
 src/serveur.py     serveur local de l'interface
 src/index.html     interface
+macos/             lanceur, Info.plist et icône (icone.svg -> src/AppIcon.icns, src/icone.png)
+build.py           construit dist/SuiviLoyers-mac-<version>.zip (Suivi Loyers.app)
 tests/             tests unitaires (faux serveurs SMTP et Enable Banking)
 exemples/          relevés d'exemple
 ```
 
 ```bash
 python3 -m unittest discover -s tests
+python3 build.py
 ```
 
 Essai sans toucher à tes données :

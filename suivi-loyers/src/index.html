@@ -5,6 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Suivi Loyers</title>
+<link rel="icon" href="/icone.png">
 <style>
 :root {
   --bg: #f5f5f7; --carte: #ffffff; --texte: #1d1d1f; --doux: #6e6e73; --trait: #e3e3e8;
@@ -133,7 +134,11 @@ body.glisse #depot { display: flex; }
   </details>
 
   <div class="pied-page" id="pied"></div>
+  <p style="margin-top:14px"><button onclick="quitter()">Quitter Suivi Loyers</button>
+    <span class="doux">La vérification quotidienne continue même application fermée.</span></p>
 </main>
+<div id="ferme" hidden style="text-align:center;padding:80px 20px;color:var(--doux)">
+  <h2>Suivi Loyers est fermé.</h2><p>Tu peux fermer cet onglet. Pour le rouvrir : double-clic sur l'application.</p></div>
 <div id="depot">Dépose le relevé ici</div>
 <div id="toast"></div>
 
@@ -410,6 +415,18 @@ function ligneMois(x, m) {
 
 // ----------------------------------------------------------------- actions
 async function charger() { await api("etat"); }
+function ferme() { document.querySelector("main").hidden = true; $("#ferme").hidden = false; }
+async function quitter() {
+  await fetch("/api/quitter", {method: "POST", headers: {"X-Jeton": JETON}}).catch(() => {});
+  ferme();
+}
+// signe de vie : tant que l'onglet est ouvert, l'application reste lancée
+setInterval(() => {
+  if (document.visibilityState === "visible" && !document.querySelector("dialog[open]"))
+    fetch("/api/etat", {headers: {"X-Jeton": JETON}}).then(r => r.json()).then(d => { if (d.baux) { E = d; afficher(); } })
+      .catch(() => ferme());
+  else fetch("/api/bonjour", {headers: {"X-Jeton": JETON}}).catch(() => ferme());
+}, 120000);
 const affecter = (op, bail) => api(`operations/${op}/affecter`, {bail});
 const envoyer = (bail, periode, type) => api(type === "recu" ? "recu" : "quittance/envoyer", {bail, periode});
 function relancer(bail, periode) {

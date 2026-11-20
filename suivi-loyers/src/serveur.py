@@ -17,6 +17,7 @@ import secrets
 import sys
 import threading
 import time
+import urllib.request
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
@@ -31,6 +32,9 @@ import quittance as qt       # noqa: E402
 PORT = int(os.environ.get("SUIVI_LOYERS_PORT", "47331"))
 VERROU = threading.Lock()
 JETON = secrets.token_urlsafe(24)
+FICHIER_JETON = os.path.join(L.DOSSIER, ".jeton")
+ARRET_APRES = int(os.environ.get("SUIVI_LOYERS_ARRET_APRES", "1800"))   # s sans onglet ouvert -> arrêt
+derniere_activite = time.time()
 MOIS_AFFICHES = 12
 
 
@@ -312,7 +316,15 @@ class Gestion(BaseHTTPRequestHandler):
         return secrets.compare_digest(self.headers.get("X-Jeton") or (q.get("t") or [""])[0], JETON)
 
     def do_GET(self):
+        global derniere_activite
         u = urlparse(self.path)
+        if u.path == "/api/bonjour":
+            if self._autorise():
+                derniere_activite = time.time()      # signe de vie d'un onglet ouvert
+            return self._envoyer(200, {"app": "SuiviLoyers"})
+        if u.path == "/icone.png":
+            with open(os.path.join(RES, "icone.png"), "rb") as f:
+                return self._envoyer(200, f.read(), "image/png")
         if u.path in ("/", "/index.html"):
             if not self._autorise():
                 return self._envoyer(403, "Lance Suivi Loyers (python3 serveur.py) pour ouvrir l'interface.".encode(),
@@ -321,6 +333,7 @@ class Gestion(BaseHTTPRequestHandler):
             return self._envoyer(200, html, "text/html; charset=utf-8")
         if not self._autorise():
             return self._envoyer(403, {"erreur": "interdit"})
+        derniere_activite = time.time()
         if u.path == "/api/etat":
             with VERROU:
                 return self._envoyer(200, etat())
@@ -336,8 +349,10 @@ class Gestion(BaseHTTPRequestHandler):
         self._envoyer(404, {"erreur": "introuvable"})
 
     def do_POST(self):
+        global derniere_activite
         if not self._autorise():
             return self._envoyer(403, {"erreur": "interdit"})
+        derniere_activite = time.time()
         n = int(self.headers.get("Content-Length") or 0)
         if n > 20 * 1024 * 1024:
             return self._envoyer(413, {"erreur": "Fichier trop volumineux"})
@@ -372,8 +387,39 @@ def surveiller_boite():
             pass
 
 
+def arret_auto(serveur):
+    """Plus aucun onglet ouvert depuis ARRET_APRES secondes : on s'arrête (la tâche quotidienne, elle, continue)."""
+    while True:
+        time.sleep(30)
+        if time.time() - derniere_activite > ARRET_APRES:
+            serveur.shutdown()
+            return
+
+
+def deja_lance():
+    """Une instance tourne déjà : renvoie son adresse avec le jeton, sinon None."""
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{PORT}/api/bonjour", timeout=1) as r:
+            if json.load(r).get("app") != "SuiviLoyers":
+                return None
+        with open(FICHIER_JETON, encoding="utf-8") as f:
+            return f"http://127.0.0.1:{PORT}/?t={f.read().strip()}"
+    except Exception:
+        return None
+
+
+def ouvrir(url):
+    print(f"Suivi Loyers : {url}", flush=True)
+    if not os.environ.get("SUIVI_LOYERS_SANS_NAVIGATEUR"):
+        webbrowser.open(url)
+
+
 if __name__ == "__main__":
     os.makedirs(L.BOITE, exist_ok=True)
+    existante = deja_lance()
+    if existante:                                # double-clic sur l'app alors qu'elle tourne : on rouvre l'onglet
+        ouvrir(existante)
+        sys.exit(0)
     if planifier.etat():
         try:
             planifier.copier_moteur()           # nouvelle version du programme -> tâche quotidienne à jour
@@ -383,11 +429,12 @@ if __name__ == "__main__":
         serveur = ThreadingHTTPServer(("127.0.0.1", PORT), Gestion)
     except OSError:
         serveur = ThreadingHTTPServer(("127.0.0.1", 0), Gestion)
-    url = f"http://127.0.0.1:{serveur.server_address[1]}/?t={JETON}"
+    fd = os.open(FICHIER_JETON, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+    os.write(fd, JETON.encode())
+    os.close(fd)
     threading.Thread(target=surveiller_boite, daemon=True).start()
-    print(f"Suivi Loyers : {url}\n(Ctrl+C pour arrêter)", flush=True)
-    if not os.environ.get("SUIVI_LOYERS_SANS_NAVIGATEUR"):
-        webbrowser.open(url)
+    threading.Thread(target=arret_auto, args=(serveur,), daemon=True).start()
+    ouvrir(f"http://127.0.0.1:{serveur.server_address[1]}/?t={JETON}")
     try:
         serveur.serve_forever()
     except KeyboardInterrupt:
