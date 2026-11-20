@@ -81,7 +81,7 @@ def vierge():
         "smtp": {"hote": "", "port": 465, "securite": "ssl", "utilisateur": "", "expediteur": "",
                  "nom_expediteur": "", "copie_bailleur": True},
         "reglages": {"envoi_auto": True, "jours_grace": 5, "sujet": MODELE_SUJET, "texte": MODELE_TEXTE},
-        "banque": {"app_id": "", "redirect_url": "https://localhost/suivi-loyers", "banque": "", "pays": "FR",
+        "banque": {"app_id": "", "redirect_url": "https://example.com/redirect", "banque": "", "pays": "FR",
                    "session_id": "", "comptes": [], "compte": "", "valide_jusqu": "", "derniere_synchro": "",
                    "alerte_expiration": ""},
         "baux": [], "operations": [], "quittances": [], "journal": [], "prochain_bail": 1,

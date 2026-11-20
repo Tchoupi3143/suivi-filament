@@ -278,8 +278,8 @@ class Banque(Base):
         self.assertTrue(url.startswith("https://"))
         auth = next(c for c in self.faux.appels if c[1] == "/auth")[2]
         self.assertEqual(auth["aspsp"], {"name": "Banque Populaire Grand Ouest", "country": "FR"})
-        self.assertEqual(auth["redirect_url"], "https://localhost/suivi-loyers")
-        retour = f"https://localhost/suivi-loyers?state={state}&code=CODE-OK"
+        self.assertEqual(auth["redirect_url"], "https://example.com/redirect")
+        retour = f"https://example.com/redirect?state={state}&code=CODE-OK"
         with self.assertRaises(self.L.banque.ErreurBanque):
             self.L.banque.code_depuis(retour.replace(state, "autre"), state)
         r = self.L.banque.terminer(conf, self.L.banque.code_depuis(retour, state))

@@ -43,16 +43,16 @@ l'autorisation tous les 180 jours au plus (exigence des banques ; un e-mail te p
 1. **Compte Enable Banking** : crée un compte sur [enablebanking.com](https://enablebanking.com/sign-in/),
    puis dans le [panneau de contrôle](https://enablebanking.com/cp/applications) :
    « Register new application » › environnement **Production**, nom « Suivi Loyers »,
-   URL de redirection **`https://localhost/suivi-loyers`**, clé « **Generate in the browser** » :
-   un fichier `.pem` (ta clé privée) se télécharge.
-   Si l'adresse `localhost` est refusée, mets une autre adresse en `https://` et indique la même
-   dans Suivi Loyers.
+   URL de redirection **`https://example.com/redirect`** (tape-la à la main ; `localhost` est
+   refusé), clé « **Generate in the browser** » : un fichier `.pem` (ta clé privée) se télécharge.
+   `example.com` est un domaine réservé aux exemples : le code qui y transite est inutilisable
+   sans ta clé.
 2. Sur l'application créée : **« Activate by linking accounts »** et relie le compte qui reçoit
    les loyers. C'est le « mode restreint », gratuit, limité à tes propres comptes.
 3. Dans Suivi Loyers, bouton **Banque** : colle l'*Application ID*, choisis le fichier `.pem`,
    « Charger la liste », choisis **ta Banque Populaire régionale**, puis « Se connecter à la banque ».
-4. Valide sur le site de ta banque (Secur'Pass). Tu arrives sur une page qui ne s'affiche pas
-   (`https://localhost/…`, c'est normal) : copie son adresse depuis la barre du navigateur et
+4. Valide sur le site de ta banque (Secur'Pass). Tu arrives sur une page « Example Domain »
+   (, c'est normal) : copie son adresse depuis la barre du navigateur et
    colle-la dans Suivi Loyers. Les opérations des 90 derniers jours sont récupérées aussitôt.
 5. **« Activer »** la vérification quotidienne : ton ordinateur interroge la banque chaque jour,
    même interface fermée, reconnaît les loyers et envoie les quittances.
