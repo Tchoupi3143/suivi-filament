@@ -11,6 +11,7 @@ Tant que l'interface est ouverte, le dossier ~/SuiviLoyers/a-importer/ est surve
 tout relevé qui y est déposé est importé dans la minute.
 """
 import base64
+import hashlib
 import json
 import os
 import secrets
@@ -29,6 +30,29 @@ import loyers as L           # noqa: E402
 import planifier             # noqa: E402
 import quittance as qt       # noqa: E402
 
+def _version():
+    """Empreinte du programme : deux versions différentes ne se confondent jamais."""
+    h = hashlib.sha1()
+    for f in sorted(os.listdir(RES)):
+        if f.endswith((".py", ".html")):
+            with open(os.path.join(RES, f), "rb") as fh:
+                h.update(fh.read())
+    return h.hexdigest()[:12]
+
+
+VERSION = _version()
+
+
+def _version_affichee():
+    try:
+        import plistlib
+        with open(os.path.join(RES, "..", "Info.plist"), "rb") as f:     # dans Suivi Loyers.app
+            return plistlib.load(f)["CFBundleShortVersionString"]
+    except Exception:
+        return "dév. " + VERSION[:7]
+
+
+VERSION_AFFICHEE = _version_affichee()
 PORT = int(os.environ.get("SUIVI_LOYERS_PORT", "47331"))
 VERROU = threading.Lock()
 JETON = secrets.token_urlsafe(24)
@@ -82,7 +106,7 @@ def etat():
         "dossiers": {"donnees": L.DATA, "boite": L.BOITE, "quittances": L.QUITTANCES},
         "banque": {**{k: v for k, v in d["banque"].items() if k not in ("state",)},
                    "cle_presente": os.path.exists(L.CLE_BANQUE), "connectee": L.banque_connectee(d)},
-        "planification": planifier.etat(),
+        "planification": planifier.etat(), "version": VERSION_AFFICHEE,
     }
 
 
@@ -338,7 +362,7 @@ class Gestion(BaseHTTPRequestHandler):
         if u.path == "/api/bonjour":
             if self._autorise():
                 derniere_activite = time.time()      # signe de vie d'un onglet ouvert
-            return self._envoyer(200, {"app": "SuiviLoyers"})
+            return self._envoyer(200, {"app": "SuiviLoyers", "version": VERSION})
         if u.path == "/icone.png":
             with open(os.path.join(RES, "icone.png"), "rb") as f:
                 return self._envoyer(200, f.read(), "image/png")
@@ -414,15 +438,34 @@ def arret_auto(serveur):
 
 
 def deja_lance():
-    """Une instance tourne déjà : renvoie son adresse avec le jeton, sinon None."""
+    """
+    Une instance tourne déjà : renvoie son adresse avec le jeton, sinon None.
+    Si c'est une AUTRE version (application remplacée sans être quittée), on l'arrête pour lancer la nouvelle.
+    """
     try:
         with urllib.request.urlopen(f"http://127.0.0.1:{PORT}/api/bonjour", timeout=1) as r:
-            if json.load(r).get("app") != "SuiviLoyers":
-                return None
+            info = json.load(r)
+        if info.get("app") != "SuiviLoyers":
+            return None
         with open(FICHIER_JETON, encoding="utf-8") as f:
-            return f"http://127.0.0.1:{PORT}/?t={f.read().strip()}"
+            jeton = f.read().strip()
     except Exception:
         return None
+    if info.get("version") == VERSION:
+        return f"http://127.0.0.1:{PORT}/?t={jeton}"
+    try:
+        requete = urllib.request.Request(f"http://127.0.0.1:{PORT}/api/quitter", data=b"{}", method="POST",
+                                         headers={"X-Jeton": jeton, "Content-Type": "application/json"})
+        urllib.request.urlopen(requete, timeout=3).read()
+    except Exception:
+        pass
+    for _ in range(50):                       # attend que l'ancienne version libère le port
+        time.sleep(0.1)
+        try:
+            urllib.request.urlopen(f"http://127.0.0.1:{PORT}/api/bonjour", timeout=0.5)
+        except Exception:
+            break
+    return None
 
 
 def ouvrir(url):

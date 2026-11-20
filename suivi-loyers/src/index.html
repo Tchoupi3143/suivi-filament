@@ -399,7 +399,7 @@ function afficher() {
 
   $("#journal").innerHTML = `<table>${E.journal.map(j => `<tr><td class="doux" style="white-space:nowrap">${esc(j.date)}</td><td>${esc(j.texte)}</td></tr>`).join("")
     || `<tr><td class="doux">Vide</td></tr>`}</table>`;
-  $("#pied").innerHTML = (bq.connectee ? `<span>Banque : ${esc(bq.banque)} — synchronisée le ${esc(bq.derniere_synchro || "jamais")}, accès valable jusqu'au ${dateFr(bq.valide_jusqu)}</span>` : "") + `<span>Dernière analyse : ${esc(E.dernier_scan || "jamais")}</span>
+  $("#pied").innerHTML = `<span>Suivi Loyers version ${esc(E.version)}</span>` + (bq.connectee ? `<span>Banque : ${esc(bq.banque)} — synchronisée le ${esc(bq.derniere_synchro || "jamais")}, accès valable jusqu'au ${dateFr(bq.valide_jusqu)}</span>` : "") + `<span>Dernière analyse : ${esc(E.dernier_scan || "jamais")}</span>
     <span>Relevés à déposer dans : ${esc(E.dossiers.boite)}</span><span>Quittances : ${esc(E.dossiers.quittances)}</span>
     <span>Données : ${esc(E.dossiers.donnees)}</span>`;
 }
