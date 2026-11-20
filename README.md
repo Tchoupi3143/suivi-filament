@@ -8,8 +8,10 @@ tout slicer basé sur OrcaSlicer / Bambu Studio / PrusaSlicer.
 
 ## Ce que ça fait
 
-- **Comptage automatique** : à chaque G-code exporté ou envoyé depuis ElegooSlicer, le poids
-  consommé est retiré de la bonne bobine (Filament 1 à 4, compatible Canvas multicolore).
+- **Détection automatique** (macOS) : un petit surveillant en arrière-plan repère chaque impression
+  envoyée depuis ElegooSlicer et chaque G-code exporté, puis retire le poids consommé de la bonne
+  bobine (Filament 1 à 4, compatible Canvas). Rien à régler dans ElegooSlicer, et il ne peut
+  jamais bloquer une impression.
 - **Alerte avant d'imprimer** : une notification s'affiche si une bobine n'a pas assez de filament
   pour l'impression, ou passe sous un seuil (100 g par défaut).
 - **Catalogue Elegoo intégré** : choisis gamme, couleur et format (bobine 1 kg, lot 5/10 kg,
@@ -46,15 +48,24 @@ Télécharge le paquet qui te convient dans la page
 3. L'interface s'ouvre dans ton navigateur. Python 3 est requis : s'il manque, l'app propose
    d'installer les outils gratuits d'Apple.
 
-### Relier ElegooSlicer (une seule fois)
+### Activer la détection automatique (une seule fois)
 
-1. Dans ElegooSlicer, onglet **Process** : clique sur l'icône **disquette** pour enregistrer
-   ton propre profil de traitement (les profils Elegoo d'origine ne sont pas modifiables).
-2. **Quitte ElegooSlicer (⌘Q)** — sinon il écraserait le réglage en se fermant.
-3. Dans Suivi Filament, clique sur **Relier ElegooSlicer** : le bandeau passe au vert.
+Dans Suivi Filament, clique sur **Activer la détection** : le bandeau passe au vert.
+Le surveillant démarre ensuite tout seul à chaque ouverture de session (LaunchAgent
+`local.suivifilament.surveillant`), même quand l'app est fermée.
 
-Le suivi est ajouté aux **Scripts de post-traitement** de tes profils (une sauvegarde
-`.bak-suivi` de chaque profil est conservée). Détails : [docs/macos-app.md](docs/macos-app.md).
+Il détecte :
+- les **envois à l'imprimante** : fichier temporaire `.ElegooSlicer.upload.*` du dossier
+  temporaire de macOS ;
+- les **G-code exportés** (`*.gcode`) dans **Téléchargements** et sur le **Bureau**
+  (macOS peut demander d'autoriser `python3` à accéder à ces dossiers).
+
+Un même G-code exporté puis envoyé dans les 10 minutes n'est compté qu'une fois.
+Une notification macOS confirme chaque comptage. Détails : [docs/macos-app.md](docs/macos-app.md).
+
+> Versions ≤ 1.3 : l'ancien système (script de post-traitement dans les profils ElegooSlicer)
+> pouvait bloquer l'envoi (« Post-processing script … failed. Error code: 4 »). L'app 1.4 propose
+> de le retirer automatiquement.
 
 ### Windows / ligne de commande
 
@@ -70,19 +81,16 @@ L'application lit et modifie ce même fichier via un petit serveur local
 
 ## Dépannage : une impression n'a pas été comptée
 
-1. Dans l'app, le bandeau doit être **vert** et indiquer « Dernier G-code reçu : … ».
-   S'il dit « Aucun G-code reçu », ElegooSlicer n'a pas appelé le script.
-2. Vérifie que le profil **Process** sélectionné dans ElegooSlicer est bien **ton** profil
-   (celui listé dans le bandeau), pas un profil Elegoo d'origine.
-3. Seules les impressions **découpées puis exportées ou envoyées depuis ElegooSlicer** sont
-   comptées : un fichier relancé depuis l'écran de l'imprimante, une clé USB ou l'app Elegoo
-   ne passe pas par le slicer.
-4. Chaque appel du slicer est noté dans `~/SuiviFilament/post_traitement.log`.
+1. Le bandeau de l'app doit être **vert** (« Détection automatique active »).
+2. La bobine en place doit être sur le bon **Filament 1 à 4** dans l'app.
+3. Un fichier relancé depuis l'écran de l'imprimante, une clé USB ou l'app Elegoo ne passe pas par
+   l'ordinateur : il ne peut pas être détecté.
+4. Tout est noté dans `~/SuiviFilament/post_traitement.log`.
 
 ## Limites connues
 
-- Le comptage se fait **à l'export du G-code**, pas en fin d'impression : une impression ratée ou
-  jamais lancée doit être annulée dans l'historique.
+- Le comptage se fait **à l'envoi ou à l'export du G-code**, pas en fin d'impression : une
+  impression ratée ou un export jamais imprimé doit être annulé dans l'historique.
 - La consommation est **l'estimation du slicer** ; une pesée de temps en temps recale le stock.
 - Les couleurs du catalogue sont des teintes approximatives déduites du nom.
 - Si Elegoo modifie sa boutique, la mise à jour des prix peut échouer (les derniers prix connus

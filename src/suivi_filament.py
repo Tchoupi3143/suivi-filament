@@ -37,6 +37,7 @@ import os
 import re
 import sys
 import tempfile
+import time
 
 MARQUEUR = "; suivi_filament:"
 DATA = os.environ.get("SUIVI_FILAMENT_DATA") or os.path.join(
@@ -96,18 +97,18 @@ def _liste(val):
     return out
 
 
-def lire_gcode(chemin):
+def analyser(texte):
     """Retourne (grammes par emplacement, infos) depuis les commentaires du slicer."""
-    with open(chemin, encoding="utf-8", errors="replace") as f:
-        texte = f.read()
-
     def cherche(motif):
         m = re.search(motif, texte, re.M)
         return m.group(1).strip() if m else None
 
+    # empreinte calculée sans nos propres annotations : un G-code exporté (annoté) et le même
+    # G-code envoyé à l'imprimante (non annoté) ont la même empreinte
+    brut = "".join(l for l in texte.splitlines(True) if not l.startswith(MARQUEUR))
     infos = {
         "deja_traite": MARQUEUR in texte,
-        "empreinte": hashlib.sha1(texte.encode("utf-8", "replace")).hexdigest(),
+        "empreinte": hashlib.sha1(brut.encode("utf-8", "replace")).hexdigest(),
         "matiere": cherche(r"^;\s*filament_type\s*=\s*(.+)$"),
         "profil": cherche(r"^;\s*filament_settings_id\s*=\s*(.+)$"),
         "temps": cherche(r"^;\s*(?:estimated printing time \(normal mode\)|model printing time)\s*[=:]\s*(.+?)(?:;|$)"),
@@ -137,6 +138,13 @@ def lire_gcode(chemin):
                 d_ = (DI[i] if i < len(DI) and DI[i] else DI[0]) or 1.75
                 grammes.append(l * math.pi * (d_ / 2) ** 2 / 1000 * rho)
     grammes = [round(x, 2) if x else 0.0 for x in grammes]
+    return grammes, infos
+
+
+def lire_gcode(chemin):
+    with open(chemin, encoding="utf-8", errors="replace") as f:
+        texte = f.read()
+    grammes, infos = analyser(texte)
     return grammes, infos, texte
 
 
@@ -178,23 +186,41 @@ def alerte(titre, message):
         pass
 
 
-# --------------------------------------------------------------------------- post-traitement
+def notifier(titre, message):
+    """Notification discrète (bannière macOS), sans bloquer."""
+    if os.environ.get("SUIVI_FILAMENT_SANS_FENETRE") or sys.platform != "darwin":
+        return
+    import subprocess
+    try:
+        subprocess.Popen(["osascript", "-e", "on run argv", "-e",
+                          "display notification (item 2 of argv) with title (item 1 of argv)",
+                          "-e", "end run", titre, message],
+                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except Exception:
+        pass
 
-def post_traitement(chemin):
+
+# --------------------------------------------------------------------------- comptage
+
+FENETRE_DOUBLON_S = 600   # même G-code vu deux fois en 10 min (export puis envoi) : compté une fois
+
+
+def comptabiliser(texte, nom_tache, origine="slicer", chemin_a_annoter=None, notification=False):
+    """Retire la consommation d'un G-code des bobines actives. Retourne le résumé (liste) ou None."""
     d = charger()
-    grammes, infos, texte = lire_gcode(chemin)
-    nom_tache = os.path.basename(os.environ.get("SLIC3R_PP_OUTPUT_NAME") or chemin)
-    if nom_tache.lower().endswith(".pp"):
-        nom_tache = nom_tache[:-3]                    # copie temporaire du slicer
+    grammes, infos = analyser(texte)
 
     if not any(grammes):
         journal("  aucune consommation trouvée dans le fichier (pas de ligne « filament used [g] »)")
         print("suivi_filament : aucune consommation trouvée dans le G-code, rien à faire.")
-        return
-    if infos["deja_traite"] or any(h.get("empreinte") == infos["empreinte"] for h in d["historique"][-50:]):
+        return None
+    maintenant_s = time.time()
+    recent = [h for h in d["historique"][-50:]
+              if h.get("empreinte") == infos["empreinte"] and maintenant_s - h.get("horodatage", 0) < FENETRE_DOUBLON_S]
+    if infos["deja_traite"] or recent:
         journal("  déjà comptabilisé, ignoré")
         print("suivi_filament : ce G-code a déjà été comptabilisé, ignoré.")
-        return
+        return None
 
     resume, avertissements, deductions = [], [], []
     for i, g in enumerate(grammes, start=1):
@@ -202,8 +228,8 @@ def post_traitement(chemin):
             continue
         ident = d["actives"].get(str(i))
         if ident is None:
-            avertissements.append(f"Emplacement {i} : {g:.1f} g utilisés, mais aucune bobine active "
-                                  f"(commande : activer <id> --emplacement {i}).")
+            avertissements.append(f"Filament {i} : {g:.1f} g utilisés, mais aucune bobine n'est chargée sur "
+                                  f"« Filament {i} » dans Suivi Filament.")
             resume.append(f"emplacement {i} : {g:.1f} g (aucune bobine active)")
             continue
         b = bobine(d, ident)
@@ -219,20 +245,37 @@ def post_traitement(chemin):
                                   f"après cette impression.")
 
     d["historique"].append({
-        "date": maintenant(), "tache": nom_tache, "deductions": deductions,
+        "date": maintenant(), "tache": nom_tache, "deductions": deductions, "origine": origine,
         "total_g": round(sum(grammes), 2), "temps": infos["temps"], "empreinte": infos["empreinte"],
+        "horodatage": maintenant_s,
     })
     sauver(d)
 
-    try:
-        marquer_gcode(chemin, texte, [maintenant()] + resume)
-    except OSError:
-        pass  # le G-code reste valide même si on ne peut pas l'annoter
+    if chemin_a_annoter:
+        try:
+            marquer_gcode(chemin_a_annoter, texte, [maintenant()] + resume)
+        except OSError:
+            pass  # le G-code reste valide même si on ne peut pas l'annoter
 
     journal("  " + " | ".join(resume))
     print("suivi_filament : " + " | ".join(resume))
     if avertissements:
         alerte("Suivi filament", "\n\n".join(avertissements))
+    elif notification:
+        notifier("Suivi Filament", f"{nom_tache} : " + ", ".join(
+            f"{x['g']:.1f} g sur {bobine(d, x['bobine'])['nom']}" for x in deductions))
+    return resume
+
+
+# --------------------------------------------------------------------------- post-traitement
+
+def post_traitement(chemin):
+    with open(chemin, encoding="utf-8", errors="replace") as f:
+        texte = f.read()
+    nom_tache = os.path.basename(os.environ.get("SLIC3R_PP_OUTPUT_NAME") or chemin)
+    if nom_tache.lower().endswith(".pp"):
+        nom_tache = nom_tache[:-3]                    # copie temporaire du slicer
+    comptabiliser(texte, nom_tache, origine="post-traitement", chemin_a_annoter=chemin)
 
 
 # --------------------------------------------------------------------------- commandes

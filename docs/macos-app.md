@@ -16,15 +16,18 @@ depuis ElegooSlicer.
    - S'il manque Python, l'app propose d'installer les outils gratuits d'Apple.
 3. L'interface s'ouvre dans ton navigateur.
 
-## Relier ElegooSlicer (une seule fois)
+## Activer la détection automatique (une seule fois)
 
-1. Dans ElegooSlicer : onglet **Process** → icône **disquette** → enregistre ton profil sous ton nom.
-2. **Quitte ElegooSlicer (⌘Q).**
-3. Dans Suivi Filament, clique sur **Relier ElegooSlicer** dans le bandeau jaune.
-   Le bandeau devient vert : c'est fait.
+Dans l'app, clique sur **Activer la détection** : le bandeau passe au vert.
+C'est tout — rien à régler dans ElegooSlicer.
 
-Ensuite, chaque G-code **exporté ou envoyé** est compté sur la bobine chargée en
-« Filament 1 », « Filament 2 »… et une alerte macOS s'affiche s'il ne reste pas assez de filament.
+Ensuite, chaque impression **envoyée** depuis ElegooSlicer, et chaque G-code **exporté** dans
+Téléchargements ou sur le Bureau, est compté sur la bobine chargée en « Filament 1 », « Filament 2 »…
+Une notification confirme le comptage, et une alerte s'affiche s'il ne reste pas assez de filament.
+La détection tourne en arrière-plan, même app fermée, et ne peut pas bloquer une impression.
+
+Si tu avais relié une ancienne version via les « Scripts de post-traitement », l'app propose de
+retirer ce réglage (ElegooSlicer doit être fermé).
 
 ## Au quotidien
 

@@ -224,19 +224,34 @@ function afficher() {
     [g(s.cout, 2) + " €", "de filament utilisé"],
   ].map(([b, t]) => `<div class="stat"><b>${b}</b><span>${t}</span></div>`).join("");
 
-  const sl = E.slicer, nbOk = sl.profils.filter(p => p.configure).length;
+  const sl = E.slicer, sv = sl.surveillance, da = sl.dernier_appel;
+  const derniere = `<small style="color:var(--doux)">${da
+    ? `Dernière impression détectée : ${esc(da.date)} — ${esc(da.resultat || "comptée")}`
+    : "Aucune impression détectée pour l'instant : envoie ou exporte une pièce depuis ElegooSlicer."}</small>`;
   let html, attention = true;
-  if (!sl.installe) html = `<p>ElegooSlicer n'a pas été trouvé sur ce Mac.</p>`;
-  else if (!sl.profils.length) html = `<p><b>Aucun profil de traitement personnel.</b> Dans ElegooSlicer, onglet Process, clique sur l'icône disquette pour enregistrer ton profil, puis reviens ici.</p>`;
-  else if (nbOk === sl.profils.length) { attention = false;
-    const da = sl.dernier_appel;
-    html = `<p><b>ElegooSlicer est relié</b> (${sl.profils.map(p => esc(p.nom)).join(", ")}).<br>
-      <small style="color:var(--doux)">${da
-        ? `Dernier G-code reçu : ${esc(da.date)} — ${esc(da.resultat || "traité")}`
-        : "Aucun G-code reçu pour l'instant : exporte ou envoie une impression depuis ElegooSlicer avec ce profil sélectionné."}</small></p>`; }
-  else html = `<p><b>${sl.profils.length - nbOk} profil(s) ElegooSlicer pas encore relié(s)</b> : ${sl.profils.filter(p => !p.configure).map(p => esc(p.nom)).join(", ")}.
-     ${sl.ouvert ? "Quitte ElegooSlicer (⌘Q) puis clique sur Relier." : ""}</p>
-     <button class="principal" onclick="relier()" ${sl.ouvert ? "disabled" : ""}>Relier ElegooSlicer</button>`;
+  if (sl.lies.length) {
+    // ancien système (script de post-traitement) : il peut bloquer les impressions, on le retire
+    html = `<p><b>Ancien réglage à retirer.</b> Le script de post-traitement est encore dans ${sl.lies.length} profil(s)
+      ElegooSlicer (${sl.lies.map(esc).join(", ")}) et peut bloquer tes impressions.
+      ${sl.ouvert ? "Quitte ElegooSlicer (⌘Q), puis clique sur Retirer." : ""}</p>
+      <button class="principal" onclick="retirerLien()" ${sl.ouvert ? "disabled" : ""}>Retirer l'ancien réglage</button>`;
+  } else if (sv.active) {
+    attention = sv.inaccessibles.length > 0;
+    html = `<p><b>Détection automatique active.</b> Chaque impression envoyée depuis ElegooSlicer, ou G-code exporté
+      dans Téléchargements ou sur le Bureau, est compté — sans rien régler dans ElegooSlicer.<br>${derniere}
+      ${sv.inaccessibles.length ? `<br><small>macOS bloque l'accès à ${sv.inaccessibles.map(esc).join(", ")} : les envois
+      à l'imprimante sont comptés, mais pas les exports dans ce dossier. Pour les autoriser : Réglages Système →
+      Confidentialité et sécurité → Fichiers et dossiers → python3.</small>` : ""}</p>
+      <button class="lien" onclick="desactiverDetection()">Désactiver</button>`;
+  } else if (sv.installee) {
+    html = `<p><b>La détection automatique ne répond pas.</b> Elle est installée mais ne tourne pas.</p>
+      <button class="principal" onclick="activerDetection()">Relancer la détection</button>`;
+  } else {
+    html = `<p><b>Active la détection automatique</b> pour que chaque impression envoyée ou exportée depuis
+      ElegooSlicer soit comptée. Elle tourne discrètement en arrière-plan, même app fermée, et ne peut pas
+      bloquer une impression.</p>
+      <button class="principal" onclick="activerDetection()">Activer la détection</button>`;
+  }
   const b = document.getElementById("slicer");
   b.className = "bandeau" + (attention ? " attention" : ""); b.innerHTML = html;
 
@@ -405,7 +420,9 @@ function annulerDerniere() {
   if (confirm(`Annuler « ${h.tache} » (${g(h.total_g, 1)} g) ? Le filament sera rendu aux bobines.`)) agir("/api/annuler", {}, "Impression annulée");
 }
 const changerSeuil = v => agir("/api/seuil", {grammes: v}, "Seuil d'alerte : " + v + " g");
-const relier = () => agir("/api/slicer/configurer", {}, "ElegooSlicer est relié");
+const activerDetection = () => agir("/api/surveillance/activer", {}, "Détection automatique activée");
+const desactiverDetection = () => { if (confirm("Désactiver la détection automatique ? Les impressions ne seront plus comptées.")) agir("/api/surveillance/desactiver", {}, "Détection désactivée"); };
+const retirerLien = () => agir("/api/slicer/retirer", {}, "Ancien réglage retiré de tes profils");
 async function quitter() {
   await api("/api/quitter", {}).catch(() => {});
   document.getElementById("app").style.display = "none"; document.getElementById("ferme").style.display = "block";

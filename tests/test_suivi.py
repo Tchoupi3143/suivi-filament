@@ -5,6 +5,7 @@ import json
 import os
 import sys
 import tempfile
+import time
 import unittest
 
 SRC = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src")
@@ -144,6 +145,68 @@ class CommandeBobines(Base):
         r = self.lancer(cmd, "liste")
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertIn("Aucune bobine", r.stdout)
+
+
+class Surveillance(Base):
+    """Le surveillant détecte seul les G-code d'ElegooSlicer (envoi et export)."""
+
+    def demarrer(self, duree=6):
+        import subprocess
+        self.tmpdir = os.path.join(self.tmp.name, "T"); os.mkdir(self.tmpdir)
+        self.exports = os.path.join(self.tmp.name, "Downloads"); os.mkdir(self.exports)
+        env = dict(os.environ, SUIVI_FILAMENT_TMP=self.tmpdir, SUIVI_FILAMENT_EXPORTS=self.exports,
+                   SUIVI_FILAMENT_DUREE=str(duree), PYTHONDONTWRITEBYTECODE="1")
+        self.proc = subprocess.Popen([sys.executable, os.path.join(SRC, "surveillant.py")], env=env,
+                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        time.sleep(0.6)
+
+    def finir(self):
+        out, err = self.proc.communicate(timeout=30)
+        self.assertEqual(self.proc.returncode, 0, err)
+        return self.sf.charger()
+
+    def test_envoi_ecrit_en_deux_fois_puis_supprime(self):
+        """ElegooSlicer écrit le fichier d'envoi, l'envoie, puis le supprime : il doit être compté."""
+        self.bobine(reste=1000)
+        self.demarrer()
+        chemin = os.path.join(self.tmpdir, ".ElegooSlicer.upload.9e10-8bad-87cc-3d82")
+        moitie = len(GCODE_ORCA) // 2
+        with open(chemin, "w", encoding="utf-8") as f:
+            f.write(GCODE_ORCA[:moitie]); f.flush(); time.sleep(0.5)
+            f.write(GCODE_ORCA[moitie:])
+        time.sleep(0.6)
+        os.remove(chemin)                       # supprimé avant d'être « stable » : on garde le fichier ouvert
+        d = self.finir()
+        self.assertEqual(len(d["historique"]), 1)
+        self.assertEqual(d["historique"][0]["origine"], "envoi")
+        self.assertAlmostEqual(d["bobines"][0]["reste_g"], 1000 - 25.06)
+
+    def test_export_puis_envoi_compte_une_fois(self):
+        self.bobine(reste=1000)
+        self.demarrer()
+        with open(os.path.join(self.exports, "piece.gcode"), "w", encoding="utf-8") as f:
+            f.write(GCODE_ORCA)
+        time.sleep(3.5)
+        with open(os.path.join(self.tmpdir, ".ElegooSlicer.upload.abcd"), "w", encoding="utf-8") as f:
+            f.write(GCODE_ORCA)
+        d = self.finir()
+        self.assertEqual(len(d["historique"]), 1)
+        self.assertEqual(d["historique"][0]["tache"], "piece.gcode")
+
+    def test_anciens_fichiers_ignores(self):
+        self.bobine(reste=1000)
+        os.makedirs(os.path.join(self.tmp.name, "Downloads"))
+        vieux = os.path.join(self.tmp.name, "Downloads", "vieux.gcode")
+        with open(vieux, "w", encoding="utf-8") as f:
+            f.write(GCODE_ORCA)
+        os.utime(vieux, (time.time() - 3600, time.time() - 3600))
+        import shutil; shutil.rmtree(os.path.join(self.tmp.name, "Downloads"), ignore_errors=True)
+        self.demarrer(duree=4)
+        with open(os.path.join(self.exports, "vieux.gcode"), "w", encoding="utf-8") as f:
+            f.write(GCODE_ORCA)
+        os.utime(os.path.join(self.exports, "vieux.gcode"), (time.time() - 3600, time.time() - 3600))
+        d = self.finir()
+        self.assertEqual(len(d["historique"]), 0)
 
 
 class Catalogue(unittest.TestCase):

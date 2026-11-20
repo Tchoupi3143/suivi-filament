@@ -74,10 +74,12 @@ au_revoir = 0.0
 
 def installer_moteur():
     """Copie le moteur dans ~/SuiviFilament : le chemin reste valable même si l'app est déplacée."""
-    for f in ("suivi_filament.py", "configurer_slicer.py"):
+    change = False
+    for f in ("suivi_filament.py", "configurer_slicer.py", "surveillant.py"):
         src, dst = os.path.join(RES, f), os.path.join(DOSSIER, f)
         if not os.path.exists(dst) or open(src, "rb").read() != open(dst, "rb").read():
             shutil.copy2(src, dst)
+            change = True
     with open(os.path.join(RES, "bobines.modele"), encoding="utf-8") as fh:
         wrapper = fh.read().replace("@PYTHON@", sys.executable)
     if not os.path.exists(COMMANDE_SLICER) or open(COMMANDE_SLICER, encoding="utf-8").read() != wrapper:
@@ -88,6 +90,79 @@ def installer_moteur():
     if sys.platform == "darwin":
         # fichiers venus d'un zip téléchargé : retirer la quarantaine pour que le slicer puisse les lancer
         subprocess.run(["xattr", "-dr", "com.apple.quarantine", DOSSIER], capture_output=True)
+    if change and os.path.exists(AGENT_PLIST):
+        activer_surveillance()          # nouvelle version du moteur : on relance le surveillant
+
+
+# ----------------------------------------------------------------------------- surveillant (LaunchAgent)
+
+AGENT = "local.suivifilament.surveillant"
+AGENT_PLIST = os.path.expanduser(os.environ.get("SUIVI_FILAMENT_AGENT_PLIST",
+                                                f"~/Library/LaunchAgents/{AGENT}.plist"))
+ETAT_SURVEILLANT = os.path.join(DOSSIER, "surveillant.etat")
+
+
+def _uid_gui():
+    return f"gui/{os.getuid()}"
+
+
+def activer_surveillance():
+    """Installe et (re)lance le surveillant en arrière-plan, à chaque ouverture de session."""
+    import plistlib
+    script = os.path.join(DOSSIER, "surveillant.py")
+    if sys.platform != "darwin":
+        # hors macOS (développement / tests) : simple processus détaché
+        arreter_surveillance()
+        subprocess.Popen([sys.executable, script], start_new_session=True,
+                         stdout=subprocess.DEVNULL, stderr=open(os.path.join(DOSSIER, "surveillant.log"), "a"))
+        open(AGENT_PLIST_DEV, "w").close()
+        return
+    os.makedirs(os.path.dirname(AGENT_PLIST), exist_ok=True)
+    with open(AGENT_PLIST, "wb") as fh:
+        plistlib.dump({
+            "Label": AGENT,
+            "ProgramArguments": [sys.executable, script],
+            "EnvironmentVariables": {"PYTHONDONTWRITEBYTECODE": "1", "LANG": "fr_FR.UTF-8"},
+            "RunAtLoad": True, "KeepAlive": True, "ThrottleInterval": 10,
+            "StandardOutPath": os.path.join(DOSSIER, "surveillant.log"),
+            "StandardErrorPath": os.path.join(DOSSIER, "surveillant.log"),
+        }, fh)
+    subprocess.run(["launchctl", "bootout", f"{_uid_gui()}/{AGENT}"], capture_output=True)
+    r = subprocess.run(["launchctl", "bootstrap", _uid_gui(), AGENT_PLIST], capture_output=True, text=True)
+    if r.returncode != 0:
+        raise ValueError("macOS a refusé de lancer la détection : " + (r.stderr.strip() or f"code {r.returncode}"))
+
+
+def arreter_surveillance():
+    if sys.platform == "darwin":
+        subprocess.run(["launchctl", "bootout", f"{_uid_gui()}/{AGENT}"], capture_output=True)
+        if os.path.exists(AGENT_PLIST):
+            os.remove(AGENT_PLIST)
+    else:
+        try:
+            with open(ETAT_SURVEILLANT, encoding="utf-8") as fh:
+                os.kill(json.load(fh)["pid"], 15)
+        except Exception:
+            pass
+        if os.path.exists(AGENT_PLIST_DEV):
+            os.remove(AGENT_PLIST_DEV)
+    if os.path.exists(ETAT_SURVEILLANT):
+        os.remove(ETAT_SURVEILLANT)
+
+
+AGENT_PLIST_DEV = os.path.join(DOSSIER, ".surveillant-dev")   # marqueur « installé » hors macOS
+
+
+def etat_surveillance():
+    installee = os.path.exists(AGENT_PLIST if sys.platform == "darwin" else AGENT_PLIST_DEV)
+    try:
+        with open(ETAT_SURVEILLANT, encoding="utf-8") as fh:
+            e = json.load(fh)
+    except Exception:
+        e = {}
+    actif = bool(e) and time.time() - e.get("signe", 0) < 20
+    return {"installee": installee, "active": installee and actif,
+            "inaccessibles": e.get("inaccessibles", []), "exports": e.get("exports", [])}
 
 
 # ----------------------------------------------------------------------------- état
@@ -113,7 +188,9 @@ def etat_slicer():
         profils.append({"nom": d.get("name", os.path.basename(f)[:-5]),
                         "configure": any(COMMANDE_SLICER in s for s in pp)})
     return {"installe": bool(bases), "ouvert": slicer_ouvert(), "profils": profils,
-            "commande": COMMANDE_SLICER, "dernier_appel": dernier_appel()}
+            "lies": [p["nom"] for p in profils if p["configure"]],
+            "commande": COMMANDE_SLICER, "dernier_appel": dernier_appel(),
+            "surveillance": etat_surveillance()}
 
 
 def dernier_appel():
@@ -124,10 +201,24 @@ def dernier_appel():
     except OSError:
         return None
     for i in range(len(lignes) - 1, -1, -1):
-        if "appel du slicer" in lignes[i]:
+        if "appel du slicer" in lignes[i] or "G-code détecté" in lignes[i]:
             suite = lignes[i + 1].split("] ", 1)[-1].strip() if i + 1 < len(lignes) else ""
             return {"date": lignes[i][1:17], "resultat": suite}
     return None
+
+
+def retirer_ancien_lien(silencieux=False):
+    """Retire l'ancien script de post-traitement des profils (il pouvait bloquer les impressions)."""
+    if not any(p["configure"] for p in etat_slicer()["profils"]):
+        return
+    if slicer_ouvert():
+        if silencieux:
+            return
+        raise ValueError("Quitte d'abord ElegooSlicer (⌘Q), sinon il remettrait l'ancien réglage en se fermant.")
+    r = subprocess.run([sys.executable, os.path.join(DOSSIER, "configurer_slicer.py"), "--retirer", COMMANDE_SLICER],
+                       capture_output=True, text=True)
+    if r.returncode != 0 and not silencieux:
+        raise ValueError(r.stdout.strip() or r.stderr.strip() or "Échec du retrait")
 
 
 def etat():
@@ -225,6 +316,20 @@ def action(chemin, corps):
                         b["reste_g"] = round(b["reste_g"] + x["g"], 2)
         elif morceaux == ["seuil"]:
             d["seuil_alerte_g"] = nombre(corps.get("grammes"), 100)
+        elif morceaux == ["surveillance", "activer"]:
+            activer_surveillance()
+            retirer_ancien_lien(silencieux=True)
+            for _ in range(20):                  # laisser au surveillant le temps de donner signe de vie
+                if etat_surveillance()["active"]:
+                    break
+                time.sleep(0.25)
+            return
+        elif morceaux == ["surveillance", "desactiver"]:
+            arreter_surveillance()
+            return
+        elif morceaux == ["slicer", "retirer"]:
+            retirer_ancien_lien()
+            return
         elif morceaux == ["slicer", "configurer"]:
             if slicer_ouvert():
                 raise ValueError("Quitte d'abord ElegooSlicer (⌘Q), sinon il écraserait le réglage en se fermant.")
