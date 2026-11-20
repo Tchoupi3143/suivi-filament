@@ -3,7 +3,7 @@
 **Surveille le compte bancaire qui reçoit tes loyers, repère qui a payé et envoie
 automatiquement la quittance au locataire dès que son loyer est réglé.**
 
-- **Lecture des relevés** : OFX/QFX, CSV (toutes les banques françaises) et CAMT.053 (XML ISO 20022).
+- **Lecture des relevés** : OFX/QFX, CSV, QIF (toutes les banques françaises) et CAMT.053 (XML ISO 20022).
 - **Reconnaissance des virements** par mots du libellé (nom du locataire, du conjoint, du garant,
   de la CAF…). Un virement non reconnu n'est **jamais** attribué au hasard : il est mis
   « à vérifier », avec une suggestion d'après le montant, à confirmer en un clic.
@@ -35,6 +35,28 @@ Python 3.8 ou plus récent, bibliothèque standard uniquement : rien à installe
 
 Importer deux fois le même relevé, ou des relevés qui se chevauchent, ne compte rien en double
 (et une même opération présente dans un export CSV puis OFX est repérée comme doublon).
+
+## Banque Populaire : récupérer le relevé
+
+Sur le site **Cyberplus** (navigateur d'ordinateur) :
+
+1. Synthèse des comptes : bouton **« Gérer »** du compte des loyers › **« Télécharger les opérations »**
+   (ou, dans le détail du compte, « Télécharger les opérations » à droite de l'écran).
+2. Format : **Money (.ofx)** de préférence (chaque opération y porte un identifiant unique) ;
+   « Excel (.csv) » avec le séparateur « ; » ou « Quicken (.qif) » fonctionnent aussi.
+3. Période : depuis le dernier export (un chevauchement ne pose aucun problème).
+
+Si le bouton « Gérer » n'apparaît pas : ton nom en haut à droite › « Autres réglages » ›
+« Fonctionnalités avancées » › activer.
+
+Mots à reconnaître : le libellé Banque Populaire d'un virement reçu ressemble à
+`VIR SEPA M JEAN DUPONT` suivi du motif saisi par le locataire. Le **nom de famille** suffit
+en général ; ouvre « Opérations du compte » après le premier import pour vérifier.
+
+**Bankin'** : l'application agrège tes comptes mais ne propose pas d'accès automatique pour un
+particulier (son API, Bridge, est réservée aux entreprises). Passe plutôt par l'export de la
+Banque Populaire. Si tu exportes un CSV depuis Bankin', il sera lu s'il contient des colonnes
+Date / Description / Montant ; sinon le message d'erreur affiche ses en-têtes.
 
 ## Automatiser
 

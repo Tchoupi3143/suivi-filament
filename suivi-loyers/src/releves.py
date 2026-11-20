@@ -4,6 +4,7 @@ Lecture des relevés bancaires exportés depuis l'espace client de la banque.
 
 Formats acceptés (détection automatique) :
   - OFX / QFX (« Money », « Quicken », proposé par presque toutes les banques françaises)
+  - QIF (« Quicken »)
   - CAMT.053 (XML ISO 20022, banques pro / Qonto / Shine…)
   - CSV (séparateur ; , ou tabulation, montants « 1 234,56 », colonnes Débit/Crédit ou Montant)
 
@@ -77,6 +78,37 @@ def lire_ofx(texte):
     return ops
 
 
+# --------------------------------------------------------------------------- QIF
+
+def date_qif(s):
+    s = s.strip().replace("'", "/").replace(" ", "")
+    try:
+        return date_iso(s)
+    except ValueError:
+        j, m, a = re.split(r"[/.-]", s)
+        a = int(a)
+        return date_iso(f"{int(j):02d}/{int(m):02d}/{a + 2000 if a < 100 else a}")
+
+
+def lire_qif(texte):
+    ops, cour = [], {}
+    for ligne in texte.splitlines():
+        if not ligne.strip() or ligne.startswith("!"):
+            continue
+        code, val = ligne[0], ligne[1:].strip()
+        if code == "^":
+            if "D" in cour and "T" in cour:
+                ops.append({"date": date_qif(cour["D"]), "montant": centimes(cour["T"]),
+                            "libelle": " ".join(x for x in (cour.get("P"), cour.get("M")) if x),
+                            "ref": cour.get("N") or None})
+            cour = {}
+        elif code in "DTPMN" and code not in cour:
+            cour[code] = val
+        elif code == "U" and "T" not in cour:
+            cour["T"] = val
+    return ops
+
+
 # --------------------------------------------------------------------------- CAMT.053
 
 def lire_camt(texte):
@@ -116,7 +148,8 @@ def _norm(s):
 
 COL_DATE = ("date operation", "date", "date comptable", "date de l operation", "booking date", "date valeur")
 COL_LIB = ("libelle", "libelle operation", "libelle simplifie", "description", "label", "intitule",
-           "detail", "details", "operation", "nature de l operation", "communication", "contrepartie")
+           "detail", "details", "operation", "nature de l operation", "communication", "contrepartie",
+           "informations complementaires", "info complementaire", "motif", "beneficiaire", "tiers")
 COL_MONTANT = ("montant", "montant eur", "montant euros", "montant en euros", "amount", "valeur")
 COL_CREDIT = ("credit", "credit eur", "credit euros", "credits", "montant credit", "recette")
 COL_DEBIT = ("debit", "debit eur", "debit euros", "debits", "montant debit", "depense")
@@ -153,7 +186,9 @@ def lire_csv(texte):
         ilib = [i for i in range(len(h)) if i not in exclus and any(h[i].startswith(x) for x in COL_LIB)]
         break
     else:
-        raise FormatInconnu("CSV : impossible de trouver les colonnes Date / Libellé / Montant")
+        apercu = " | ".join(rangs[0][:8]) if rangs else ""
+        raise FormatInconnu("CSV : impossible de trouver les colonnes Date / Libellé / Montant"
+                            + (f" (première ligne : {apercu[:200]})" if apercu else ""))
     ops = []
     for r in rangs[n + 1:]:
         if len(r) <= idate or not r[idate].strip():
@@ -185,6 +220,8 @@ def lire(octets, nom=""):
     debut = texte.lstrip()[:400].upper()
     if "<OFX>" in texte.upper() or "OFXHEADER" in debut:
         ops = lire_ofx(texte)
+    elif debut.startswith("!TYPE") or debut.startswith("!ACCOUNT") or debut.startswith("!OPTION"):
+        ops = lire_qif(texte)
     elif debut.startswith("<?XML") or debut.startswith("<DOCUMENT"):
         if "CAMT.05" not in texte[:2000].lower() and "BkToCstmrStmt" not in texte:
             raise FormatInconnu("XML non reconnu (seul le CAMT.053 est accepté)")

@@ -83,6 +83,26 @@ class Releves(Base):
         ops = self.L.releves.lire(ofx.encode(), "r.ofx")
         self.assertEqual(ops, [{"date": "2026-11-02", "montant": 85000, "libelle": "VIR DUPONT LOYER", "ref": "A1"}])
 
+    def test_csv_banque_populaire(self):
+        # export « Télécharger les opérations » > Excel (.csv), séparateur « ; »
+        texte = ("Date de comptabilisation;Libelle simplifie;Libelle operation;Reference;"
+                 "Informations complementaires;Type operation;Categorie;Sous categorie;Debit;Credit;"
+                 "Date operation;Date de valeur;Pointage operation\n"
+                 "03/11/2026;M JEAN DUPONT;VIR SEPA M JEAN DUPONT;1234;LOYER NOVEMBRE APPT 1;Virement recu;"
+                 "Revenus;Loyers;;+850,00;02/11/2026;03/11/2026;0\n"
+                 "04/11/2026;PRLV ASSURANCE;PRLV SEPA ASSURANCE;;;Prelevement;;;-12,40;;04/11/2026;04/11/2026;0\n")
+        ops = self.L.releves.lire(texte.encode("cp1252"), "bp.csv")
+        self.assertEqual([(o["date"], o["montant"]) for o in ops], [("2026-11-02", 85000), ("2026-11-04", -1240)])
+        self.assertIn("LOYER NOVEMBRE", ops[0]["libelle"])
+        self.assertIn("DUPONT", ops[0]["libelle"])
+
+    def test_qif(self):
+        texte = "!Type:Bank\nD02/11/2026\nT850,00\nPVIR SEPA M JEAN DUPONT\nMLOYER\n^\nD4/11'26\nT-12.40\nPPRLV\n^\n"
+        ops = self.L.releves.lire(texte.encode("cp1252"), "bp.qif")
+        self.assertEqual(ops[0], {"date": "2026-11-02", "montant": 85000, "libelle": "VIR SEPA M JEAN DUPONT LOYER",
+                                  "ref": None})
+        self.assertEqual((ops[1]["date"], ops[1]["montant"]), ("2026-11-04", -1240))
+
     def test_camt053(self):
         xml = """<?xml version="1.0"?>
 <Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02"><BkToCstmrStmt><Stmt>

@@ -108,7 +108,7 @@ body.glisse #depot { display: flex; }
     <button onclick="analyser()" title="Importe les relevés déposés dans le dossier a-importer">Analyser le dossier</button>
     <button onclick="ouvrirReglages()">Réglages</button>
     <button class="principal" onclick="ouvrirBail()">＋ Logement</button>
-    <input type="file" id="fichier" accept=".csv,.ofx,.qfx,.xml,.txt" multiple hidden onchange="importer(this.files)">
+    <input type="file" id="fichier" accept=".csv,.ofx,.qfx,.qif,.xml,.txt" multiple hidden onchange="importer(this.files)">
   </header>
 
   <section class="stats" id="stats"></section>
@@ -307,7 +307,7 @@ function afficher() {
       <td class="actions">${o.ignoree ? `<button class="lien" onclick="api('operations/${o.id}/restaurer', {})">Restaurer</button>` :
         o.bail ? (o.source === "manuel" ? `<button class="lien danger" onclick="api('operations/${o.id}/supprimer', {})">Supprimer</button>` :
                   `<button class="lien" onclick="affecter('${o.id}', null)">Détacher</button>`) : ""}</td></tr>`).join("")
-      || `<tr><td colspan="5" class="doux">Aucune opération : importe un relevé (OFX, CSV ou CAMT.053) exporté depuis ta banque.</td></tr>`}</table>`;
+      || `<tr><td colspan="5" class="doux">Aucune opération : importe un relevé (OFX, CSV, QIF ou CAMT.053) exporté depuis ta banque.</td></tr>`}</table>`;
 
   $("#journal").innerHTML = `<table>${E.journal.map(j => `<tr><td class="doux" style="white-space:nowrap">${esc(j.date)}</td><td>${esc(j.texte)}</td></tr>`).join("")
     || `<tr><td class="doux">Vide</td></tr>`}</table>`;
