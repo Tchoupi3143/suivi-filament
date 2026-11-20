@@ -259,7 +259,10 @@ def action(chemin, corps):
                     raise ValueError(f"Modèle d'e-mail invalide ({cle}) : {ex}")
             if corps.get("mdp"):
                 os.makedirs(L.DOSSIER, exist_ok=True)
-                envoi.enregistrer_mot_de_passe(L.DOSSIER, corps["mdp"])
+                mdp = corps["mdp"].strip()
+                if "gmail" in (d["smtp"].get("hote") or "").lower():
+                    mdp = mdp.replace(" ", "").replace("\u00a0", "")   # code Google affiché en 4 blocs
+                envoi.enregistrer_mot_de_passe(L.DOSSIER, mdp)
         elif m == ["test-email"]:
             a = d["bailleur"].get("email")
             if not a:
@@ -268,7 +271,7 @@ def action(chemin, corps):
                 envoi.envoyer(d["smtp"], L.DOSSIER, a, "Suivi Loyers — e-mail de test",
                               "L'envoi des quittances fonctionne.\n")
             except Exception as ex:
-                raise ValueError(f"Échec : {ex}")
+                raise ValueError(f"Échec de l'e-mail de test : {ex}")
             return {"message": f"E-mail de test envoyé à {a}"}
         else:
             raise ValueError("Requête inconnue")

@@ -28,7 +28,38 @@ def configure(smtp):
     return bool(smtp.get("hote") and smtp.get("expediteur"))
 
 
+def expliquer(ex, smtp):
+    """Message clair pour les erreurs d'envoi les plus courantes."""
+    hote = (smtp.get("hote") or "").lower()
+    if isinstance(ex, smtplib.SMTPAuthenticationError):
+        conseil = (" Avec Gmail, il faut un mot de passe d'application de 16 lettres "
+                   "(myaccount.google.com/apppasswords), pas ton mot de passe habituel."
+                   if "gmail" in hote or "google" in hote else
+                   " Vérifie l'adresse d'expédition, l'identifiant et le mot de passe.")
+        return "Adresse ou mot de passe refusé par le serveur e-mail." + conseil
+    if isinstance(ex, smtplib.SMTPSenderRefused):
+        return "Le serveur refuse l'adresse d'expédition : mets exactement l'adresse de ta boîte mail."
+    if isinstance(ex, smtplib.SMTPRecipientsRefused):
+        return "Adresse du destinataire refusée : vérifie l'e-mail du locataire (ou le tien)."
+    if isinstance(ex, (ssl.SSLError, smtplib.SMTPServerDisconnected)):
+        return ("Échec de la connexion sécurisée : vérifie le couple port / sécurité "
+                "(465 avec SSL/TLS, ou 587 avec STARTTLS).")
+    if isinstance(ex, (ConnectionRefusedError, TimeoutError, OSError)):
+        return (f"Impossible de joindre le serveur « {smtp.get('hote')} » (port {smtp.get('port')}) : vérifie "
+                "son nom et le port ; un antivirus ou un réseau d'entreprise peut aussi bloquer l'envoi.")
+    return str(ex)
+
+
 def envoyer(smtp, dossier, a, sujet, texte, pieces=(), copie=None):
+    try:
+        _envoyer(smtp, dossier, a, sujet, texte, pieces, copie)
+    except RuntimeError:
+        raise
+    except Exception as ex:
+        raise RuntimeError(expliquer(ex, smtp)) from ex
+
+
+def _envoyer(smtp, dossier, a, sujet, texte, pieces=(), copie=None):
     """pieces : [(nom_fichier, octets)] (PDF). Lève une exception en cas d'échec."""
     if not configure(smtp):
         raise RuntimeError("Envoi d'e-mails non configuré (Réglages > E-mail)")

@@ -94,6 +94,9 @@ textarea { resize: vertical; min-height: 60px; }
   max-width: calc(100vw - 32px); pointer-events: none; z-index: 10; }
 #toast.visible { opacity: 1; transform: translateX(-50%); }
 #toast.erreur { background: var(--danger); color: #fff; }
+.message-dlg { margin: 0; padding: 10px 12px; border-radius: 8px; background: var(--ok-fond); color: var(--ok);
+  font-size: 13px; overflow-wrap: anywhere; position: sticky; top: -20px; z-index: 1; }
+.message-dlg.erreur { background: var(--danger-fond); color: var(--danger); }
 #depot { position: fixed; inset: 0; background: rgba(10,132,255,.15); border: 3px dashed var(--accent);
   display: none; align-items: center; justify-content: center; font-size: 20px; font-weight: 600; z-index: 5; }
 body.glisse #depot { display: flex; }
@@ -275,9 +278,24 @@ const per = p => { const [a, m] = p.split("-"); return MOIS[+m - 1] + " " + a; }
 const dateFr = s => s ? new Date(s.slice(0, 10) + "T12:00").toLocaleDateString("fr-FR") : "";
 
 function toast(msg, erreur) {
-  const t = $("#toast"); t.textContent = msg; t.className = "visible" + (erreur ? " erreur" : "");
-  clearTimeout(toast.t); toast.t = setTimeout(() => t.className = "", erreur ? 6000 : 3500);
+  const t = $("#toast");
+  // une fenêtre ouverte (Réglages, Banque…) passe au-dessus de tout le reste : le message va dedans
+  const dlg = document.querySelector("dialog[open]");
+  (dlg || document.body).appendChild(t);
+  if (dlg) {
+    let zone = dlg.querySelector(".message-dlg");
+    if (!zone) {
+      zone = document.createElement("p"); zone.className = "message-dlg";
+      dlg.querySelector("form").prepend(zone);
+    }
+    zone.textContent = msg; zone.classList.toggle("erreur", !!erreur); zone.hidden = false;
+    zone.scrollIntoView({block: "nearest"});
+  }
+  t.textContent = msg; t.className = "visible" + (erreur ? " erreur" : "");
+  clearTimeout(toast.t); toast.t = setTimeout(() => t.className = "", erreur ? 10000 : 3500);
 }
+addEventListener("unhandledrejection", e => e.preventDefault());   // l'erreur est déjà affichée
+document.addEventListener("close", e => { const z = e.target.querySelector?.(".message-dlg"); if (z) z.hidden = true; }, true);
 
 async function api(chemin, corps) {
   const r = await fetch("/api/" + chemin, corps === undefined ? {headers: {"X-Jeton": JETON}} :
