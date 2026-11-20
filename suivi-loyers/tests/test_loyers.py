@@ -160,6 +160,21 @@ class Rapprochement(Base):
         self.assertEqual(e["2026-12"]["paye"], 50000)
         self.assertEqual(e["2026-12"]["statut"], "futur")
 
+    def test_excedent_reporte_et_affiche(self):
+        d = self.donnees()
+        d["baux"][0]["montants"] = [{"depuis": "2026-10", "loyer": 52000, "charges": 6700}]   # 587 €
+        for date in ("2026-10-03", "2026-11-03"):
+            self.L.ajouter_paiement_manuel(d, 1, date, 59000)                                     # 590 €
+        e = self.L.situation(d, d["baux"][0])[0]
+        oct_, nov, dec = e["2026-10"], e["2026-11"], e["2026-12"]
+        self.assertEqual((oct_["paye"], oct_["reporte"], oct_["avance_recue"]), (58700, 300, 0))
+        self.assertEqual((nov["paye"], nov["reporte"], nov["avance_recue"]), (58700, 600, 300))
+        # versé réellement chaque mois = payé - avance reçue + reporté = 590 €
+        for m in (oct_, nov):
+            self.assertEqual(m["paye"] - m["avance_recue"] + m["reporte"], 59000)
+        self.assertEqual(dec["paye"], 600)
+        self.assertEqual(oct_["statut"], "payé")
+
     def test_revision_de_loyer(self):
         d = self.donnees()
         d["baux"][0]["montants"].append({"depuis": "2026-11", "loyer": 80000, "charges": 7000})

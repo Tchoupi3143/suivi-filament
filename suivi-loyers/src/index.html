@@ -279,6 +279,7 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt
 const eur = c => (c / 100).toLocaleString("fr-FR", {style: "currency", currency: "EUR"});
 const euroSaisie = c => (c / 100).toFixed(2).replace(".", ",").replace(",00", "");
 const MOIS = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+const moisSuivant = p => { let [a, m] = p.split("-").map(Number); m++; if (m > 12) { m = 1; a++; } return a + "-" + String(m).padStart(2, "0"); };
 const per = p => { const [a, m] = p.split("-"); return MOIS[+m - 1] + " " + a; };
 const dateFr = s => s ? new Date(s.slice(0, 10) + "T12:00").toLocaleDateString("fr-FR") : "";
 
@@ -399,7 +400,7 @@ function ligneMois(x, m) {
       (q.envoyee_le ? `<span class="doux">envoyée le ${dateFr(q.envoyee_le)}</span>` :
        q.erreur ? `<span class="doux" style="color:var(--danger)" title="${esc(q.erreur)}">échec d'envoi</span>` : `<span class="doux">non envoyée</span>`);
     act = `<button class="lien" onclick="envoyer(${b}, '${p}', 'quittance')">${q.envoyee_le ? "Renvoyer" : "Envoyer"}</button>`;
-  } else if (m.paye > 0 && m.paye < m.du) {
+  } else if (m.paye > 0 && m.paye < m.du && m.statut !== "futur") {
     doc = r ? `<a href="/api/pdf?t=${JETON}&bail=${b}&periode=${p}&type=recu" target="_blank">Reçu</a> <span class="doux">${r.envoyee_le ? "envoyé" : ""}</span>` : "";
     act = `<button class="lien" onclick="envoyer(${b}, '${p}', 'recu')">Envoyer un reçu</button>`;
   } else if (m.statut === "avance") {
@@ -407,7 +408,13 @@ function ligneMois(x, m) {
   }
   if (m.statut.includes("retard") && x.email)
     act += `<button class="lien" onclick="relancer(${b}, '${p}')" title="${m.relance ? "Déjà relancé le " + esc(m.relance) : ""}">Relancer${m.relance ? " ✓" : ""}</button>`;
-  return `<tr><td>${per(p)}</td><td class="n">${eur(m.du)}</td><td class="n">${eur(m.paye)}</td>
+  // montant réellement versé ce mois-là : un excédent (590 € pour 587 € dus) est affiché puis reporté
+  const pl = c => c >= 200 ? "s" : "";
+  const verse = m.paye - m.avance_recue + m.reporte;
+  const recu = (verse || !m.avance_recue ? eur(verse) : "")
+    + (m.avance_recue > 0 ? `<div class="doux">${verse ? "+ " : ""}${eur(m.avance_recue)} d'avance</div>` : "")
+    + (m.reporte > 0 ? `<div class="doux">${eur(m.reporte)} reporté${pl(m.reporte)} sur ${per(moisSuivant(p)).split(" ")[0]}</div>` : "");
+  return `<tr><td>${per(p)}</td><td class="n">${eur(m.du)}</td><td class="n">${recu}</td>
     <td><span class="etiquette ${statutClasse(m.statut)}">${statutTexte(m)}</span>
       ${m.date_paiement ? `<span class="doux">le ${dateFr(m.date_paiement)}</span>` : ""}</td>
     <td>${doc}</td><td class="actions">${act}</td></tr>`;

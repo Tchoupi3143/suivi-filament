@@ -225,7 +225,9 @@ def situation(d, bail, jusqua=None):
     for p in periodes:
         loyer, charges = du(bail, p)
         etat[p] = {"periode": p, "loyer": loyer, "charges": charges, "du": loyer + charges, "paye": 0,
-                   "date_paiement": None, "operations": []}
+                   "date_paiement": None, "operations": [],
+                   "reporte": 0,          # part des virements de ce mois reportée sur les mois suivants
+                   "avance_recue": 0}     # part payée par un virement d'un mois précédent (excédent, avance)
     ops = sorted((o for o in d["operations"] if o.get("bail") == bail["id"] and not o.get("ignoree")),
                  key=lambda o: (o["date"], o["id"]))
     reste_total = 0
@@ -235,6 +237,7 @@ def situation(d, bail, jusqua=None):
         if reste < 0:                         # rejet / remboursement : on retire du dernier mois payé
             reste_total += reste
             continue
+        parts = []                            # (mois, montant) alimentés par ce virement
         while reste > 0 and i < len(periodes):
             e = etat[periodes[i]]
             part = min(reste, e["du"] - e["paye"])
@@ -242,9 +245,16 @@ def situation(d, bail, jusqua=None):
                 e["paye"] += part
                 e["operations"].append(op["id"])
                 reste -= part
+                parts.append((e, part))
             if e["paye"] >= e["du"]:
                 e["date_paiement"] = op["date"]
                 i += 1
+        # excédent d'un virement (ex. 590 € versés pour 587 € dus) : visible sur le mois du versement
+        # (« 3 € reportés ») et sur le mois qui en profite (« dont 3 € déjà versés »)
+        for e, part in parts[1:]:
+            e["avance_recue"] += part
+        if parts:
+            parts[0][0]["reporte"] += sum(part for _, part in parts[1:]) + reste
         reste_total += reste
     # retraits (montants négatifs affectés au bail) : on « dé-paie » en partant de la fin
     j = len(periodes) - 1
