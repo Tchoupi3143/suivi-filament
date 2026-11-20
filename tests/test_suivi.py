@@ -100,6 +100,52 @@ class PostTraitement(Base):
         self.assertEqual("\n".join(lignes) + "\n", GCODE_ORCA)
 
 
+class CommandeBobines(Base):
+    """Le script appelé par le slicer ne doit jamais renvoyer d'erreur (sinon l'impression est bloquée)."""
+
+    def installer(self, python):
+        import shutil
+        d = os.path.dirname(os.environ["SUIVI_FILAMENT_DATA"])
+        with open(os.path.join(SRC, "bobines.modele"), encoding="utf-8") as f:
+            modele = f.read().replace("@PYTHON@", python)
+        cmd = os.path.join(d, "bobines")
+        with open(cmd, "w", encoding="utf-8") as f:
+            f.write(modele)
+        os.chmod(cmd, 0o755)
+        shutil.copy(os.path.join(SRC, "suivi_filament.py"), d)
+        return cmd, d
+
+    def lancer(self, *args):
+        import subprocess
+        return subprocess.run(["bash", *args], capture_output=True, text=True)
+
+    def test_echec_python_ne_bloque_pas(self):
+        faux = os.path.join(self.tmp.name, "faux_python")
+        with open(faux, "w") as f:
+            f.write("#!/bin/sh\necho 'boum' >&2\nexit 4\n")
+        os.chmod(faux, 0o755)
+        cmd, d = self.installer(faux)
+        r = self.lancer(cmd, self.gcode(GCODE_ORCA, "x.ElegooSlicer.upload.1234"))
+        self.assertEqual(r.returncode, 0)
+        with open(os.path.join(d, "post_traitement.log"), encoding="utf-8") as f:
+            log = f.read()
+        self.assertIn("code 4", log)
+        self.assertIn("boum", log)
+
+    def test_comptage_par_la_commande(self):
+        self.bobine(reste=500)
+        cmd, _ = self.installer(sys.executable)
+        r = self.lancer(cmd, self.gcode(GCODE_ORCA, ".ElegooSlicer.upload.9e10"))
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertAlmostEqual(self.sf.charger()["bobines"][0]["reste_g"], 500 - 25.06)
+
+    def test_commande_terminal(self):
+        cmd, _ = self.installer(sys.executable)
+        r = self.lancer(cmd, "liste")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("Aucune bobine", r.stdout)
+
+
 class Catalogue(unittest.TestCase):
     def test_lots_rattaches(self):
         import catalogue_elegoo as ce

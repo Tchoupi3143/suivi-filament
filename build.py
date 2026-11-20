@@ -57,7 +57,7 @@ def app_mac(v):
         ajouter(z, base + "PkgInfo", contenu=b"APPL????")
         ajouter(z, base + "MacOS/SuiviFilament", r("macos", "app", "SuiviFilament"), executable=True)
         for f in sorted(os.listdir(r("src"))):
-            if f.endswith((".py", ".html", ".json", ".icns")):
+            if f.endswith((".py", ".html", ".json", ".icns", ".modele")):
                 ajouter(z, base + "Resources/" + f, r("src", f))
         ajouter(z, "Suivi Filament/LISEZMOI.md", r("docs", "macos-app.md"))
     return out
@@ -67,8 +67,9 @@ def scripts_mac(v):
     out = os.path.join(DIST, f"SuiviFilament-scripts-mac-{v}.zip")
     with zipfile.ZipFile(out, "w") as z:
         dossier(z, "SuiviFilament-mac")
-        for f in ("installer.command", "bobines", "Bobines.command"):
+        for f in ("installer.command", "Bobines.command"):
             ajouter(z, "SuiviFilament-mac/" + f, r("macos", "scripts", f), executable=True)
+        ajouter(z, "SuiviFilament-mac/bobines", r("src", "bobines.modele"), executable=True)
         for f in ("suivi_filament.py", "configurer_slicer.py"):
             ajouter(z, "SuiviFilament-mac/" + f, r("src", f), executable=True)
         ajouter(z, "SuiviFilament-mac/LISEZMOI.md", r("docs", "macos-scripts.md"))

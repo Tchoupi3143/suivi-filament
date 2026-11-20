@@ -78,13 +78,16 @@ def installer_moteur():
         src, dst = os.path.join(RES, f), os.path.join(DOSSIER, f)
         if not os.path.exists(dst) or open(src, "rb").read() != open(dst, "rb").read():
             shutil.copy2(src, dst)
-    wrapper = ('#!/bin/bash\n# Commande appelée par ElegooSlicer (post-traitement) et utilisable dans le Terminal.\n'
-               f'exec "{sys.executable}" "$(dirname "$0")/suivi_filament.py" "$@"\n')
-    if not os.path.exists(COMMANDE_SLICER) or open(COMMANDE_SLICER).read() != wrapper:
-        with open(COMMANDE_SLICER, "w") as fh:
+    with open(os.path.join(RES, "bobines.modele"), encoding="utf-8") as fh:
+        wrapper = fh.read().replace("@PYTHON@", sys.executable)
+    if not os.path.exists(COMMANDE_SLICER) or open(COMMANDE_SLICER, encoding="utf-8").read() != wrapper:
+        with open(COMMANDE_SLICER, "w", encoding="utf-8") as fh:
             fh.write(wrapper)
     os.chmod(COMMANDE_SLICER, 0o755)
     os.chmod(os.path.join(DOSSIER, "suivi_filament.py"), 0o755)
+    if sys.platform == "darwin":
+        # fichiers venus d'un zip téléchargé : retirer la quarantaine pour que le slicer puisse les lancer
+        subprocess.run(["xattr", "-dr", "com.apple.quarantine", DOSSIER], capture_output=True)
 
 
 # ----------------------------------------------------------------------------- état

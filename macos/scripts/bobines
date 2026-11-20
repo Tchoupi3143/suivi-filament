@@ -1,4 +1,0 @@
-#!/bin/bash
-# SPDX-License-Identifier: GPL-3.0-or-later
-# Commande Terminal : bobines liste | ajouter | activer | peser | corriger | annuler | historique ...
-exec "@PYTHON@" "$(dirname "$0")/suivi_filament.py" "$@"

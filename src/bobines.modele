@@ -1,0 +1,24 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Commande « bobines » : appelée par ElegooSlicer (post-traitement) et utilisable dans le Terminal.
+# Modèle : @PYTHON@ est remplacé par le chemin de Python à l'installation.
+PY="@PYTHON@"
+DIR="$(cd "$(dirname "$0")" && pwd)"
+
+case "$1" in
+    ""|-h|--help|ajouter|liste|activer|peser|corriger|annuler|historique|supprimer|seuil)
+        exec "$PY" "$DIR/suivi_filament.py" "$@" ;;
+esac
+
+# Mode slicer : le suivi ne doit JAMAIS empêcher une impression.
+# Quoi qu'il arrive, on répond « succès » au slicer et on note les problèmes dans le journal.
+SORTIE=$("$PY" "$DIR/suivi_filament.py" "$@" 2>&1)
+CODE=$?
+if [ "$CODE" -ne 0 ]; then
+    {
+        printf '[%s] ÉCHEC du script (code %s) — impression non bloquée\n' "$(date '+%Y-%m-%d %H:%M')" "$CODE"
+        printf '    python : %s\n    fichier : %s\n' "$PY" "${@: -1}"
+        printf '%s\n' "$SORTIE" | sed 's/^/    | /'
+    } >> "$DIR/post_traitement.log" 2>/dev/null
+fi
+exit 0
