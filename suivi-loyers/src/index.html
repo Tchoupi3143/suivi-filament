@@ -59,6 +59,7 @@ table { width: 100%; border-collapse: collapse; }
 th, td { text-align: left; padding: 8px 14px; border-top: 1px solid var(--trait); vertical-align: middle; }
 th { font-size: 12px; color: var(--doux); font-weight: 500; }
 td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.n .doux { white-space: normal; max-width: 260px; margin-left: auto; text-align: right; }
 td.actions { text-align: right; white-space: nowrap; }
 .defile { overflow-x: auto; }
 .defile table { min-width: 640px; }
@@ -152,6 +153,7 @@ body.glisse #depot { display: flex; }
     <label>Provision pour charges (€)<input name="charges" inputmode="decimal" placeholder="70"></label>
   </div>
   <label id="champRevision" hidden>Nouveau montant applicable à partir de<input name="revision_depuis" type="month"></label>
+  <p class="aide" id="historiqueMontants" hidden></p>
   <div class="ligne">
     <label>Payable le (jour du mois)<input name="jour_echeance" type="number" min="1" max="31" value="5"></label>
     <label>Premier mois suivi<input name="debut" type="month" required></label>
@@ -408,12 +410,11 @@ function ligneMois(x, m) {
   }
   if (m.statut.includes("retard") && x.email)
     act += `<button class="lien" onclick="relancer(${b}, '${p}')" title="${m.relance ? "Déjà relancé le " + esc(m.relance) : ""}">Relancer${m.relance ? " ✓" : ""}</button>`;
-  // montant réellement versé ce mois-là : un excédent (590 € pour 587 € dus) est affiché puis reporté
-  const pl = c => c >= 200 ? "s" : "";
-  const verse = m.paye - m.avance_recue + m.reporte;
-  const recu = (verse || !m.avance_recue ? eur(verse) : "")
-    + (m.avance_recue > 0 ? `<div class="doux">${verse ? "+ " : ""}${eur(m.avance_recue)} d'avance</div>` : "")
-    + (m.reporte > 0 ? `<div class="doux">${eur(m.reporte)} reporté${pl(m.reporte)} sur ${per(moisSuivant(p)).split(" ")[0]}</div>` : "");
+  // un virement réparti sur plusieurs mois (590 € : 587 € ici + 3 € pour un autre mois) est expliqué
+  const recu = eur(m.paye) + (m.details || []).map(v =>
+    `<div class="doux">virement de ${eur(v.montant)} du ${dateFr(v.date)} : ${eur(v.part)} ici, `
+    + v.autres.map(a => `${eur(a.part)} pour ${per(a.periode)}`).join(", ")
+    + (v.reste ? `${v.autres.length ? ", " : ""}${eur(v.reste)} en trop-perçu` : "") + "</div>").join("");
   return `<tr><td>${per(p)}</td><td class="n">${eur(m.du)}</td><td class="n">${recu}</td>
     <td><span class="etiquette ${statutClasse(m.statut)}">${statutTexte(m)}</span>
       ${m.date_paiement ? `<span class="doux">le ${dateFr(m.date_paiement)}</span>` : ""}</td>
@@ -466,6 +467,11 @@ function ouvrirBail(id) {
   $("#bailTitre").textContent = bailEdite ? "Modifier le logement" : "Nouveau logement";
   $("#bailSupprimer").hidden = !bailEdite;
   $("#champRevision").hidden = !bailEdite;
+  const h = $("#historiqueMontants");
+  h.hidden = !bailEdite;
+  if (bailEdite) h.innerHTML = "Montants enregistrés : " + bailEdite.montants.map(m =>
+      `<b>${eur(m.loyer + m.charges)}</b> à partir de ${per(m.depuis)}`).join(" ; ")
+    + ". Pour corriger un mois passé, indique le bon montant et ce mois dans « applicable à partir de ».";
   f.debut.value = E.courant;
   if (bailEdite) {
     const x = bailEdite;

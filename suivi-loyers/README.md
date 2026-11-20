@@ -103,8 +103,10 @@ la première synchronisation pour vérifier.
 
 ## Règles appliquées
 
-- Les paiements d'un logement sont imputés **au mois impayé le plus ancien** : un virement de
-  rattrapage solde d'abord l'arriéré ; un trop-versé est reporté sur le mois suivant (payé d'avance).
+- Chaque virement compte d'abord pour **le mois où il est reçu** ; ce qui dépasse complète un mois
+  précédent resté incomplet (le plus ancien d'abord), puis paie d'avance les mois suivants. Un petit
+  manque sur un mois reste donc sur ce mois (« partiel ») sans décaler les suivants. Quand un virement
+  est réparti sur plusieurs mois, la colonne « Reçu » l'explique.
 - La quittance est émise quand le mois est **entièrement** réglé ; sa date de paiement est celle du
   virement qui a soldé le mois. Un mois payé d'avance reçoit sa quittance le 1er du mois.
 - Seules les opérations **comptabilisées** comptent (pas celles « en cours »).

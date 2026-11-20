@@ -174,6 +174,27 @@ class Rapprochement(Base):
             self.assertEqual(m["paye"] - m["avance_recue"] + m["reporte"], 59000)
         self.assertEqual(dec["paye"], 600)
         self.assertEqual(oct_["statut"], "payé")
+        self.assertEqual(oct_["details"][0]["autres"], [{"periode": "2026-11", "part": 300}])
+
+    def test_petit_manque_ne_decale_pas_les_mois_suivants(self):
+        # loyer de 590 € saisi dès octobre, mais 587 € versés en octobre : octobre reste incomplet,
+        # novembre (590 € versés) est payé et a sa quittance
+        d = self.donnees()
+        d["baux"][0]["montants"] = [{"depuis": "2026-10", "loyer": 52000, "charges": 7000}]   # 590 €
+        self.L.ajouter_paiement_manuel(d, 1, "2026-10-03", 58700)
+        self.L.ajouter_paiement_manuel(d, 1, "2026-11-03", 59000)
+        e = self.L.situation(d, d["baux"][0])[0]
+        self.assertEqual((e["2026-10"]["paye"], e["2026-10"]["statut"]), (58700, "partiel en retard"))
+        self.assertEqual((e["2026-11"]["paye"], e["2026-11"]["statut"]), (59000, "payé"))
+        self.assertEqual(e["2026-11"]["details"], [])
+
+    def test_rattrapage_puis_avance(self):
+        d = self.donnees()                                              # 850 € par mois depuis octobre
+        self.L.ajouter_paiement_manuel(d, 1, "2026-11-04", 170000)        # octobre oublié + novembre
+        self.L.ajouter_paiement_manuel(d, 1, "2026-11-28", 85000)         # décembre payé d'avance
+        e = self.L.situation(d, d["baux"][0])[0]
+        self.assertEqual([e[p]["statut"] for p in ("2026-10", "2026-11", "2026-12")], ["payé", "payé", "avance"])
+        self.assertEqual(e["2026-10"]["date_paiement"], "2026-11-04")
 
     def test_revision_de_loyer(self):
         d = self.donnees()
