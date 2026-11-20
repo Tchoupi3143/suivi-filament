@@ -10,6 +10,9 @@ ICI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(ICI), "src"))
 sys.path.insert(0, ICI)
 from faux_smtp import FauxSMTP   # noqa: E402
+from faux_enablebanking import FauxEnableBanking   # noqa: E402
+import shutil      # noqa: E402
+import subprocess  # noqa: E402
 
 CSV = """Date;Libellé;Débit euros;Crédit euros;
 02/10/2026;VIR SEPA RECU /DE M DUPONT JEAN /MOTIF LOYER;;850,00;
@@ -231,6 +234,95 @@ class Quittances(Base):
         self.assertTrue(pdf.startswith(b"%PDF") and pdf.rstrip().endswith(b"%%EOF"))
         self.assertIn(b"RE\xc7U DE PAIEMENT PARTIEL", pdf)                  # paiement partiel = reçu, en cp1252
         self.assertIn(b"Zo\xe9 \\(L'H\xf4te\\)", pdf)
+
+
+@unittest.skipUnless(shutil.which("openssl"), "openssl absent : clé de test non générée")
+class Banque(Base):
+    TRANSACTIONS = [
+        {"entry_reference": "E1", "transaction_amount": {"amount": "850.00", "currency": "EUR"},
+         "credit_debit_indicator": "CRDT", "status": "BOOK", "booking_date": "2026-10-02",
+         "debtor": {"name": "M JEAN DUPONT"}, "remittance_information": ["LOYER OCTOBRE"]},
+        {"entry_reference": "E2", "transaction_amount": {"amount": "12.40", "currency": "EUR"},
+         "credit_debit_indicator": "DBIT", "status": "BOOK", "booking_date": "2026-10-03",
+         "creditor": {"name": "ASSURANCE"}},
+        {"entry_reference": "E3", "transaction_amount": {"amount": "850.00", "currency": "EUR"},
+         "credit_debit_indicator": "CRDT", "status": "BOOK", "booking_date": "2026-11-03",
+         "debtor": {"name": "M JEAN DUPONT"}, "remittance_information": ["LOYER NOV"]},
+        {"entry_reference": "E4", "transaction_amount": {"amount": "1120.00", "currency": "EUR"},
+         "credit_debit_indicator": "CRDT", "status": "PDNG", "booking_date": "2026-11-18",
+         "debtor": {"name": "MME CLAIRE MARTIN"}},
+    ]
+
+    def setUp(self):
+        super().setUp()
+        cle = os.path.join(self.tmp.name, "cle.pem")
+        subprocess.run(["openssl", "genrsa", "-out", cle, "2048"], check=True, capture_output=True)
+        texte = subprocess.run(["openssl", "rsa", "-in", cle, "-noout", "-text"], check=True,
+                               capture_output=True, text=True).stdout
+        n = int(texte.split("modulus:")[1].split("publicExponent")[0].replace(":", "").replace(" ", "")
+                .replace("\n", ""), 16)
+        self.pem = open(cle).read()
+        self.faux = FauxEnableBanking(n, 65537, "app-1", self.TRANSACTIONS)
+        self.L.banque.API = self.faux.url
+
+    def tearDown(self):
+        self.faux.arreter()
+        super().tearDown()
+
+    def connecter(self, d):
+        self.L.enregistrer_cle_banque(self.pem)
+        d["banque"].update(app_id="app-1")
+        conf = self.L.conf_banque(d)
+        self.assertEqual([b["name"] for b in self.L.banque.banques(conf)], ["Banque Populaire Grand Ouest", "BRED"])
+        url, state = self.L.banque.demarrer(conf, "Banque Populaire Grand Ouest")
+        self.assertTrue(url.startswith("https://"))
+        auth = next(c for c in self.faux.appels if c[1] == "/auth")[2]
+        self.assertEqual(auth["aspsp"], {"name": "Banque Populaire Grand Ouest", "country": "FR"})
+        self.assertEqual(auth["redirect_url"], "https://localhost/suivi-loyers")
+        retour = f"https://localhost/suivi-loyers?state={state}&code=CODE-OK"
+        with self.assertRaises(self.L.banque.ErreurBanque):
+            self.L.banque.code_depuis(retour.replace(state, "autre"), state)
+        r = self.L.banque.terminer(conf, self.L.banque.code_depuis(retour, state))
+        d["banque"].update(session_id=r["session_id"], comptes=r["comptes"], compte=r["comptes"][0]["uid"],
+                           valide_jusqu=r["valide_jusqu"])
+        self.L.sauver(d)
+
+    def test_synchronisation_et_quittance(self):
+        d = self.donnees(smtp=True)
+        self.connecter(d)
+        r = self.L.scanner()
+        self.assertEqual(r["banque"], "3 nouvelle(s) opération(s)")         # en attente exclue, 2 pages lues
+        d = self.L.charger()
+        ops = {o["libelle"]: o for o in d["operations"]}
+        self.assertEqual(ops["ASSURANCE"]["montant"], -1240)
+        self.assertEqual(ops["M JEAN DUPONT LOYER NOV"]["bail"], 1)
+        self.assertEqual(sorted(r["envoyees"]), ["Jean Dupont 2026-10", "Jean Dupont 2026-11"])
+        premier = next(c for c in self.faux.appels if c[1].endswith("/transactions"))[2]
+        self.assertEqual(premier["date_from"], "2026-08-21")                   # 90 jours au premier passage
+        r = self.L.scanner()
+        self.assertEqual(r["banque"], "0 nouvelle(s) opération(s)")
+        dernier = [c for c in self.faux.appels if c[1].endswith("/transactions")][-1][2]
+        self.assertEqual(dernier["date_from"], "2026-11-09")                   # dernière synchro - 10 jours
+
+    def test_expiration_previent_une_fois_puis_bloque(self):
+        d = self.donnees(smtp=True)
+        self.connecter(d)
+        d = self.L.charger()
+        d["banque"]["valide_jusqu"] = "2026-11-25"
+        self.L.sauver(d)
+        self.L.scanner()
+        self.L.scanner()
+        rappels = [m for m in self.smtp.messages if "renouveler" in m["Subject"]]
+        self.assertEqual(len(rappels), 1)
+        self.assertEqual(rappels[0]["To"], "moi@example.com")
+        os.environ["SUIVI_LOYERS_AUJOURDHUI"] = "2026-11-26"
+        r = self.L.scanner()
+        self.assertTrue(r["banque"].startswith("ERREUR"))
+        self.assertEqual(len([m for m in self.smtp.messages if "renouveler" in m["Subject"]]), 2)
+
+    def test_mauvaise_cle_refusee(self):
+        with self.assertRaises(self.L.banque.ErreurBanque):
+            self.L.enregistrer_cle_banque("pas une clé")
 
 
 if __name__ == "__main__":

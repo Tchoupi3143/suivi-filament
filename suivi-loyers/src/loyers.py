@@ -10,9 +10,10 @@ virements de chaque locataire, calcule ce qui est payé mois par mois et émet
     python3 loyers.py scan [relevé.ofx|csv|xml ...] [--sans-envoi]
     python3 loyers.py statut [AAAA-MM]
 
-Sans fichier, « scan » traite tout ce qui a été déposé dans ~/SuiviLoyers/a-importer/
-(les fichiers sont ensuite rangés dans importes/). C'est la commande à planifier
-(cron, launchd, Planificateur de tâches) pour un fonctionnement automatique.
+« scan » récupère les nouvelles opérations directement auprès de la banque si la
+connexion bancaire est configurée, et traite aussi tout fichier déposé dans
+~/SuiviLoyers/a-importer/ (rangé ensuite dans importes/). C'est la commande à
+planifier (cron, launchd, Planificateur de tâches) une fois par jour.
 
 Données : ~/SuiviLoyers/donnees.json (dossier modifiable avec SUIVI_LOYERS_DOSSIER).
 """
@@ -27,6 +28,7 @@ import sys
 import unicodedata
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import banque                # noqa: E402
 import envoi                 # noqa: E402
 import quittance as qt       # noqa: E402
 import releves               # noqa: E402
@@ -67,7 +69,7 @@ def aujourdhui():
 
 
 def maintenant():
-    return dt.datetime.now().strftime("%Y-%m-%d %H:%M")
+    return aujourdhui().isoformat() + dt.datetime.now().strftime(" %H:%M")
 
 
 # --------------------------------------------------------------------------- stockage
@@ -79,6 +81,9 @@ def vierge():
         "smtp": {"hote": "", "port": 465, "securite": "ssl", "utilisateur": "", "expediteur": "",
                  "nom_expediteur": "", "copie_bailleur": True},
         "reglages": {"envoi_auto": True, "jours_grace": 5, "sujet": MODELE_SUJET, "texte": MODELE_TEXTE},
+        "banque": {"app_id": "", "redirect_url": "https://localhost/suivi-loyers", "banque": "", "pays": "FR",
+                   "session_id": "", "comptes": [], "compte": "", "valide_jusqu": "", "derniere_synchro": "",
+                   "alerte_expiration": ""},
         "baux": [], "operations": [], "quittances": [], "journal": [], "prochain_bail": 1,
     }
 
@@ -407,7 +412,10 @@ def identifiant(op, n):
 
 def importer(d, octets, nom=""):
     """Ajoute les opérations du relevé (doublons ignorés). Renvoie (nouvelles, deja_connues)."""
-    ops = releves.lire(octets, nom)
+    return ajouter_operations(d, releves.lire(octets, nom), nom)
+
+
+def ajouter_operations(d, ops, nom):
     connus = {o["id"] for o in d["operations"]}
     vus, nouvelles, deja = {}, 0, 0
     for op in ops:
@@ -428,8 +436,77 @@ def importer(d, octets, nom=""):
         d["operations"].append(nouvelle)
         nouvelles += 1
     d["operations"].sort(key=lambda o: o["date"])
-    noter(d, f"Import {os.path.basename(nom) or 'relevé'} : {nouvelles} nouvelle(s) opération(s), {deja} déjà connue(s)")
+    if nouvelles or nom != SOURCE_BANQUE:
+        noter(d, f"Import {os.path.basename(nom) or 'relevé'} : {nouvelles} nouvelle(s) opération(s), {deja} déjà connue(s)")
     return nouvelles, deja
+
+
+# --------------------------------------------------------------------------- connexion bancaire
+
+SOURCE_BANQUE = "banque"
+CLE_BANQUE = os.path.join(DOSSIER, "enablebanking.pem")
+
+
+def conf_banque(d):
+    b = d["banque"]
+    try:
+        with open(CLE_BANQUE, encoding="utf-8") as f:
+            cle = f.read()
+    except OSError:
+        cle = ""
+    return {"app_id": b.get("app_id"), "cle": cle, "redirect_url": b.get("redirect_url")}
+
+
+def enregistrer_cle_banque(pem):
+    banque.charger_cle(pem)                      # vérifie que la clé est lisible avant de l'enregistrer
+    os.makedirs(DOSSIER, exist_ok=True)
+    fd = os.open(CLE_BANQUE, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+    with os.fdopen(fd, "w", encoding="utf-8") as f:
+        f.write(pem if isinstance(pem, str) else pem.decode())
+
+
+def banque_connectee(d):
+    b = d["banque"]
+    return bool(b.get("session_id") and b.get("compte") and b.get("app_id") and os.path.exists(CLE_BANQUE))
+
+
+def synchroniser(d):
+    """Récupère les opérations du compte des loyers. Renvoie (nouvelles, deja)."""
+    b = d["banque"]
+    today = aujourdhui()
+    if b.get("valide_jusqu") and b["valide_jusqu"] < today.isoformat():
+        raise banque.ErreurBanque(f"L'autorisation donnée à la banque a expiré le {b['valide_jusqu']} : "
+                                  "reconnecte la banque (bouton Banque)")
+    if b.get("derniere_synchro"):
+        depuis = dt.date.fromisoformat(b["derniere_synchro"][:10]) - dt.timedelta(days=10)
+    else:
+        depuis = today - dt.timedelta(days=90)
+    ops = banque.operations(conf_banque(d), b["compte"], depuis.isoformat())
+    r = ajouter_operations(d, ops, SOURCE_BANQUE)
+    b["derniere_synchro"] = maintenant()
+    return r
+
+
+def prevenir_expiration(d):
+    """Un e-mail au bailleur 10 jours avant la fin de l'autorisation bancaire (puis à l'expiration)."""
+    b = d["banque"]
+    fin = b.get("valide_jusqu")
+    if not fin or not banque_connectee(d) or not d["bailleur"].get("email") or not envoi.configure(d["smtp"]):
+        return
+    reste = (dt.date.fromisoformat(fin) - aujourdhui()).days
+    etape = "expiree" if reste < 0 else "bientot" if reste <= 10 else ""
+    if not etape or b.get("alerte_expiration") == f"{fin}:{etape}":
+        return
+    texte = (f"L'accès de Suivi Loyers à ton compte bancaire {'a expiré' if reste < 0 else 'expire'} le "
+             f"{qt.date_longue(fin)}.\n\nPour que les loyers continuent d'être vérifiés automatiquement, ouvre "
+             "Suivi Loyers, clique sur « Banque » puis « Reconnecter » (deux minutes, avec ton application "
+             "bancaire).\n\nLes banques imposent ce renouvellement tous les 180 jours au plus.\n")
+    try:
+        envoi.envoyer(d["smtp"], DOSSIER, d["bailleur"]["email"], "Suivi Loyers — accès bancaire à renouveler", texte)
+        b["alerte_expiration"] = f"{fin}:{etape}"
+        noter(d, "Rappel envoyé : accès bancaire à renouveler")
+    except Exception as ex:
+        noter(d, f"Rappel de renouvellement non envoyé : {ex}")
 
 
 def ajouter_paiement_manuel(d, bail_id, date, montant, note=""):
@@ -444,7 +521,17 @@ def ajouter_paiement_manuel(d, bail_id, date, montant, note=""):
 def scanner(fichiers=(), envoyer=True, boite=True):
     """Import + rapprochement + quittances. Utilisé par la CLI, la planification et l'interface."""
     d = charger()
-    rapport = {"fichiers": [], "affectees": 0, "a_verifier": 0}
+    rapport = {"fichiers": [], "affectees": 0, "a_verifier": 0, "banque": None}
+    if banque_connectee(d):
+        try:
+            n, deja = synchroniser(d)
+            rapport["banque"] = f"{n} nouvelle(s) opération(s)"
+            d["banque"].pop("erreur", None)
+        except Exception as ex:
+            rapport["banque"] = f"ERREUR {ex}"
+            d["banque"]["erreur"] = str(ex)[:300]
+            noter(d, f"Synchronisation bancaire impossible : {ex}")
+        prevenir_expiration(d)
     a_traiter = [(f, False) for f in fichiers]
     if boite:
         os.makedirs(BOITE, exist_ok=True)
@@ -495,6 +582,8 @@ def main(args):
     if args[0] == "scan":
         fichiers = [a for a in args[1:] if not a.startswith("--")]
         r = scanner(fichiers, envoyer="--sans-envoi" not in args)
+        if r["banque"]:
+            print("Banque  ", r["banque"])
         for f in r["fichiers"]:
             print("Import  ", f)
         print(f"Paiements reconnus : {r['affectees']}   À vérifier : {r['a_verifier']}")
@@ -505,7 +594,7 @@ def main(args):
         for x in r["erreurs"]:
             print("ERREUR d'envoi :", x)
         statut()
-        return 1 if r["erreurs"] else 0
+        return 1 if r["erreurs"] or (r["banque"] or "").startswith("ERREUR") else 0
     if args[0] == "statut":
         statut(args[1] if len(args) > 1 else None)
         return 0

@@ -25,6 +25,7 @@ RES = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, RES)
 import envoi                 # noqa: E402
 import loyers as L           # noqa: E402
+import planifier             # noqa: E402
 import quittance as qt       # noqa: E402
 
 PORT = int(os.environ.get("SUIVI_LOYERS_PORT", "47331"))
@@ -75,6 +76,9 @@ def etat():
                   "en_retard": sum(1 for e in du_mois if "retard" in e["statut"]),
                   "a_verifier": len(a_verifier)},
         "dossiers": {"donnees": L.DATA, "boite": L.BOITE, "quittances": L.QUITTANCES},
+        "banque": {**{k: v for k, v in d["banque"].items() if k not in ("state",)},
+                   "cle_presente": os.path.exists(L.CLE_BANQUE), "connectee": L.banque_connectee(d)},
+        "planification": planifier.etat(),
     }
 
 
@@ -151,6 +155,65 @@ def action(chemin, corps):
                 d["operations"].remove(op)
             else:
                 raise ValueError("Action inconnue")
+        elif m and m[0] == "banque":
+            b = d["banque"]
+            if m == ["banque", "config"]:
+                b["app_id"] = (corps.get("app_id") or "").strip()
+                b["redirect_url"] = (corps.get("redirect_url") or "").strip() or b["redirect_url"]
+                if corps.get("cle"):
+                    try:
+                        L.enregistrer_cle_banque(corps["cle"])
+                    except L.banque.ErreurBanque as ex:
+                        raise ValueError(str(ex))
+                message = "Réglages Enable Banking enregistrés"
+            elif m == ["banque", "liste"]:
+                try:
+                    return {"banques": L.banque.banques(L.conf_banque(d), corps.get("pays") or "FR")}
+                except L.banque.ErreurBanque as ex:
+                    raise ValueError(str(ex))
+            elif m == ["banque", "connecter"]:
+                if not corps.get("banque"):
+                    raise ValueError("Choisis ta banque dans la liste")
+                try:
+                    url, state = L.banque.demarrer(L.conf_banque(d), corps["banque"], b.get("pays") or "FR")
+                except L.banque.ErreurBanque as ex:
+                    raise ValueError(str(ex))
+                b.update(banque=corps["banque"], state=state)
+                L.sauver(d)
+                return {"url": url}
+            elif m == ["banque", "terminer"]:
+                try:
+                    code = L.banque.code_depuis(corps.get("adresse"), b.get("state"))
+                    r = L.banque.terminer(L.conf_banque(d), code)
+                except (L.banque.ErreurBanque, KeyError) as ex:
+                    raise ValueError(str(ex))
+                b.update(session_id=r["session_id"], comptes=r["comptes"], valide_jusqu=r["valide_jusqu"],
+                         alerte_expiration="", state="")
+                b.pop("erreur", None)
+                if b.get("compte") not in [c["uid"] for c in r["comptes"]]:
+                    b["compte"] = r["comptes"][0]["uid"] if len(r["comptes"]) == 1 else ""
+                message = "Banque connectée" + ("" if b["compte"] else " : choisis le compte qui reçoit les loyers")
+            elif m == ["banque", "compte"]:
+                if corps.get("uid") not in [c["uid"] for c in b.get("comptes", [])]:
+                    raise ValueError("Compte inconnu")
+                b["compte"] = corps["uid"]
+                b["derniere_synchro"] = ""
+            elif m == ["banque", "deconnecter"]:
+                b.update(session_id="", comptes=[], compte="", valide_jusqu="", derniere_synchro="")
+                message = "Banque déconnectée"
+            else:
+                raise ValueError("Requête inconnue")
+            L.sauver(d)
+            if b.get("compte") and L.banque_connectee(d) and m in (["banque", "terminer"], ["banque", "compte"]):
+                rapport = L.scanner(boite=False)          # première synchronisation tout de suite
+                return {"message": f"{message or 'Compte choisi'} — {rapport['banque']}", "rapport": rapport}
+            return {"message": message}
+        elif m == ["planification"]:
+            try:
+                return {"message": planifier.retirer() if corps.get("retirer") else
+                        planifier.installer(corps.get("heure") or "09:00")}
+            except Exception as ex:
+                raise ValueError(f"Planification impossible : {ex}")
         elif m == ["paiement"]:
             L.ajouter_paiement_manuel(d, corps.get("bail"), corps.get("date"),
                                       euros_vers_centimes(corps.get("montant")), corps.get("note") or "")
@@ -308,6 +371,11 @@ def surveiller_boite():
 
 if __name__ == "__main__":
     os.makedirs(L.BOITE, exist_ok=True)
+    if planifier.etat():
+        try:
+            planifier.copier_moteur()           # nouvelle version du programme -> tâche quotidienne à jour
+        except OSError:
+            pass
     try:
         serveur = ThreadingHTTPServer(("127.0.0.1", PORT), Gestion)
     except OSError:

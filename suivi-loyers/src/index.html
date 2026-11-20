@@ -105,7 +105,8 @@ body.glisse #depot { display: flex; }
   <header>
     <h1>Suivi Loyers</h1>
     <button onclick="document.getElementById('fichier').click()">Importer un relevé</button>
-    <button onclick="analyser()" title="Importe les relevés déposés dans le dossier a-importer">Analyser le dossier</button>
+    <button onclick="analyser()" title="Interroge la banque et importe les relevés déposés dans le dossier a-importer">Actualiser</button>
+    <button onclick="ouvrirBanque()">Banque</button>
     <button onclick="ouvrirReglages()">Réglages</button>
     <button class="principal" onclick="ouvrirBail()">＋ Logement</button>
     <input type="file" id="fichier" accept=".csv,.ofx,.qfx,.qif,.xml,.txt" multiple hidden onchange="importer(this.files)">
@@ -172,6 +173,52 @@ body.glisse #depot { display: flex; }
   <div class="pied">
     <button type="button" onclick="this.closest('dialog').close()">Annuler</button>
     <button class="principal">Ajouter</button>
+  </div>
+</form></dialog>
+
+<dialog id="dlgBanque"><form method="dialog" onsubmit="return false">
+  <h3>Connexion automatique à la banque</h3>
+  <p class="aide">Suivi Loyers lit les opérations du compte des loyers <b>en lecture seule</b>, par la voie officielle
+    des banques européennes (DSP2), grâce à <b>Enable Banking</b> : gratuit pour relier tes propres comptes.
+    Aucun mot de passe bancaire n'est saisi ici : tu t'identifies sur le site de ta banque.</p>
+  <div id="banqueEtat"></div>
+
+  <h4>1. Ton accès Enable Banking (une seule fois)</h4>
+  <ol class="aide" style="padding-left:18px;margin:0;display:grid;gap:4px">
+    <li>Crée un compte sur <a href="https://enablebanking.com/sign-in/" target="_blank" rel="noopener">enablebanking.com</a>
+      puis ouvre le <a href="https://enablebanking.com/cp/applications" target="_blank" rel="noopener">panneau de contrôle › Applications</a>.</li>
+    <li>« Register new application » : environnement <b>Production</b>, nom « Suivi Loyers », URL de redirection
+      <b id="urlRetourAide"></b>, et « Generate in the browser » pour la clé : le fichier <b>.pem</b> se télécharge.</li>
+    <li>Sur l'application créée : <b>« Activate by linking accounts »</b> et relie le compte des loyers (mode restreint, gratuit).</li>
+  </ol>
+  <label>Identifiant de l'application (Application ID)<input name="app_id" placeholder="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee" autocomplete="off"></label>
+  <label>Clé privée (fichier .pem téléchargé)<input name="cle" type="file" accept=".pem,.key,.txt"></label>
+  <label>URL de redirection (identique à celle déclarée)<input name="redirect_url"></label>
+  <div class="pied"><button type="button" onclick="enregistrerBanque()">Enregistrer</button></div>
+
+  <h4>2. Autoriser l'accès au compte</h4>
+  <div class="ligne" style="grid-template-columns:1fr auto">
+    <select name="banque"><option value="">Choisis ta banque…</option></select>
+    <button type="button" onclick="chargerBanques()">Charger la liste</button>
+  </div>
+  <p class="aide">Banque Populaire : choisis <b>ta banque régionale</b> (ex. « Banque Populaire Grand Ouest », « BRED »…).</p>
+  <div class="pied"><button type="button" class="principal" onclick="connecterBanque()">Se connecter à la banque</button></div>
+  <label>3. Une fois validé sur le site de la banque, tu arrives sur une page qui ne s'affiche pas
+    (c'est normal) : copie son adresse complète depuis la barre du navigateur et colle-la ici
+    <input name="adresse" placeholder="https://localhost/suivi-loyers?state=…&amp;code=…" autocomplete="off"></label>
+  <h4>4. Vérification automatique chaque jour</h4>
+  <p class="aide">Ton ordinateur interroge la banque une fois par jour, reconnaît les loyers et envoie les quittances,
+    sans que l'interface soit ouverte. S'il est éteint ou en veille à l'heure prévue, la vérification se fait
+    au prochain réveil (Mac) ou au jour suivant.</p>
+  <div class="ligne" style="grid-template-columns:auto 1fr auto;align-items:center">
+    <input name="heure" type="time" value="09:00" style="width:120px">
+    <span class="aide" id="planEtat"></span>
+    <button type="button" id="planBouton" onclick="planifier()">Activer</button>
+  </div>
+  <div class="pied">
+    <button type="button" class="gauche danger" id="banqueDeco" onclick="deconnecterBanque()">Déconnecter</button>
+    <button type="button" onclick="this.closest('dialog').close()">Fermer</button>
+    <button type="button" class="principal" onclick="terminerBanque()">Valider</button>
   </div>
 </form></dialog>
 
@@ -258,6 +305,11 @@ function afficher() {
 
   const b = [];
   if (!E.bailleur.nom) b.push(["Renseigne ton nom et ton adresse : ils figurent sur les quittances.", "Réglages", "ouvrirReglages()"]);
+  const bq = E.banque;
+  if (!bq.connectee) b.push(["Relie le compte bancaire des loyers pour que les paiements soient vérifiés automatiquement, sans importer de fichier.", "Connecter la banque", "ouvrirBanque()"]);
+  else if (!E.planification) b.push(["La banque est connectée, mais la vérification quotidienne n'est pas activée.", "Activer", "ouvrirBanque()"]);
+  else if (bq.erreur) b.push(["Synchronisation bancaire en échec : " + esc(bq.erreur), "Banque", "ouvrirBanque()"]);
+  else if (bq.valide_jusqu && (new Date(bq.valide_jusqu) - new Date()) / 864e5 <= 10) b.push([`L'accès bancaire expire le ${dateFr(bq.valide_jusqu)} : reconnecte la banque pour continuer.`, "Reconnecter", "ouvrirBanque()"]);
   if (!E.smtp.hote || !E.smtp.expediteur) b.push(["L'envoi des e-mails n'est pas configuré : les quittances sont générées mais pas envoyées.", "Configurer", "ouvrirReglages()"]);
   $("#bandeaux").innerHTML = b.map(([t, l, f]) => `<div class="bandeau"><p>${t}</p><button onclick="${f}">${l}</button></div>`).join("");
 
@@ -311,7 +363,7 @@ function afficher() {
 
   $("#journal").innerHTML = `<table>${E.journal.map(j => `<tr><td class="doux" style="white-space:nowrap">${esc(j.date)}</td><td>${esc(j.texte)}</td></tr>`).join("")
     || `<tr><td class="doux">Vide</td></tr>`}</table>`;
-  $("#pied").innerHTML = `<span>Dernière analyse : ${esc(E.dernier_scan || "jamais")}</span>
+  $("#pied").innerHTML = (bq.connectee ? `<span>Banque : ${esc(bq.banque)} — synchronisée le ${esc(bq.derniere_synchro || "jamais")}, accès valable jusqu'au ${dateFr(bq.valide_jusqu)}</span>` : "") + `<span>Dernière analyse : ${esc(E.dernier_scan || "jamais")}</span>
     <span>Relevés à déposer dans : ${esc(E.dossiers.boite)}</span><span>Quittances : ${esc(E.dossiers.quittances)}</span>
     <span>Données : ${esc(E.dossiers.donnees)}</span>`;
 }
@@ -349,11 +401,13 @@ async function analyser() { const d = await api("scan", {}); resume(d.rapport); 
 function resume(r) {
   if (!r) return;
   const morceaux = [];
-  if (!r.fichiers.length) morceaux.push("Aucun relevé dans le dossier a-importer");
-  else morceaux.push(r.fichiers.join(" · "));
+  if (r.banque) morceaux.push("Banque : " + r.banque);
+  if (r.fichiers.length) morceaux.push(r.fichiers.join(" · "));
+  else if (!r.banque) morceaux.push("Aucun relevé dans le dossier a-importer");
   if (r.envoyees.length) morceaux.push(`${r.envoyees.length} quittance(s) envoyée(s)`);
   if (r.erreurs.length) morceaux.push("échec d'envoi : " + r.erreurs[0]);
-  toast(morceaux.join(" — "), r.erreurs.length > 0);
+  toast(morceaux.join(" — "), r.erreurs.length > 0 || (r.banque || "").startsWith("ERREUR"));
+  if ($("#dlgBanque").open) etatBanque();
 }
 async function importer(fichiers) {
   for (const f of fichiers) {
@@ -433,6 +487,71 @@ async function testEmail() {
   const f = $("#dlgReglages form");
   await api("reglages", corpsReglages(f)); f.mdp.value = "";
   await api("test-email", {});
+}
+
+// ----------------------------------------------------------------- banque
+function etatBanque() {
+  const bq = E.banque, f = $("#dlgBanque form");
+  const comptes = bq.comptes || [];
+  $("#banqueEtat").innerHTML = !bq.session_id ? `<div class="bandeau" style="margin:0"><p>Pas encore connectée.</p></div>` :
+    `<div class="bandeau" style="margin:0;border-left-color:${bq.erreur ? "var(--danger)" : "var(--ok)"}"><p>
+      <b>${esc(bq.banque)}</b> connectée — accès valable jusqu'au ${dateFr(bq.valide_jusqu)}.<br>
+      Dernière synchronisation : ${esc(bq.derniere_synchro || "jamais")}${bq.erreur ? `<br><span style="color:var(--danger)">${esc(bq.erreur)}</span>` : ""}
+      ${comptes.length > 1 ? `<br><label style="margin-top:6px">Compte qui reçoit les loyers<select onchange="choisirCompte(this.value)">
+        <option value="">Choisis…</option>${comptes.map(c => `<option value="${esc(c.uid)}" ${c.uid === bq.compte ? "selected" : ""}>${esc(c.nom || "Compte")} ${esc(c.iban)}</option>`).join("")}</select></label>` : ""}
+      </p>${bq.connectee ? `<button type="button" onclick="analyser()">Synchroniser maintenant</button>` : ""}</div>`;
+  $("#urlRetourAide").textContent = bq.redirect_url;
+  $("#planEtat").textContent = E.planification ? "Activée : chaque jour à " + E.planification : "Non activée";
+  $("#planBouton").textContent = E.planification ? "Désactiver" : "Activer";
+  if (E.planification && /^\d\d:\d\d$/.test(E.planification)) f.heure.value = E.planification;
+  $("#banqueDeco").hidden = !bq.session_id;
+}
+function ouvrirBanque() {
+  const f = $("#dlgBanque form"), bq = E.banque;
+  f.app_id.value = bq.app_id || ""; f.redirect_url.value = bq.redirect_url || ""; f.cle.value = ""; f.adresse.value = "";
+  if (bq.banque && ![...f.banque.options].some(o => o.value === bq.banque))
+    f.banque.add(new Option(bq.banque, bq.banque, true, true));
+  etatBanque();
+  $("#dlgBanque").showModal();
+}
+async function enregistrerBanque() {
+  const f = $("#dlgBanque form");
+  const c = {app_id: f.app_id.value, redirect_url: f.redirect_url.value};
+  if (f.cle.files[0]) c.cle = await f.cle.files[0].text();
+  if (!c.app_id) return toast("Indique l'identifiant de l'application", true);
+  if (!c.cle && !E.banque.cle_presente) return toast("Ajoute le fichier .pem de la clé privée", true);
+  await api("banque/config", c); f.cle.value = ""; etatBanque();
+}
+async function chargerBanques() {
+  const f = $("#dlgBanque form");
+  if (!E.banque.app_id || !E.banque.cle_presente) await enregistrerBanque();
+  const r = await api("banque/liste", {pays: "FR"});
+  const actuelle = f.banque.value || E.banque.banque;
+  f.banque.innerHTML = `<option value="">Choisis ta banque… (${r.banques.length})</option>` +
+    r.banques.map(b => `<option ${b.name === actuelle ? "selected" : ""}>${esc(b.name)}</option>`).join("");
+}
+async function connecterBanque() {
+  const f = $("#dlgBanque form");
+  const fenetre = window.open("about:blank", "_blank");
+  try {
+    const r = await api("banque/connecter", {banque: f.banque.value});
+    if (fenetre) fenetre.location = r.url; else window.open(r.url, "_blank");
+    toast("Identifie-toi sur le site de ta banque, puis reviens coller l'adresse de la page de retour");
+  } catch (e) { if (fenetre) fenetre.close(); }
+}
+async function terminerBanque() {
+  const f = $("#dlgBanque form");
+  if (!f.adresse.value.trim()) return toast("Colle l'adresse de la page de retour", true);
+  const r = await api("banque/terminer", {adresse: f.adresse.value});
+  f.adresse.value = ""; etatBanque();
+}
+async function planifier() {
+  const f = $("#dlgBanque form");
+  await api("planification", E.planification ? {retirer: true} : {heure: f.heure.value || "09:00"}); etatBanque();
+}
+async function choisirCompte(uid) { if (uid) { await api("banque/compte", {uid}); etatBanque(); } }
+async function deconnecterBanque() {
+  if (confirm("Déconnecter la banque ? Les opérations déjà importées sont conservées.")) { await api("banque/deconnecter", {}); etatBanque(); }
 }
 
 // glisser-déposer d'un relevé

@@ -3,7 +3,10 @@
 **Surveille le compte bancaire qui reçoit tes loyers, repère qui a payé et envoie
 automatiquement la quittance au locataire dès que son loyer est réglé.**
 
-- **Lecture des relevés** : OFX/QFX, CSV, QIF (toutes les banques françaises) et CAMT.053 (XML ISO 20022).
+- **Connexion directe à la banque** (lecture seule, DSP2) via Enable Banking, gratuit pour ses
+  propres comptes : chaque jour, les nouvelles opérations sont récupérées toutes seules, sans
+  fichier à télécharger. Banque Populaire (chaque banque régionale) et la plupart des banques européennes.
+- **Ou lecture des relevés** : OFX/QFX, CSV, QIF (toutes les banques françaises) et CAMT.053.
 - **Reconnaissance des virements** par mots du libellé (nom du locataire, du conjoint, du garant,
   de la CAF…). Un virement non reconnu n'est **jamais** attribué au hasard : il est mis
   « à vérifier », avec une suggestion d'après le montant, à confirmer en un clic.
@@ -13,8 +16,8 @@ automatiquement la quittance au locataire dès que son loyer est réglé.**
   montant en lettres, date du paiement) envoyée par e-mail au locataire, avec copie cachée pour toi.
   En cas de paiement partiel : **reçu** (et non quittance), à envoyer en un clic.
 - **Relance** en un clic pour un loyer en retard.
-- **Tout reste sur ton ordinateur** : aucun compte, aucun serveur externe ; l'e-mail part de ta
-  propre boîte (Gmail, Outlook, Orange, Free, OVH…).
+- **Tout tourne sur ton ordinateur** : l'e-mail part de ta propre boîte (Gmail, Outlook, Orange,
+  Free, OVH…) ; seule la lecture du compte passe par Enable Banking.
 
 Python 3.8 ou plus récent, bibliothèque standard uniquement : rien à installer.
 
@@ -30,65 +33,64 @@ Python 3.8 ou plus récent, bibliothèque standard uniquement : rien à installe
 3. **＋ Logement** pour chaque appartement : locataire, e-mail, adresse, loyer hors charges,
    provision pour charges, jour d'échéance et **mots à reconnaître** dans le libellé du virement
    (ex. `DUPONT`, ou `CAF 1234567` pour l'APL versée directement).
-4. **Importe un relevé** exporté depuis l'espace client de ta banque (bouton, ou glisser-déposer
-   sur la page). Les virements reconnus sont affectés, les quittances générées et envoyées.
+4. **Banque** : relie le compte des loyers (ci-dessous) et active la vérification quotidienne.
 
-Importer deux fois le même relevé, ou des relevés qui se chevauchent, ne compte rien en double
-(et une même opération présente dans un export CSV puis OFX est repérée comme doublon).
+## Connexion automatique à la banque
 
-## Banque Populaire : récupérer le relevé
+Une seule mise en place, d'environ 15 minutes. Ensuite plus rien à faire, sauf renouveler
+l'autorisation tous les 180 jours au plus (exigence des banques ; un e-mail te prévient 10 jours avant).
 
-Sur le site **Cyberplus** (navigateur d'ordinateur) :
+1. **Compte Enable Banking** : crée un compte sur [enablebanking.com](https://enablebanking.com/sign-in/),
+   puis dans le [panneau de contrôle](https://enablebanking.com/cp/applications) :
+   « Register new application » › environnement **Production**, nom « Suivi Loyers »,
+   URL de redirection **`https://localhost/suivi-loyers`**, clé « **Generate in the browser** » :
+   un fichier `.pem` (ta clé privée) se télécharge.
+   Si l'adresse `localhost` est refusée, mets une autre adresse en `https://` et indique la même
+   dans Suivi Loyers.
+2. Sur l'application créée : **« Activate by linking accounts »** et relie le compte qui reçoit
+   les loyers. C'est le « mode restreint », gratuit, limité à tes propres comptes.
+3. Dans Suivi Loyers, bouton **Banque** : colle l'*Application ID*, choisis le fichier `.pem`,
+   « Charger la liste », choisis **ta Banque Populaire régionale**, puis « Se connecter à la banque ».
+4. Valide sur le site de ta banque (Secur'Pass). Tu arrives sur une page qui ne s'affiche pas
+   (`https://localhost/…`, c'est normal) : copie son adresse depuis la barre du navigateur et
+   colle-la dans Suivi Loyers. Les opérations des 90 derniers jours sont récupérées aussitôt.
+5. **« Activer »** la vérification quotidienne : ton ordinateur interroge la banque chaque jour,
+   même interface fermée, reconnaît les loyers et envoie les quittances.
 
-1. Synthèse des comptes : bouton **« Gérer »** du compte des loyers › **« Télécharger les opérations »**
-   (ou, dans le détail du compte, « Télécharger les opérations » à droite de l'écran).
-2. Format : **Money (.ofx)** de préférence (chaque opération y porte un identifiant unique) ;
-   « Excel (.csv) » avec le séparateur « ; » ou « Quicken (.qif) » fonctionnent aussi.
-3. Période : depuis le dernier export (un chevauchement ne pose aucun problème).
+Sécurité : accès en **lecture seule** (aucun virement possible), aucun identifiant bancaire saisi
+dans Suivi Loyers, clé privée rangée dans `~/SuiviLoyers/enablebanking.pem`, lisible par toi seul.
+Les opérations transitent par Enable Banking (prestataire agréé DSP2, Finlande).
 
-Si le bouton « Gérer » n'apparaît pas : ton nom en haut à droite › « Autres réglages » ›
-« Fonctionnalités avancées » › activer.
+**Bankin'** n'est pas nécessaire : l'application ne propose pas d'accès pour un particulier
+(son API, Bridge, est réservée aux entreprises).
 
-Mots à reconnaître : le libellé Banque Populaire d'un virement reçu ressemble à
-`VIR SEPA M JEAN DUPONT` suivi du motif saisi par le locataire. Le **nom de famille** suffit
-en général ; ouvre « Opérations du compte » après le premier import pour vérifier.
+## Sans connexion bancaire : relevés
 
-**Bankin'** : l'application agrège tes comptes mais ne propose pas d'accès automatique pour un
-particulier (son API, Bridge, est réservée aux entreprises). Passe plutôt par l'export de la
-Banque Populaire. Si tu exportes un CSV depuis Bankin', il sera lu s'il contient des colonnes
-Date / Description / Montant ; sinon le message d'erreur affiche ses en-têtes.
+Tout relevé importé depuis l'interface (bouton ou glisser-déposer) ou déposé dans
+**`~/SuiviLoyers/a-importer/`** est traité. Importer deux fois le même relevé ne compte rien en double.
 
-## Automatiser
+Banque Populaire, site Cyberplus : synthèse des comptes › **« Gérer »** › **« Télécharger les
+opérations »** › format **Money (.ofx)** (ou Excel .csv avec « ; », ou Quicken .qif). Si « Gérer »
+manque : ton nom en haut à droite › « Autres réglages » › « Fonctionnalités avancées ».
 
-Tout relevé déposé dans **`~/SuiviLoyers/a-importer/`** est traité par la commande :
+## Vérification quotidienne et commandes
 
-```bash
-python3 src/loyers.py scan
-```
-
-Elle importe les fichiers, les range dans `importes/`, reconnaît les paiements, génère et envoie
-les quittances, puis affiche l'état du mois. À planifier une fois par jour :
-
-- **macOS / Linux** (`crontab -e`) :
-  ```
-  0 9 * * * /usr/bin/python3 /chemin/vers/suivi-loyers/src/loyers.py scan >> ~/SuiviLoyers/scan.log 2>&1
-  ```
-- **Windows** (invite de commandes) :
-  ```
-  schtasks /Create /SC DAILY /ST 09:00 /TN "Suivi Loyers" /TR "py -3 C:\chemin\suivi-loyers\src\loyers.py scan"
-  ```
-
-Astuce : règle le dossier de téléchargement de ton navigateur (ou de l'app de ta banque) sur
-`~/SuiviLoyers/a-importer/` : il suffit alors de cliquer sur « Exporter » dans l'espace client.
-Quand l'interface est ouverte, ce dossier est aussi surveillé chaque minute.
-
-Autres commandes :
+La vérification quotidienne utilise launchd (macOS, rattrapée au réveil si l'ordinateur dormait),
+le Planificateur de tâches (Windows) ou cron (Linux). Elle s'exécute sur ton ordinateur : s'il reste
+éteint plusieurs jours, elle a lieu au rallumage. Journal : `~/SuiviLoyers/scan.log`.
 
 ```bash
+python3 src/loyers.py scan                        # banque + dossier a-importer, quittances, état du mois
 python3 src/loyers.py scan releve.ofx autre.csv   # importer des fichiers précis
 python3 src/loyers.py scan --sans-envoi           # tout calculer sans envoyer d'e-mail
 python3 src/loyers.py statut 2026-11              # état d'un mois
+python3 src/planifier.py 09:00                    # installer la vérification quotidienne
+python3 src/planifier.py --retirer
 ```
+
+Mots à reconnaître : un virement reçu porte le nom du payeur (`M JEAN DUPONT`) et le motif saisi
+par le locataire. Le **nom de famille** suffit en général ; ouvre « Opérations du compte » après
+la première synchronisation pour vérifier.
 
 ## Règles appliquées
 
@@ -96,6 +98,7 @@ python3 src/loyers.py statut 2026-11              # état d'un mois
   rattrapage solde d'abord l'arriéré ; un trop-versé est reporté sur le mois suivant (payé d'avance).
 - La quittance est émise quand le mois est **entièrement** réglé ; sa date de paiement est celle du
   virement qui a soldé le mois. Un mois payé d'avance reçoit sa quittance le 1er du mois.
+- Seules les opérations **comptabilisées** comptent (pas celles « en cours »).
 - **Envoi automatique limité au mois en cours et au précédent** : au premier import d'un historique,
   les anciennes quittances sont générées mais pas envoyées (bouton « Envoyer » si besoin).
 - Une quittance n'est jamais envoyée deux fois automatiquement. Si l'envoi échoue (réseau, mot de
@@ -112,16 +115,17 @@ python3 src/loyers.py statut 2026-11              # état d'un mois
 | `~/SuiviLoyers/donnees.json` | logements, opérations, quittances, journal |
 | `~/SuiviLoyers/quittances/` | les PDF, rangés par locataire |
 | `~/SuiviLoyers/.smtp` | mot de passe e-mail (lisible par toi seul) — ou variable `SUIVI_LOYERS_SMTP_MDP` |
+| `~/SuiviLoyers/enablebanking.pem` | clé privée de ton application Enable Banking (lisible par toi seul) |
+| `~/SuiviLoyers/moteur/` | copie du programme utilisée par la vérification quotidienne |
 
 Dossier modifiable avec la variable d'environnement `SUIVI_LOYERS_DOSSIER`. L'interface n'écoute
 que sur `127.0.0.1` et exige un jeton aléatoire généré à chaque lancement.
 
 ## Limites
 
-- **Pas de connexion directe à la banque** : les banques françaises ne proposent pas d'accès
-  automatique gratuit pour un particulier ; l'accès DSP2 passe par des agrégateurs payants ou sur
-  dossier. L'outil lit donc les exports de relevés. Les comptes pros Qonto / Shine disposent d'une
-  API qui pourrait être branchée sur `loyers.importer()`.
+- La gratuité du mode restreint d'Enable Banking (usage personnel non commercial) dépend de ses
+  conditions, qui peuvent évoluer ; les relevés restent une solution de secours. Les banques
+  limitent les consultations automatiques : une par jour suffit.
 - Pas de prorata automatique pour un mois d'entrée ou de sortie incomplet : saisis le montant
   du premier mois via une révision de loyer, ou ajuste à la main.
 - Le dépôt de garantie, s'il est versé par le locataire avec un libellé reconnu, serait compté
@@ -133,12 +137,14 @@ que sur `127.0.0.1` et exige un jeton aléatoire généré à chaque lancement.
 
 ```
 src/loyers.py      moteur : import, rapprochement, soldes, quittances, CLI
-src/releves.py     lecture OFX / CSV / CAMT.053
+src/banque.py      connexion Enable Banking (JWT RS256 signé en Python pur)
+src/planifier.py   vérification quotidienne (launchd / Planificateur de tâches / cron)
+src/releves.py     lecture OFX / CSV / QIF / CAMT.053
 src/quittance.py   génération du PDF (générateur PDF intégré, montant en lettres)
 src/envoi.py       envoi SMTP
 src/serveur.py     serveur local de l'interface
 src/index.html     interface
-tests/             tests unitaires (avec un faux serveur SMTP)
+tests/             tests unitaires (faux serveurs SMTP et Enable Banking)
 exemples/          relevés d'exemple
 ```
 
