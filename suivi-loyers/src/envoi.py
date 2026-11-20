@@ -62,7 +62,10 @@ def envoyer(smtp, dossier, a, sujet, texte, pieces=(), copie=None):
 def _envoyer(smtp, dossier, a, sujet, texte, pieces=(), copie=None):
     """pieces : [(nom_fichier, octets)] (PDF). Lève une exception en cas d'échec."""
     if not configure(smtp):
-        raise RuntimeError("Envoi d'e-mails non configuré (Réglages > E-mail)")
+        manque = [n for k, n in (("hote", "« Serveur SMTP »"), ("expediteur", "« Adresse d'expédition »"))
+                  if not smtp.get(k)]
+        raise RuntimeError("Envoi d'e-mails non configuré : remplis " + " et ".join(manque)
+                           + " dans Réglages › Envoi des e-mails, puis Enregistrer")
     msg = EmailMessage()
     msg["From"] = formataddr((smtp.get("nom_expediteur") or "", smtp["expediteur"]))
     msg["To"] = a
